@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
 
         println("hello world!")
         println("second line")
-        println("hahahhaa")
+        println("yeeun world") //내 브랜치에서 작업한 코드
+        println("hahahhaa") //master에 올라와있던 최신 코드
     }
 }
