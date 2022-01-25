@@ -6,7 +6,7 @@ import android.os.Bundle
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login) //레이아웃 개발 동안 여길 변경해서 사용. .
 
 
         print("Hello Yeeun")
