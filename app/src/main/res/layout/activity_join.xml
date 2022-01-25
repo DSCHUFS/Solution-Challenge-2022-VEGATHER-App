@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".JoinActivity">
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="Share your daily life"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="with"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="vegans!"
+        android:textColor="@color/main_green"
+        android:textSize="30sp"
+        app:layout_constraintStart_toEndOf="@+id/textView7"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="You can get information about\n vegetarian food."
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <com.example.solution_challenge_2022_vegather_app.CustomEditText
+        android:id="@+id/editTextTextEmailAddress2"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="80dp"
+        android:ems="10"
+        android:hint="E-mail"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <com.example.solution_challenge_2022_vegather_app.CustomEditText
+        android:id="@+id/editTextTextPassword2"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/editTextTextEmailAddress2"
+        app:layout_constraintStart_toStartOf="@+id/editTextTextEmailAddress2"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress2" />
+
+    <com.example.solution_challenge_2022_vegather_app.CustomEditText
+        android:id="@+id/editTextTextPassword3"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="Password check"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword2"
+        app:layout_constraintStart_toStartOf="@+id/editTextTextPassword2"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2" />
+
+    <com.example.solution_challenge_2022_vegather_app.CustomEditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="Nickname"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword3"
+        app:layout_constraintStart_toStartOf="@+id/editTextTextPassword3"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword3" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="70dp"
+        android:background="@drawable/login_btn_shpe"
+        android:backgroundTint="@color/main_green"
+        android:text="Let's get started!"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView8"
+        app:layout_constraintStart_toEndOf="@+id/textView8"
+        app:layout_constraintTop_toTopOf="@+id/textView8"
+        app:srcCompat="@drawable/check_img" />
+</androidx.constraintlayout.widget.ConstraintLayout>
