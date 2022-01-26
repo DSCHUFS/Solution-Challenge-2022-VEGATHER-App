@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        tools:context=".CommunityWriteActivity">
+
+        <ImageButton
+            android:id="@+id/imageButton3"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="add photo"
+            android:scaleType="centerInside"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButtonIngredientMinus5"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonIngredientMinus5"
+            app:layout_constraintTop_toTopOf="@+id/imageButtonIngredientMinus5"
+            tools:srcCompat="@drawable/camera_icon" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="add photo"
+            android:scaleType="centerInside"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButtonIngredientMinus4"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonIngredientMinus4"
+            app:layout_constraintTop_toTopOf="@+id/imageButtonIngredientMinus4"
+            tools:srcCompat="@drawable/camera_icon" />
+
+        <ImageButton
+            android:id="@+id/imageButtonIngredientMinus5"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Remove ingredient"
+            app:layout_constraintBottom_toBottomOf="@+id/textView28"
+            app:layout_constraintStart_toEndOf="@+id/textView28"
+            app:layout_constraintTop_toTopOf="@+id/textView28"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/minus" />
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:text="3"
+            android:textColor="@color/main_green"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView26" />
+
+        <EditText
+            android:id="@+id/textView28"
+            android:layout_width="260dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#C4C4C4"
+            android:gravity="center_vertical"
+            android:hint="Add a comment"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView27"
+            app:layout_constraintStart_toEndOf="@+id/textView27"
+            app:layout_constraintTop_toTopOf="@+id/textView27"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <ImageButton
+            android:id="@+id/imageButtonIngredientMinus4"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Remove ingredient"
+            app:layout_constraintBottom_toBottomOf="@+id/textView25"
+            app:layout_constraintStart_toEndOf="@+id/textView25"
+            app:layout_constraintTop_toTopOf="@+id/textView25"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/minus" />
+
+        <EditText
+            android:id="@+id/textView25"
+            android:layout_width="260dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#C4C4C4"
+            android:gravity="center_vertical"
+            android:hint="Add a comment"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView26"
+            app:layout_constraintStart_toEndOf="@+id/textView26"
+            app:layout_constraintTop_toTopOf="@+id/textView26"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/textView26"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:text="2"
+            android:textColor="@color/main_green"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView22" />
+
+        <ImageButton
+            android:id="@+id/imageButton5"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Add ingredient"
+            app:layout_constraintBottom_toBottomOf="@+id/textView20"
+            app:layout_constraintStart_toEndOf="@+id/textView21"
+            app:srcCompat="@drawable/plus" />
+
+        <TextView
+            android:id="@+id/textIngredientNum3"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:text="3"
+            android:textColor="@color/main_green"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textIngredientNum2" />
+
+        <ImageButton
+            android:id="@+id/imageButtonIngredientMinus3"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="Remove ingredient"
+            android:background="@android:color/transparent"
+            app:layout_constraintStart_toEndOf="@+id/editTextIngredientAmount1"
+            app:layout_constraintTop_toBottomOf="@+id/imageButtonIngredientMinus2"
+            app:srcCompat="@drawable/minus" />
+
+        <EditText
+            android:id="@+id/editTextIngredientName3"
+            android:layout_width="157dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#C4C4C4"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@+id/textIngredientNum1"
+            app:layout_constraintTop_toBottomOf="@+id/editTextIngredientName2" />
+
+        <EditText
+            android:id="@+id/editTextIngredientAmount3"
+            android:layout_width="157dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#C4C4C4"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:hint="Amount"
+            android:inputType="textPersonName"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@+id/editTextIngredientName1"
+            app:layout_constraintTop_toBottomOf="@+id/editTextIngredientAmount2" />
+
+        <TextView
+            android:id="@+id/textIngredientNum2"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:text="2"
+            android:textColor="@color/main_green"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textIngredientNum1" />
+
+        <ImageButton
+            android:id="@+id/imageButtonIngredientMinus2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="Remove ingredient"
+            android:background="@android:color/transparent"
+            app:layout_constraintStart_toEndOf="@+id/editTextIngredientAmount1"
+            app:layout_constraintTop_toBottomOf="@+id/imageButtonIngredientMinus1"
+            app:srcCompat="@drawable/minus" />
+
+        <EditText
+            android:id="@+id/editTextIngredientName2"
+            android:layout_width="157dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#C4C4C4"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@+id/textIngredientNum1"
+            app:layout_constraintTop_toBottomOf="@+id/editTextIngredientName1" />
+
+        <EditText
+            android:id="@+id/editTextIngredientAmount2"
+            android:layout_width="157dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#C4C4C4"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:hint="Amount"
+            android:inputType="textPersonName"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@+id/editTextIngredientName1"
+            app:layout_constraintTop_toBottomOf="@+id/editTextIngredientAmount1" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Title"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/editTextTextPersonName2"
+            android:layout_width="370dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="#C4C4C4"
+            android:ems="10"
+            android:hint="Food name"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:text="Subtitle"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+
+        <EditText
+            android:id="@+id/editTextTextPersonName3"
+            android:layout_width="370dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="#C4C4C4"
+            android:ems="10"
+            android:hint="Introduce 1 line!"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:text="Ingredients"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:contentDescription="Add ingredient"
+            android:background="@android:color/transparent"
+            app:layout_constraintStart_toEndOf="@+id/textView17"
+            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3"
+            app:srcCompat="@drawable/plus" />
+
+        <TextView
+            android:id="@+id/textIngredientNum1"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:text="1"
+            android:textColor="@color/main_green"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+        <EditText
+            android:id="@+id/editTextIngredientName1"
+            android:layout_width="157dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#C4C4C4"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@+id/textIngredientNum1"
+            app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+        <EditText
+            android:id="@+id/editTextIngredientAmount1"
+            android:layout_width="157dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#C4C4C4"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:hint="Amount"
+            android:inputType="textPersonName"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@+id/editTextIngredientName1"
+            app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+        <ImageButton
+            android:id="@+id/imageButtonIngredientMinus1"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="Remove ingredient"
+            android:background="@android:color/transparent"
+            app:layout_constraintStart_toEndOf="@+id/editTextIngredientAmount1"
+            app:layout_constraintTop_toBottomOf="@+id/textView17"
+            app:srcCompat="@drawable/minus" />
+
+        <ImageButton
+            android:id="@+id/imageButtonIngredientMinus"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Remove ingredient"
+            app:layout_constraintBottom_toBottomOf="@+id/textView23"
+            app:layout_constraintStart_toEndOf="@+id/textView23"
+            app:layout_constraintTop_toTopOf="@+id/textView23"
+            app:srcCompat="@drawable/minus" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:gravity="center_vertical"
+            android:text="Order"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textIngredientNum3" />
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Add your Comment"
+            app:layout_constraintBottom_toBottomOf="@+id/textView20"
+            app:layout_constraintStart_toEndOf="@+id/textView20" />
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:text="1"
+            android:textColor="@color/main_green"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+        <EditText
+            android:id="@+id/textView23"
+            android:layout_width="260dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#C4C4C4"
+            android:gravity="center_vertical"
+            android:hint="Add a comment"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView22"
+            app:layout_constraintStart_toEndOf="@+id/textView22"
+            app:layout_constraintTop_toTopOf="@+id/textView22" />
+
+        <TextView
+            android:id="@+id/textView29"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:text="Set your photo order!"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView28" />
+
+        <ImageButton
+            android:id="@+id/imageButton6"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:scaleType="centerInside"
+            android:background="@android:color/transparent"
+            android:contentDescription="add photo"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButtonIngredientMinus"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonIngredientMinus"
+            app:layout_constraintTop_toTopOf="@+id/imageButtonIngredientMinus"
+            tools:srcCompat="@drawable/camera_icon" />
+
+        <ImageView
+            android:id="@+id/imageView15"
+            android:layout_width="380dp"
+            android:layout_height="3dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
+            app:srcCompat="@drawable/line" />
+
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/login_btn_shpe"
+            android:backgroundTint="@color/main_green"
+            android:text="Done"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageView15" />
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@null"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView29">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView14"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:contentDescription="photo order"
+                    app:srcCompat="@drawable/check_img" />
+
+                <ImageView
+                    android:id="@+id/imageView13"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:contentDescription="photo order"
+                    app:srcCompat="@drawable/check_img" />
+
+                <ImageView
+                    android:id="@+id/imageView12"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:contentDescription="photo order"
+                    app:srcCompat="@drawable/check_img" />
+
+                <ImageView
+                    android:id="@+id/imageView11"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:contentDescription="photo order"
+                    app:srcCompat="@drawable/check_img" />
+
+                <ImageView
+                    android:id="@+id/imageView10"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:contentDescription="photo order"
+                    app:srcCompat="@drawable/check_img" />
+
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:contentDescription="photo order"
+                    app:srcCompat="@drawable/check_img" />
+
+                <ImageView
+                    android:id="@+id/imageView9"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:contentDescription="photo order"
+                    app:srcCompat="@drawable/check_img" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
