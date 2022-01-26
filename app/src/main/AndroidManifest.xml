@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SolutionChallenge2022VEGATHERApp">
         <activity
+            android:name=".CommunityDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CommunityWriteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CommunityMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".JoinActivity"
             android:exported="false" />
         <activity
