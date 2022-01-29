@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "626426826491",
+    "project_id": "vegather-829ff",
+    "storage_bucket": "vegather-829ff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:626426826491:android:ec81d7a723bfc9a0f8ea5e",
+        "android_client_info": {
+          "package_name": "com.example.solution_challenge_2022_vegather_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "626426826491-35pmd57k45pvudmepndb6lch11uj07kt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5JlzIxEKaJhsWwIlpZXTQTmLUdMBRr8A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "626426826491-35pmd57k45pvudmepndb6lch11uj07kt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
