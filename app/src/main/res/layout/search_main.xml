@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     app:layout_constraintWidth_percent="0.5"
     tools:context=".MainActivity">
 
@@ -40,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="14dp"
         android:text="11.04 03:12"
+        android:textColor="#BCBCBC"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,6 +76,7 @@
             android:ems="10"
             android:hint="Search"
             android:inputType="textPersonName"
+            android:textColor="@color/sub_text_gray"
             android:textSize="20sp" />
 
         <ImageButton
@@ -90,6 +93,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:background="#FFFFFF"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -249,19 +253,23 @@
             android:layout_gravity="left|center_vertical|end"
             android:layout_weight="5"
             android:text="Recent search history"
+            android:textColor="@color/sub_text_gray"
             android:textSize="18sp" />
 
         <Button
             android:id="@+id/button"
             android:layout_width="350dp"
-            android:layout_height="52dp"
+            android:layout_height="45dp"
             android:layout_weight="6"
+            android:background="@drawable/search_bar_background"
             android:backgroundTint="@color/main_green"
             android:drawableLeft="@drawable/x_icon_white"
             android:drawableTint="#FFFFFF"
+            android:paddingLeft="15dp"
             android:text="All Clear"
-            android:textSize="14sp"
-            app:cornerRadius="30dp" />
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
 
     </LinearLayout>
 
