@@ -252,7 +252,7 @@
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btn_email_login"
             android:layout_width="350dp"
             android:layout_height="52dp"
             android:layout_weight="6"
