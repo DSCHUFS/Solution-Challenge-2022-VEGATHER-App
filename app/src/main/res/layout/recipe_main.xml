@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
     <ImageView
         android:id="@+id/imageView8"
@@ -22,12 +23,12 @@
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:backgroundTint="#00FFFFFF"
-        android:tint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.078"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/thick_back_btn" />
+        app:srcCompat="@drawable/thick_back_btn"
+        app:tint="@color/white" />
 
     <LinearLayout
         android:id="@+id/linearLayout9"
@@ -55,7 +56,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
             android:layout_weight="0"
-            android:text="999+" />
+            android:text="999+"
+            android:textColor="@color/sub_text_gray" />
 
         <ImageButton
             android:id="@+id/imageButton9"
@@ -71,7 +73,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
             android:layout_weight="0"
-            android:text="142" />
+            android:text="142"
+            android:textColor="@color/sub_text_gray" />
     </LinearLayout>
 
     <ScrollView
@@ -95,7 +98,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:text="Masala Pasta"
-                android:textSize="28sp" />
+                android:textSize="28sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView28"
@@ -111,7 +115,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="25dp"
                 android:text="Nutrition"
-                android:textSize="28sp" />
+                android:textSize="28sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/linearLayout10"
@@ -148,7 +153,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="31.1g"
-                            android:textSize="20sp" />
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -172,7 +178,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="1,121"
-                            android:textSize="20sp" />
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -204,7 +211,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="9.5g"
-                            android:textSize="20sp" />
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -228,7 +236,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="2.5g"
-                            android:textSize="20sp" />
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -238,13 +247,17 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="75dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
+        android:background="@drawable/search_bar_background"
         android:backgroundTint="#81E768"
-        android:elevation="5dp"
+        android:elevation="6dp"
         android:text="Check the recipe."
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
         app:cornerRadius="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
