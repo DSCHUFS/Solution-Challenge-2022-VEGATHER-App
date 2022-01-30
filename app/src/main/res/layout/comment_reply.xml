@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
     <ImageButton
         android:id="@+id/imageButton13"
@@ -51,7 +52,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:text="John Yaml"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView39"
@@ -72,7 +74,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:text="2020.11.21" />
+                    android:text="2020.11.21"
+                    android:textColor="@color/sub_text_gray" />
 
                 <ImageButton
                     android:id="@+id/imageButton12"
@@ -87,7 +90,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:text="999+" />
+                    android:text="999+"
+                    android:textColor="@color/sub_text_gray" />
 
             </LinearLayout>
         </LinearLayout>
