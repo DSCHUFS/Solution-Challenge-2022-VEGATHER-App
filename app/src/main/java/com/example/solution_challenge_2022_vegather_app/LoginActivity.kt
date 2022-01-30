@@ -18,6 +18,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+
+
         auth = FirebaseAuth.getInstance()
         binding.btnEmailLogin.setOnClickListener{
             signInEmail()
