@@ -14,7 +14,7 @@ import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.View.OnTouchListener
 
-//clear 버튼이 있는 EditText 위젯 
+//clear 버튼이 있는 EditText 위젯
 class CustomEditText : AppCompatEditText, OnTouchListener, OnFocusChangeListener, TextWatcher {
     private var clearDrawable: Drawable? = null
     @get:JvmName("getOnFocusChangeListener()") private var onFocusChangeListener: OnFocusChangeListener? = null

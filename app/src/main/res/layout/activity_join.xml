@@ -50,7 +50,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <com.example.solution_challenge_2022_vegather_app.CustomEditText
-        android:id="@+id/editTextTextEmailAddress2"
+        android:id="@+id/editText_join_email"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="80dp"
@@ -64,43 +64,43 @@
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <com.example.solution_challenge_2022_vegather_app.CustomEditText
-        android:id="@+id/editTextTextPassword2"
+        android:id="@+id/editText_join_pw"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextEmailAddress2"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextEmailAddress2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress2" />
+        app:layout_constraintEnd_toEndOf="@+id/editText_join_email"
+        app:layout_constraintStart_toStartOf="@+id/editText_join_email"
+        app:layout_constraintTop_toBottomOf="@+id/editText_join_email" />
 
     <com.example.solution_challenge_2022_vegather_app.CustomEditText
-        android:id="@+id/editTextTextPassword3"
+        android:id="@+id/editText_join_pw_ch"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="Password check"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword2"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPassword2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2" />
+        app:layout_constraintEnd_toEndOf="@+id/editText_join_pw"
+        app:layout_constraintStart_toStartOf="@+id/editText_join_pw"
+        app:layout_constraintTop_toBottomOf="@+id/editText_join_pw" />
 
     <com.example.solution_challenge_2022_vegather_app.CustomEditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editText_join_nick"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="Nickname"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword3"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPassword3"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword3" />
+        app:layout_constraintEnd_toEndOf="@+id/editText_join_pw_ch"
+        app:layout_constraintStart_toStartOf="@+id/editText_join_pw_ch"
+        app:layout_constraintTop_toBottomOf="@+id/editText_join_pw_ch" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/btn_join"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
