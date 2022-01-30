@@ -28,7 +28,7 @@
         app:srcCompat="@drawable/logo2" />
 
     <com.example.solution_challenge_2022_vegather_app.CustomEditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/editTest_email"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="70dp"
@@ -41,21 +41,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
-
     <com.example.solution_challenge_2022_vegather_app.CustomEditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/eidtText_pw"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextEmailAddress"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextEmailAddress"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
+        app:layout_constraintEnd_toEndOf="@+id/editTest_email"
+        app:layout_constraintStart_toStartOf="@+id/editTest_email"
+        app:layout_constraintTop_toBottomOf="@+id/editTest_email" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn_email_login"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginStart="40dp"
@@ -70,7 +69,7 @@
         android:typeface="sans"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword"
+        app:layout_constraintTop_toBottomOf="@+id/eidtText_pw"
         tools:text="Log in" />
 
     <Button
@@ -85,9 +84,9 @@
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:typeface="sans"
-        app:layout_constraintEnd_toEndOf="@+id/button"
-        app:layout_constraintStart_toStartOf="@+id/button"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintEnd_toEndOf="@+id/btn_email_login"
+        app:layout_constraintStart_toStartOf="@+id/btn_email_login"
+        app:layout_constraintTop_toBottomOf="@+id/btn_email_login" />
 
     <Button
         android:id="@+id/button3"
@@ -129,11 +128,11 @@
         android:layout_marginTop="8dp"
         android:text="First time here?"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/button"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintStart_toStartOf="@+id/btn_email_login"
+        app:layout_constraintTop_toBottomOf="@+id/btn_email_login" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/btn_signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -143,9 +142,9 @@
         android:textColor="@color/main_green"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="@+id/btn_email_login"
         app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_email_login" />
 
     <TextView
         android:id="@+id/textView4"
@@ -164,7 +163,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="Forget password?"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+        app:layout_constraintEnd_toEndOf="@+id/eidtText_pw"
+        app:layout_constraintTop_toBottomOf="@+id/eidtText_pw" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
