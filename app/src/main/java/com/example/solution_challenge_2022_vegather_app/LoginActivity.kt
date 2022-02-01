@@ -1,5 +1,6 @@
 package com.example.solution_challenge_2022_vegather_app
 
+import android.content.ContentValues
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,7 +19,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        auth = FirebaseAuth.getInstance()
+        auth = FirebaseAuth.getInstance() //현재 로그인한 사용자 가져오기
+        Log.d("auth", auth.toString())
         binding.btnEmailLogin.setOnClickListener{
             signInEmail()
         }
@@ -32,7 +34,16 @@ class LoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        var currentUser : FirebaseUser? = auth?.currentUser
+        var currentUser : FirebaseUser? = auth?.currentUser //현재 로그인한 사용자 가져오기
+        Log.d("currentUser", currentUser.toString())
+        if(currentUser != null){ //로그인한 상태일 때
+            currentUser?.let{
+                val email = currentUser.email
+                Toast.makeText(this,"안녕하세요. ${email}님!", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MainActivity::class.java) //메인으로 바로이동
+                startActivity(intent)
+            }
+        }
     }
 
     fun signInEmail() {
