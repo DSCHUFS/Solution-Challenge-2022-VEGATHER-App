@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/food_sampe2" />
+            app:srcCompat="@drawable/food_sample" />
 
     </androidx.cardview.widget.CardView>
 
