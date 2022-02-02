@@ -3,16 +3,33 @@ package com.example.solution_challenge_2022_vegather_app
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityMainBinding
+import com.example.solution_challenge_2022_vegather_app.databinding.MainPageMoreRecipeRecyclerBinding
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val intentCommunity = Intent(this, CommunityWriteActivity::class.java)
+        // 리사이클러 뷰 테스트를 위해 데이터 클래스 '5'개만 생성해서 출력해본다.
+        val dataset = ArrayList<FoodInfo>()
+        for (i in 1..5){
+            dataset.add(FoodInfo())
+        }
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        val recycler = MoreRecipeAdapter(MainPageMoreRecipeRecyclerBinding.inflate(layoutInflater))
+        recycler.getData(FoodInfo())
+        binding.recyclerView.adapter = recycler
+
+
+        val intentCommunity = Intent(this, CommunityMainActivity::class.java)
         val intentMypage = Intent(this, MypageActivity::class.java)
 
        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -35,5 +52,7 @@ class MainActivity : AppCompatActivity() {
                }
            }
        })
+
     }
 }
+
