@@ -8,6 +8,7 @@
         <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/layout/activity_community_detail.xml" value="0.20923913043478262" />
         <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/layout/activity_community_main.xml" value="0.20923913043478262" />
         <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/layout/activity_community_write.xml" value="0.20923913043478262" />
+        <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/layout/activity_find_password.xml" value="0.203125" />
         <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/layout/activity_join.xml" value="0.2" />
         <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/layout/activity_main.xml" value="0.20208333333333334" />
@@ -26,16 +27,14 @@
         <entry key="app/src/main/res/drawable/tab_icon_color.xml" value="0.3260416666666667" />
         <entry key="app/src/main/res/layout/activity_community_detail.xml" value="0.3181696881867278" />
         <entry key="app/src/main/res/layout/activity_community_main.xml" value="0.32232863012996305" />
-        <entry key="app/src/main/res/layout/activity_community_write.xml" value="0.5062720824065899" />
+        <entry key="app/src/main/res/layout/activity_community_write.xml" value="0.24117503650815236" />
         <entry key="app/src/main/res/layout/activity_join.xml" value="0.28908487103950165" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.44119274691435173" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/activity_mypage.xml" value="0.3443293253580729" />
         <entry key="app/src/main/res/layout/comment.xml" value="0.335" />
         <entry key="app/src/main/res/layout/comment_frame.xml" value="0.3891596001249871" />
         <entry key="app/src/main/res/layout/comment_reply.xml" value="0.3907787980740661" />
         <entry key="app/src/main/res/layout/community_recycler.xml" value="0.22871376811594202" />
-        <entry key="app/src/main/res/layout/fragment_mypage.xml" value="0.19791666666666666" />
         <entry key="app/src/main/res/layout/main_page.xml" value="0.3771395697585178" />
         <entry key="app/src/main/res/layout/main_page_more_recipe_recycler.xml" value="0.3122175683648236" />
         <entry key="app/src/main/res/layout/recipe_main.xml" value="0.375" />
