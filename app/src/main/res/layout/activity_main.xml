@@ -130,7 +130,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_signup"
-                app:srcCompat="@drawable/food_sample" />
+                app:srcCompat="@drawable/food_sampe2" />
 
             <LinearLayout
                 android:id="@+id/linearLayout7"
