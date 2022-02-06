@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="#FFFFFF"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:padding="7dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/imageContainer"

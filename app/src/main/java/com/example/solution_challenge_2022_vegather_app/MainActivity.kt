@@ -18,6 +18,11 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val intentSearch = Intent(this,SearchActivity::class.java)
+        binding.textView18.setOnClickListener(){
+            startActivity(intentSearch)
+        }
+
         // 리사이클러 뷰 테스트를 위해 데이터 클래스 '5'개만 생성해서 출력해본다.
         val dataset = ArrayList<FoodInfo>()
         for (i in 1..5){
@@ -27,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         val recycler = MoreRecipeAdapter(MainPageMoreRecipeRecyclerBinding.inflate(layoutInflater))
         recycler.getData(FoodInfo())
         binding.recyclerView.adapter = recycler
-
 
         val intentCommunity = Intent(this, CommunityMainActivity::class.java)
         val intentMypage = Intent(this, MypageActivity::class.java)
