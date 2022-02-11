@@ -18,8 +18,9 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val intentSearch = Intent(this,SearchActivity::class.java)
+        // 검색 메인페이지가 따로 있기 때문에 focus표시를 피하기 위해 textView를 사용
         binding.textView18.setOnClickListener(){
+            val intentSearch = Intent(this,SearchActivity::class.java)
             startActivity(intentSearch)
         }
 
@@ -35,6 +36,13 @@ class MainActivity : AppCompatActivity() {
 
         val intentCommunity = Intent(this, CommunityMainActivity::class.java)
         val intentMypage = Intent(this, MypageActivity::class.java)
+
+        binding.textView19.setOnClickListener {
+            val intentRecipe = Intent(this,RecipeMainActivity::class.java)
+            intentRecipe.putExtra("foodName",binding.textView14.getText())
+//            intentRecipe.putExtra("previousActivity","main")
+            startActivity(intentRecipe)
+        }
 
        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
            // 탭 버튼을 선택할 때
@@ -56,7 +64,6 @@ class MainActivity : AppCompatActivity() {
                }
            }
        })
-
     }
 }
 
