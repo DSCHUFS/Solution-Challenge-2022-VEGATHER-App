@@ -283,9 +283,36 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="20dp"
-                android:text="Preparation"
+                android:text="Ingredients"
                 android:textSize="28sp"
                 android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:checkedButton="@id/radioButton2"
+                android:orientation="horizontal"
+                android:paddingStart="15dp">
+
+                <RadioButton
+                    android:id="@+id/radioButton2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/main_green"
+                    android:text="Horizontal"
+                    android:textColor="@color/sub_text_gray" />
+
+                <RadioButton
+                    android:id="@+id/radioButton3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/main_green"
+                    android:text="Vertical"
+                    android:textColor="@color/sub_text_gray" />
+
+            </RadioGroup>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ingredient_recycler"
@@ -301,11 +328,13 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="15dp"
+                android:layout_marginBottom="20dp"
                 android:text="Order"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/orderRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
