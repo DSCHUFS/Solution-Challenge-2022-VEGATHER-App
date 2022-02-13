@@ -51,6 +51,7 @@
                     android:drawablePadding="10dp"
                     android:drawableTint="@color/sub_text_gray"
                     android:gravity="center_vertical"
+                    android:hyphenationFrequency="none"
                     android:paddingLeft="10dp"
                     android:text="Search"
                     android:textColor="@color/sub_text_gray"
@@ -93,9 +94,10 @@
 
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/main_title_side_icon" />
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    app:srcCompat="@drawable/check_circle_gray"
+                    app:tint="@color/main_green" />
             </LinearLayout>
 
             <TextView
@@ -146,16 +148,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="vegetable skewers"
-                    android:textSize="20sp"
+                    android:text="Vegetable skewers"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <ImageButton
                     android:id="@+id/imageButton6"
                     android:layout_width="25dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="#FFFFFF"
-                    app:srcCompat="@drawable/like_btn" />
+                    app:tint="#E16D64"
+                    app:srcCompat="@drawable/heart_icon" />
 
                 <TextView
                     android:id="@+id/textView20"
@@ -209,7 +212,7 @@
                     android:id="@+id/textView19"
                     android:layout_width="wrap_content"
                     android:layout_height="27dp"
-                    android:drawableEnd="@drawable/enter_btn"
+                    android:drawableEnd="@drawable/arrow_right_green"
                     android:text="See More"
                     android:textColor="@color/main_green"
                     android:textSize="18sp" />

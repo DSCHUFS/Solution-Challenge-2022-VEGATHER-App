@@ -2,6 +2,7 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FFFFFF"
@@ -14,7 +15,7 @@
         android:layout_height="150dp"
         android:layout_marginRight="10dp"
         android:layout_weight="1"
-        android:background="@drawable/food_sample"
+        android:background="@drawable/food_sampe2"
         android:elevation="10dp"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="25dp"
@@ -55,7 +56,7 @@
             <TextView
                 android:id="@+id/foodInfo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
                 android:text="article"
                 android:textSize="16sp" />
@@ -75,12 +76,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="3dp"
-                app:srcCompat="@drawable/like_btn" />
+                app:tint="#E15C52"
+                app:srcCompat="@drawable/heart_icon" />
 
             <TextView
                 android:id="@+id/likeCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:text="like"
                 android:textColor="@color/sub_text_gray" />
         </LinearLayout>

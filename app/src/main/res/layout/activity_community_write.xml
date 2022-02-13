@@ -179,7 +179,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:contentDescription="photo order"
-                    app:srcCompat="@drawable/check_img" />
+                    app:srcCompat="@drawable/check_circle_green" />
 
                 <ImageView
                     android:id="@+id/imageView13"
@@ -188,7 +188,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:contentDescription="photo order"
-                    app:srcCompat="@drawable/check_img" />
+                    app:srcCompat="@drawable/check_circle_green" />
 
                 <ImageView
                     android:id="@+id/imageView12"
@@ -197,7 +197,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:contentDescription="photo order"
-                    app:srcCompat="@drawable/check_img" />
+                    app:srcCompat="@drawable/check_circle_green" />
 
                 <ImageView
                     android:id="@+id/imageView11"
@@ -206,7 +206,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:contentDescription="photo order"
-                    app:srcCompat="@drawable/check_img" />
+                    app:srcCompat="@drawable/check_circle_green" />
 
                 <ImageView
                     android:id="@+id/imageView10"
@@ -215,7 +215,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:contentDescription="photo order"
-                    app:srcCompat="@drawable/check_img" />
+                    app:srcCompat="@drawable/check_circle_green" />
 
                 <ImageView
                     android:id="@+id/imageView8"
@@ -224,7 +224,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:contentDescription="photo order"
-                    app:srcCompat="@drawable/check_img" />
+                    app:srcCompat="@drawable/check_circle_green" />
 
                 <ImageView
                     android:id="@+id/imageView9"
@@ -233,7 +233,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:contentDescription="photo order"
-                    app:srcCompat="@drawable/check_img" />
+                    app:srcCompat="@drawable/check_circle_green" />
             </LinearLayout>
         </HorizontalScrollView>
 

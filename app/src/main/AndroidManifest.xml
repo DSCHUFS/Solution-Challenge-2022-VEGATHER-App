@@ -13,6 +13,9 @@
         android:theme="@style/Theme.SolutionChallenge2022VEGATHERApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".CommentActivity"
+            android:exported="false" />
+        <activity
             android:name=".RecipeMainActivity"
             android:exported="false" />
         <activity
