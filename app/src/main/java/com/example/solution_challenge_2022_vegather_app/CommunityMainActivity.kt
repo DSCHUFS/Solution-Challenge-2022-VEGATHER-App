@@ -26,9 +26,13 @@ class CommunityMainActivity : AppCompatActivity() {
         binding.communityRecyclerView.adapter = recyclerAdapter
         binding.communityRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        binding.button7.setOnClickListener{
+        binding.btnWrite.setOnClickListener{
             val intent = Intent(this, CommunityWriteActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.btnGoMain.setOnClickListener{
+            finish()
         }
 
     }

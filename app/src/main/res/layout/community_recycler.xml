@@ -69,9 +69,10 @@
         android:layout_height="18dp"
         android:layout_marginStart="30dp"
         android:layout_marginBottom="12dp"
+        app:tint="@color/main_green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView12"
-        app:srcCompat="@drawable/green_heart" />
+        app:srcCompat="@drawable/heart_icon" />
 
     <ImageView
         android:id="@+id/imageView4"
@@ -81,7 +82,7 @@
         android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView13"
-        app:srcCompat="@drawable/comment" />
+        app:srcCompat="@drawable/comment_icon" />
 
     <ImageView
         android:id="@+id/imageView5"
@@ -94,5 +95,6 @@
         app:layout_constraintHorizontal_bias="0.589"
         app:layout_constraintStart_toEndOf="@+id/textView11"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/logo2" />
+        app:layout_constraintVertical_bias="0.631"
+        tools:srcCompat="@drawable/food_sampe2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,6 +18,12 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 검색 메인페이지가 따로 있기 때문에 focus표시를 피하기 위해 textView를 사용
+        binding.textView18.setOnClickListener(){
+            val intentSearch = Intent(this,SearchActivity::class.java)
+            startActivity(intentSearch)
+        }
+
         // 리사이클러 뷰 테스트를 위해 데이터 클래스 '5'개만 생성해서 출력해본다.
         val dataset = ArrayList<FoodInfo>()
         for (i in 1..5){
@@ -26,11 +32,18 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         val recycler = MoreRecipeAdapter(MainPageMoreRecipeRecyclerBinding.inflate(layoutInflater))
         recycler.getData(FoodInfo())
+        recycler.loadParentActivity(this)
         binding.recyclerView.adapter = recycler
-
 
         val intentCommunity = Intent(this, CommunityMainActivity::class.java)
         val intentMypage = Intent(this, MypageActivity::class.java)
+
+        binding.textView19.setOnClickListener {
+            val intentRecipe = Intent(this,RecipeMainActivity::class.java)
+            intentRecipe.putExtra("callNumber",1)
+            intentRecipe.putExtra("foodName",binding.textView14.text)
+            startActivity(intentRecipe)
+        }
 
        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
            // 탭 버튼을 선택할 때
@@ -52,7 +65,6 @@ class MainActivity : AppCompatActivity() {
                }
            }
        })
-
     }
 }
 

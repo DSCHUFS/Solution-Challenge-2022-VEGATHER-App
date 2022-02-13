@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/radioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/ingredient_background_selector"
+            android:button="@null"
+            android:checked="false"
+            android:drawableRight="@drawable/ingrediant_image_selector"
+            android:drawablePadding="10dp"
+            android:duplicateParentState="false"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="10dp"
+            android:text="button"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/sub_text_gray" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

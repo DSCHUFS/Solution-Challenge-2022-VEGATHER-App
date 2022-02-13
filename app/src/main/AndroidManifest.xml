@@ -13,6 +13,15 @@
         android:theme="@style/Theme.SolutionChallenge2022VEGATHERApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".CommentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RecipeMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".FindPasswordActivity"
             android:exported="false" />
         <activity

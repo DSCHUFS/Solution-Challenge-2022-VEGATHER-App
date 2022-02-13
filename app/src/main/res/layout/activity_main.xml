@@ -24,43 +24,39 @@
             <LinearLayout
                 android:id="@+id/linearLayout5"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/search_bar_background"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:orientation="horizontal"
-                android:paddingStart="20dp"
+                android:paddingLeft="10dp"
                 android:paddingTop="5dp"
-                android:paddingEnd="20dp"
+                android:paddingRight="10dp"
                 android:paddingBottom="5dp"
+                android:textAlignment="textStart"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageButton
-                    android:id="@+id/imageButton5"
-                    android:layout_width="48dp"
-                    android:layout_height="36dp"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:background="#00FFFFFF"
-                    app:srcCompat="@drawable/search_icon" />
-
-                <EditText
-                    android:id="@+id/editTextTextPersonName2"
+                <TextView
+                    android:id="@+id/textView18"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:backgroundTint="#00FFFFFF"
-                    android:ems="10"
-                    android:hint="Search"
-                    android:inputType="textPersonName"
-                    android:singleLine="true"
-                    android:textColorHint="@color/sub_text_gray"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:drawableLeft="@drawable/search_icon"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/sub_text_gray"
+                    android:gravity="center_vertical"
+                    android:hyphenationFrequency="none"
+                    android:paddingLeft="10dp"
+                    android:text="Search"
+                    android:textColor="@color/sub_text_gray"
                     android:textSize="18sp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -70,7 +66,6 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginBottom="5dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/btn_signup"
@@ -99,9 +94,10 @@
 
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/main_title_side_icon" />
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    app:srcCompat="@drawable/check_circle_gray"
+                    app:tint="@color/main_green" />
             </LinearLayout>
 
             <TextView
@@ -138,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="3dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/textView21"
@@ -151,25 +147,23 @@
                     android:id="@+id/textView14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
                     android:layout_weight="5"
-                    android:text="vegetable skewers"
+                    android:text="Vegetable skewers"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <ImageButton
                     android:id="@+id/imageButton6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
                     android:background="#FFFFFF"
-                    app:srcCompat="@drawable/like_btn" />
+                    app:tint="#E16D64"
+                    app:srcCompat="@drawable/heart_icon" />
 
                 <TextView
                     android:id="@+id/textView20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="999+"
                     android:textColor="@color/sub_text_gray"
                     android:textSize="16sp" />
@@ -182,7 +176,7 @@
                 android:layout_marginStart="15dp"
                 android:text="287kcal"
                 android:textColor="@color/sub_text_gray"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@+id/textView22"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.059"
@@ -197,12 +191,32 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
                 android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-                android:textSize="20sp"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView21"
                 app:layout_constraintWidth_percent="0.9" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/underline_maingreen"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    android:id="@+id/textView19"
+                    android:layout_width="wrap_content"
+                    android:layout_height="27dp"
+                    android:drawableEnd="@drawable/arrow_right_green"
+                    android:text="See More"
+                    android:textColor="@color/main_green"
+                    android:textSize="18sp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout8"

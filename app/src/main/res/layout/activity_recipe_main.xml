@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".RecipeMainActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageView23"
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp"
+                    android:layout_weight="0"
+                    android:gravity="center"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayout9"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/food_sampe2" />
+
+                <ImageButton
+                    android:id="@+id/imageButton2"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="#00883939"
+                    app:srcCompat="@drawable/arrow_left_white"
+                    app:tint="#FFFFFF" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/scrollView3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintWidth_percent="0.9">
+
+                <ImageButton
+                    android:id="@+id/imageButton8"
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0"
+                    android:backgroundTint="#00FFFFFF"
+                    app:srcCompat="@drawable/heart_icon"
+                    app:tint="@color/sub_text_gray" />
+
+                <TextView
+                    android:id="@+id/textView25"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="0"
+                    android:gravity="center_vertical"
+                    android:text="999+"
+                    android:textColor="@color/sub_text_gray"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/imageView21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
+                    app:srcCompat="@drawable/comment_icon" />
+
+                <TextView
+                    android:id="@+id/textView26"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="0"
+                    android:gravity="center_vertical"
+                    android:text="(142)"
+                    android:textColor="@color/sub_text_gray"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="20dp"
+                android:text="Masala Pasta"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView28"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="20dp"
+                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+                android:textAlignment="gravity"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView29"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="25dp"
+                android:text="Nutrition"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/nutrition_border"
+                        android:orientation="horizontal"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="10dp">
+
+                        <TextView
+                            android:id="@+id/textView30"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Carbs"
+                            android:textColor="@color/main_green"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textView31"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="31.1g"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/sub_text_gray"
+                            android:textSize="16sp"
+                            android:textStyle="normal" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/nutrition_border"
+                        android:orientation="horizontal"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp">
+
+                        <TextView
+                            android:id="@+id/textView32"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Calories"
+                            android:textColor="@color/main_green"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textView33"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="1,121"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/sub_text_gray"
+                            android:textSize="16sp"
+                            android:textStyle="normal" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/nutrition_border"
+                        android:orientation="horizontal"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="10dp">
+
+                        <TextView
+                            android:id="@+id/textView34"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Protein"
+                            android:textColor="@color/main_green"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textView35"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="9.5g"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/sub_text_gray"
+                            android:textSize="16sp"
+                            android:textStyle="normal" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/nutrition_border"
+                        android:orientation="horizontal"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp">
+
+                        <TextView
+                            android:id="@+id/textView36"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Fat"
+                            android:textColor="@color/main_green"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textView37"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="2.5g"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/sub_text_gray"
+                            android:textSize="16sp"
+                            android:textStyle="normal" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView57"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="20dp"
+                android:text="Ingredients"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:checkedButton="@id/radioButton2"
+                android:orientation="horizontal"
+                android:paddingStart="15dp">
+
+                <RadioButton
+                    android:id="@+id/radioButton2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/main_green"
+                    android:text="Horizontal"
+                    android:textColor="@color/sub_text_gray" />
+
+                <RadioButton
+                    android:id="@+id/radioButton3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/main_green"
+                    android:text="Vertical"
+                    android:textColor="@color/sub_text_gray" />
+
+            </RadioGroup>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ingredient_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/textView58"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="20dp"
+                android:text="Order"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/orderRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
