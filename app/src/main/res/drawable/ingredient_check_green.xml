@@ -3,5 +3,5 @@
     <item
         android:width="30dp"
         android:height="30dp"
-        android:drawable="@drawable/comment_done_icon" />
+        android:drawable="@drawable/check_circle_green" />
 </layer-list>

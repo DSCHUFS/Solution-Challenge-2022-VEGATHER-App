@@ -17,7 +17,7 @@
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/radioButton"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/ingredient_background_selector"

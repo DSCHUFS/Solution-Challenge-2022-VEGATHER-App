@@ -31,6 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="280dp"
                     android:layout_weight="0"
+                    android:gravity="center"
                     android:scaleType="centerCrop"
                     app:layout_constraintBottom_toTopOf="@+id/linearLayout9"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +46,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="20dp"
                     android:backgroundTint="#00883939"
-                    app:srcCompat="@drawable/back_btn"
+                    app:srcCompat="@drawable/arrow_left_white"
                     app:tint="#FFFFFF" />
             </FrameLayout>
 
@@ -56,7 +57,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/scrollView3"
@@ -67,30 +68,41 @@
                 <ImageButton
                     android:id="@+id/imageButton8"
                     android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_weight="0"
                     android:backgroundTint="#00FFFFFF"
-                    app:srcCompat="@drawable/like_btn" />
+                    app:srcCompat="@drawable/heart_icon"
+                    app:tint="@color/sub_text_gray" />
 
                 <TextView
                     android:id="@+id/textView25"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_weight="0"
+                    android:gravity="center_vertical"
                     android:text="999+"
                     android:textColor="@color/sub_text_gray"
                     android:textSize="16sp" />
 
+                <ImageView
+                    android:id="@+id/imageView21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
+                    app:srcCompat="@drawable/comment_icon" />
+
                 <TextView
                     android:id="@+id/textView26"
                     android:layout_width="wrap_content"
-                    android:layout_height="24dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="5dp"
                     android:layout_weight="0"
-                    android:drawableLeft="@drawable/comment_icon"
-                    android:drawablePadding="5dp"
-                    android:text="142"
+                    android:gravity="center_vertical"
+                    android:text="(142)"
                     android:textColor="@color/sub_text_gray"
                     android:textSize="16sp" />
             </LinearLayout>
