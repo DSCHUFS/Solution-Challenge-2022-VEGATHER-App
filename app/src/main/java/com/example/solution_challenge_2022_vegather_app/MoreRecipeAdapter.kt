@@ -1,5 +1,7 @@
 package com.example.solution_challenge_2022_vegather_app
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,7 +10,8 @@ import com.example.solution_challenge_2022_vegather_app.databinding.MainPageMore
 class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val dataset = ArrayList<FoodInfo>()
+    private val dataset = ArrayList<FoodInfo>()
+    private lateinit var context : Context
 
     inner class MoreRecipeViewHolder(val binding : MainPageMoreRecipeRecyclerBinding) :
         RecyclerView.ViewHolder(binding.root){
@@ -24,6 +27,13 @@ class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding)
         binding.foodInfo.text = dataset[position].foodInfoData
         binding.likeCount.text = (dataset[position].likeCount + position).toString()
         binding.imageView3.setImageResource(R.drawable.food_sampe2)
+
+        binding.container.setOnClickListener {
+            val intentRecipe = Intent(context,RecipeMainActivity::class.java)
+            intentRecipe.putExtra("callNumberFromAdapter",2)
+            intentRecipe.putExtra("foodNameFromAdapter",binding.foodName.text)
+            context.startActivity(intentRecipe)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -34,5 +44,9 @@ class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding)
         for (i in 1..5){
             dataset.add(data)
         }
+    }
+
+    fun loadParentActivity( c : Context){
+        context = c
     }
 }

@@ -1,5 +1,6 @@
 package com.example.solution_challenge_2022_vegather_app
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -18,14 +19,25 @@ class RecipeMainActivity : AppCompatActivity() {
         val binding = ActivityRecipeMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 'See More'를 통해 현재 액티비티에 접속했을 경우 값 업데이트 테스트코드
-        val intent = getIntent()
-        val foodName = intent.getStringExtra("foodName")
-        binding.textView27.text = foodName
-
+        // 현재 액티비티를 종료시키고 이전 액티비티로 이동한다.
         binding.imageButton2.setOnClickListener {
             finish()
         }
+
+        // 메인 페이지에서 음식을 선택하면 선택한 음식의 정보를 레시피 액티비티에서 넘겨받는다.
+        val intent = getIntent()
+        val callNumber = intent.getIntExtra("callNumber",0)
+        val foodName = getFoodNameFromCall(intent)
+        binding.textView27.text = foodName
+
+        binding.textView26.setOnClickListener {
+            val commentIntent = Intent(this,CommentActivity::class.java)
+            startActivity(commentIntent)
+        }
+
+
+
+        // 재료와 레시피 제작 순서의 리사이클러 뷰를 연결한다.
         connectOrderAdapter(binding)
         connectIngredientsAdapterWithOrientation("horizontal",binding)
 
@@ -57,4 +69,24 @@ class RecipeMainActivity : AppCompatActivity() {
         adapter.createTestData()
         binding.orderRecycler.adapter = adapter
     }
+
+    private fun getFoodNameFromCall(intent : Intent) : String {
+        return when(getCallNumber(intent)){
+            1 -> intent.getStringExtra("foodName").toString()
+            2 -> intent.getStringExtra("foodNameFromAdapter").toString()
+            else -> "None"
+        }
+    }
+
+    private fun getCallNumber(intent : Intent) : Int {
+        val fromMainActivity = intent.getIntExtra("callNumber",0)
+        val fromMoreRecipeAdapter = intent.getIntExtra("callNumberFromAdapter",0)
+
+        return if( fromMainActivity!=0 ){
+            fromMainActivity
+        } else{
+            fromMoreRecipeAdapter
+        }
+    }
+
 }

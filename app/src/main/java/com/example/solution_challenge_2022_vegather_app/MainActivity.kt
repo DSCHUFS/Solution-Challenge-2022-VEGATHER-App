@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         val recycler = MoreRecipeAdapter(MainPageMoreRecipeRecyclerBinding.inflate(layoutInflater))
         recycler.getData(FoodInfo())
+        recycler.loadParentActivity(this)
         binding.recyclerView.adapter = recycler
 
         val intentCommunity = Intent(this, CommunityMainActivity::class.java)
@@ -39,8 +40,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.textView19.setOnClickListener {
             val intentRecipe = Intent(this,RecipeMainActivity::class.java)
-            intentRecipe.putExtra("foodName",binding.textView14.getText())
-//            intentRecipe.putExtra("previousActivity","main")
+            intentRecipe.putExtra("callNumber",1)
+            intentRecipe.putExtra("foodName",binding.textView14.text)
             startActivity(intentRecipe)
         }
 
