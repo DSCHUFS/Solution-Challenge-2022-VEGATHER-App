@@ -26,6 +26,10 @@ class JoinActivity : AppCompatActivity() {
             joinInEmail()
         }
     }
+    fun checkId(){
+        var email = binding.editTextJoinEmail.toString()
+
+    }
 
     //Password 체크하는 함수
     fun checkPw(){

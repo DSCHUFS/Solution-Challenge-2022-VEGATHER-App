@@ -30,10 +30,9 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
+    /*
     override fun onStart() {
         super.onStart()
-
         var currentUser : FirebaseUser? = auth?.currentUser //현재 로그인한 사용자 가져오기
         Log.d("currentUser", currentUser.toString())
         if(currentUser != null){ //로그인한 상태일 때
@@ -45,6 +44,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+*/
 
     fun signInEmail() {
         Log.d(binding.editTestEmail.text.toString(), binding.eidtTextPw.text.toString())
