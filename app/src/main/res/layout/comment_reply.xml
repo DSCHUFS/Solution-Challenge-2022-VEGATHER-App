@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.058"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/back_btn" />
+        app:srcCompat="@drawable/arrow_left_gray" />
 
     <LinearLayout
         android:id="@+id/linearLayout12"
@@ -37,7 +37,7 @@
             android:layout_width="150dp"
             android:layout_height="70dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/user_profile" />
+            app:srcCompat="@drawable/user_default_profile" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:text="John Yaml"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -78,15 +78,15 @@
                     android:textColor="@color/sub_text_gray" />
 
                 <ImageButton
-                    android:id="@+id/imageButton12"
+                    android:id="@+id/likeImageView"
                     android:layout_width="20dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="3dp"
                     android:backgroundTint="#00FFFFFF"
-                    app:srcCompat="@drawable/like_btn" />
+                    app:srcCompat="@drawable/heart_icon" />
 
                 <TextView
-                    android:id="@+id/textView41"
+                    android:id="@+id/like"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
@@ -146,6 +146,6 @@
             android:paddingTop="10dp"
             android:paddingEnd="20dp"
             android:paddingBottom="10dp"
-            app:srcCompat="@drawable/comment_done_icon" />
+            app:srcCompat="@drawable/check_circle_green" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

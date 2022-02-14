@@ -3,19 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#FFFFFF">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".CommentReplyActivity">
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/x_btn_gray" />
 
     <LinearLayout
+        android:id="@+id/linearLayout14"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:background="@drawable/search_history_background_border"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton3"
         app:layout_constraintWidth_percent="0.95">
 
         <ImageView
@@ -23,11 +37,12 @@
             android:layout_width="130dp"
             android:layout_height="60dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/user_default_profile" />
+            android:src="@drawable/user_default_profile" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:layout_weight="1"
             android:orientation="vertical"
             android:paddingLeft="5dp"
@@ -58,7 +73,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView40"
+                    android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="7dp"
@@ -72,7 +87,7 @@
                     android:layout_height="20dp"
                     android:layout_marginRight="1dp"
                     android:backgroundTint="#00FFFFFF"
-                    app:srcCompat="@drawable/heart_icon" />
+                    android:src="@drawable/heart_icon" />
 
                 <TextView
                     android:id="@+id/like"
@@ -83,14 +98,53 @@
                     android:textColor="@color/sub_text_gray"
                     android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/textView42"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Reply(24)"
-                    android:textColor="@color/main_green"
-                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/replyRecycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout14" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout15"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="7dp"
+        android:paddingTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.9">
+
+        <EditText
+            android:id="@+id/editTextTextMultiLine3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="3dp"
+            android:layout_weight="1"
+            android:background="#00FFFFFF"
+            android:ems="10"
+            android:hint="Add a comment!"
+            android:inputType="textMultiLine"
+            android:textColorHint="@color/sub_text_gray"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/imageButton7"
+            android:layout_width="42dp"
+            android:layout_height="wrap_content"
+            android:background="#00FFFFFF"
+            android:src="@drawable/check_green_btn" />
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
