@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Solution-Challenge-2022-VEGATHER-App</string>
+    <string name="facebook_app_id">1140529093417307</string>
+    <string name="fb_login_protocol_scheme">fb1140529093417307</string>
+<!--    <string name="default_web_client_id">626426826491-f3itor1tqarsub2dcju6isnn7inj5kn4.apps.googleusercontent.com</string>-->
+
 </resources>

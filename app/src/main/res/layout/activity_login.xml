@@ -42,7 +42,7 @@
             android:orientation="vertical" >
 
             <com.example.solution_challenge_2022_vegather_app.CustomEditText
-                android:id="@+id/editTest_email"
+                android:id="@+id/editText_email"
                 android:layout_width="230dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="15dp"
@@ -61,7 +61,7 @@
                 android:inputType="textPassword" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/btn_find_pw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -117,7 +117,7 @@
                 android:textSize="16sp" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btn_google_login"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
@@ -130,7 +130,7 @@
                 android:typeface="sans" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/btn_kakao_login"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="16dp"
@@ -143,7 +143,7 @@
                 android:typeface="sans" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/btn_facebook_login"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="16dp"
