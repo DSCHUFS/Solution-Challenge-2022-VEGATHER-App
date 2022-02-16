@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="3dp"
                     android:backgroundTint="#00FFFFFF"
-                    app:srcCompat="@drawable/like_btn" />
+                    app:srcCompat="@drawable/heart_icon" />
 
                 <TextView
                     android:id="@+id/textView41"
@@ -146,6 +146,6 @@
             android:paddingTop="10dp"
             android:paddingEnd="20dp"
             android:paddingBottom="10dp"
-            app:srcCompat="@drawable/comment_done_icon" />
+            app:srcCompat="@drawable/check_circle_green" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
