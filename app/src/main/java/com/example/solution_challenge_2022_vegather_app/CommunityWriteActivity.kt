@@ -2,15 +2,20 @@ package com.example.solution_challenge_2022_vegather_app
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.TypedValue
+import android.view.View
 import android.widget.*
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
+import androidx.core.view.marginEnd
+import androidx.core.view.marginRight
 import androidx.gridlayout.widget.GridLayout
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommunityWriteBinding
 
@@ -28,6 +33,8 @@ class CommunityWriteActivity : AppCompatActivity() {
     get() = findViewById(R.id.orderLayout)
 
     var countOrder = 0
+
+    var photoNumForOrder = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,18 +111,67 @@ class CommunityWriteActivity : AppCompatActivity() {
             ellipsize = TextUtils.TruncateAt.END
 
         }
-        val orderPicture = ImageButton(this).apply {
+        val orderPhoto = ImageButton(this).apply {
+            id = countOrder
             setImageResource(R.drawable.camera_icon)
             scaleType = ImageView.ScaleType.FIT_CENTER
             background = Color.TRANSPARENT.toDrawable()
 
             setOnClickListener {
-
+                photoNumForOrder = orderNumber.id
+                setPhotoOrder(photoNumForOrder)
             }
         }
         orderLayout.addView(orderNumber)
         orderLayout.addView(orderComment)
-        orderLayout.addView(orderPicture, 48.dp, 48.dp)
+        orderLayout.addView(orderPhoto, 48.dp, 48.dp)
+    }
+
+    private fun setPhotoOrder(orderNumber : Int) {
+        val intent: Intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, 1)
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == RESULT_OK){
+            when(requestCode){
+                1 -> {
+                    var currentImageUri : Uri? = data?.data
+                    try{
+                        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, currentImageUri)
+//                        val photo = ImageView(this).apply{
+//                            setImageBitmap(bitmap)
+//                            scaleType = ImageView.ScaleType.FIT_XY
+//                        }
+                        val relativeLayout = layoutInflater.inflate(R.layout.photo_order, null) as RelativeLayout
+
+                        val photoNum = relativeLayout.findViewById<View>(R.id.photoNumber) as TextView
+                        photoNum.text = photoNumForOrder.toString()
+
+
+                        val photo = relativeLayout.findViewById<View>(R.id.photo) as ImageView
+                        photo.setImageBitmap(bitmap)
+                        photo.scaleType = ImageView.ScaleType.FIT_XY
+
+                        val layoutParams = RelativeLayout.LayoutParams(130.dp, 130.dp)
+                        layoutParams.setMargins(0, 0, 5.dp, 5)
+                        relativeLayout.layoutParams = layoutParams
+                        binding.photoOrder.addView(relativeLayout)
+
+                        val removePhoto = relativeLayout.findViewById<View>(R.id.removePhoto) as TextView
+                        removePhoto.setOnClickListener {
+                            binding.photoOrder.removeView(relativeLayout)
+                        }
+                    }
+                    catch(e:Exception){
+                        e.printStackTrace()
+                    }
+                }
+            }
+        }
     }
 
 
