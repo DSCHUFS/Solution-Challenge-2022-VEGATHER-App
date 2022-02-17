@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommunityMainBinding
@@ -35,6 +37,8 @@ class CommunityMainActivity : AppCompatActivity() {
             finish()
         }
 
+
+
     }
 
     fun loadPost() : MutableList<Post> {
@@ -43,7 +47,7 @@ class CommunityMainActivity : AppCompatActivity() {
             val title = "Title $idx"
             val subtitle = "Lorem Ipsum is simply dummy text printing and typesetting industry. Lorem Ipsum is simply dummy text printing and typesetting industry."
             val date = System.currentTimeMillis()
-            val post = Post(title, subtitle, date)
+            val post = Post(title, subtitle, "","","",date)
             postList.add(post)
         }
         return postList
@@ -65,6 +69,8 @@ class RecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Adapter<Recy
                 val sdf = SimpleDateFormat("MM.dd")
                 val formattedDate = sdf.format(post.timestamp)
                 textView12.text = formattedDate
+                textView13.text = "${post.like}"
+                textView14.text = "${post.comment}"
             }
         }
     }
@@ -78,6 +84,12 @@ class RecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Adapter<Recy
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val post = postData[position]
         holder.set(post)
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(holder.itemView?.context, CommunityDetailActivity::class.java)
+            //intent.putExtra~~
+            ContextCompat.startActivity(holder.itemView?.context, intent, null)
+        }
     }
 
     override fun getItemCount(): Int {
