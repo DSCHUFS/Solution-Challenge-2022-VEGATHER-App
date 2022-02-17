@@ -25,7 +25,7 @@ class RecipeMainActivity : AppCompatActivity() {
         }
 
         // 메인 페이지에서 음식을 선택하면 선택한 음식의 정보를 레시피 액티비티에서 넘겨받는다.
-        val intent = getIntent()
+        val intent = intent
         val callNumber = intent.getIntExtra("callNumber",0)
         val foodName = getFoodNameFromCall(intent)
         binding.textView27.text = foodName
@@ -88,5 +88,4 @@ class RecipeMainActivity : AppCompatActivity() {
             fromMoreRecipeAdapter
         }
     }
-
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="#00FFFFFF"
     tools:context=".SearchRankingAndHistoryFragment">
 
     <TextView
@@ -183,6 +183,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.609"
         app:layout_constraintStart_toStartOf="parent"
@@ -200,20 +202,18 @@
             android:textSize="16sp" />
 
         <Button
-            android:id="@+id/btn_email_login"
+            android:id="@+id/allClearButton"
             android:layout_width="138dp"
             android:layout_height="38dp"
-            android:background="@drawable/search_bar_background"
-            android:backgroundTint="@color/main_green"
-            android:drawableLeft="@drawable/x_icon_white"
-            android:drawableTint="#FFFFFF"
+            android:background="#00FFFFFF"
+            android:backgroundTint="#00FFFFFF"
             android:elevation="6dp"
             android:paddingLeft="20dp"
             android:paddingRight="25dp"
             android:text="All Clear"
             android:textAlignment="center"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/main_green"
             android:textSize="16sp" />
 
     </LinearLayout>

@@ -1,10 +1,12 @@
 package com.example.solution_challenge_2022_vegather_app
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.solution_challenge_2022_vegather_app.databinding.FragmentSearchRankingAndHistoryBinding
@@ -26,10 +28,14 @@ class SearchRankingAndHistoryFragment : Fragment() {
         // Inflate the layout for this fragment
         val binding = FragmentSearchRankingAndHistoryBinding.inflate(inflater,container,false)
 
-        binding.searchHistoryRecycler.layoutManager = LinearLayoutManager(this.context)
+        binding.searchHistoryRecycler.layoutManager = LinearLayoutManager(this.context,RecyclerView.HORIZONTAL,false)
         val recycler = SearchHistoryAdapter(SearchHistoryRecyclerBinding.inflate(layoutInflater))
         recycler.settingData()
         binding.searchHistoryRecycler.adapter = recycler
+
+        binding.allClearButton.setOnClickListener {
+            recycler.deleteAllSearchHistory()
+        }
 
         return binding.root
     }

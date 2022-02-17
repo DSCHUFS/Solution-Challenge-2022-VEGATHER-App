@@ -20,6 +20,9 @@
             android:name=".GoogleLoginActivity"
             android:exported="false" />
         <activity
+            android:name=".CommentReplyActivity"
+            android:exported="false" />
+        <activity
             android:name=".CommentActivity"
             android:exported="false" />
         <activity
