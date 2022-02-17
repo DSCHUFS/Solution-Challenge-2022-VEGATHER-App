@@ -13,12 +13,12 @@
 
         <ImageButton
             android:id="@+id/btnAddOrder"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="8dp"
-            android:scaleType="fitXY"
             android:background="@android:color/transparent"
             android:contentDescription="Add ingredient"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="@+id/textView20"
             app:layout_constraintStart_toEndOf="@+id/textView21"
             app:srcCompat="@drawable/plus" />
@@ -35,8 +35,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName2"
-            android:layout_width="370dp"
+            android:id="@+id/editTextTitle"
+            android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -58,11 +58,11 @@
             android:text="Subtitle"
             android:textSize="30sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextTitle" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName3"
-            android:layout_width="370dp"
+            android:id="@+id/editTextSubtitle"
+            android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -84,19 +84,20 @@
             android:text="Ingredients"
             android:textSize="30sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextSubtitle" />
 
         <ImageButton
             android:id="@+id/btnAddIngredient"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
-            android:scaleType="fitXY"
             android:background="@android:color/transparent"
             android:contentDescription="Add ingredient"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="@+id/textView17"
             app:layout_constraintStart_toEndOf="@+id/textView17"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3"
+            app:layout_constraintTop_toBottomOf="@+id/editTextSubtitle"
             app:srcCompat="@drawable/plus" />
 
         <TextView
@@ -106,7 +107,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:gravity="center_vertical"
-            android:text="Order"
+            android:text="Recipe"
             android:textSize="30sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ingredientLayout" />
@@ -126,7 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Set your photo order!"
+            android:text="Set your photo!"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/orderLayout" />
@@ -143,7 +144,7 @@
             app:srcCompat="@drawable/line" />
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/btnDone"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -200,8 +201,8 @@
 
         <ImageButton
             android:id="@+id/btnRemoveIngredient"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="4dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
@@ -212,11 +213,11 @@
 
         <ImageButton
             android:id="@+id/btnRemoveOrder"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="4dp"
-            android:scaleType="fitXY"
             android:background="@android:color/transparent"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="@+id/btnAddOrder"
             app:layout_constraintStart_toEndOf="@+id/btnAddOrder"
             app:layout_constraintTop_toTopOf="@+id/btnAddOrder"

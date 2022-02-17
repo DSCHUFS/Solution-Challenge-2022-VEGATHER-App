@@ -43,7 +43,7 @@ class CommunityMainActivity : AppCompatActivity() {
             val title = "Title $idx"
             val subtitle = "Lorem Ipsum is simply dummy text printing and typesetting industry. Lorem Ipsum is simply dummy text printing and typesetting industry."
             val date = System.currentTimeMillis()
-            val post = Post(title, subtitle, date)
+            val post = Post(title, subtitle, "","","",date)
             postList.add(post)
         }
         return postList
@@ -65,6 +65,8 @@ class RecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Adapter<Recy
                 val sdf = SimpleDateFormat("MM.dd")
                 val formattedDate = sdf.format(post.timestamp)
                 textView12.text = formattedDate
+                textView13.text = "${post.like}"
+                textView14.text = "${post.comment}"
             }
         }
     }

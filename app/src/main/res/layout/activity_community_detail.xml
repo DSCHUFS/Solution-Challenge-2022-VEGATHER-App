@@ -13,6 +13,16 @@
         android:padding="10dp"
         >
 
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="400dp"
+            android:layout_height="150dp"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/vegetable" />
+
         <TextView
             android:id="@+id/textView54"
             android:layout_width="0dp"
@@ -140,16 +150,6 @@
             app:layout_constraintTop_toBottomOf="@+id/textView42">
 
         </View>
-
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="400dp"
-            android:layout_height="150dp"
-            android:scaleType="fitXY"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/vegetable" />
 
         <ImageView
             android:id="@+id/imageView7"
