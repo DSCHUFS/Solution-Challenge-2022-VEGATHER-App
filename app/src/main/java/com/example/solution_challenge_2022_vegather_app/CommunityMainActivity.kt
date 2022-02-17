@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommunityMainBinding
@@ -34,6 +36,8 @@ class CommunityMainActivity : AppCompatActivity() {
         binding.btnGoMain.setOnClickListener{
             finish()
         }
+
+
 
     }
 
@@ -80,6 +84,12 @@ class RecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Adapter<Recy
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val post = postData[position]
         holder.set(post)
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(holder.itemView?.context, CommunityDetailActivity::class.java)
+            //intent.putExtra~~
+            ContextCompat.startActivity(holder.itemView?.context, intent, null)
+        }
     }
 
     override fun getItemCount(): Int {
