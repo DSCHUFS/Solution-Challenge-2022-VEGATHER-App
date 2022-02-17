@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context=".SearchActivity">
 
     <LinearLayout
@@ -12,6 +14,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +29,8 @@
             android:layout_gravity="center"
             android:layout_marginEnd="15dp"
             android:backgroundTint="#00FFFFFF"
-            app:srcCompat="@drawable/back_btn" />
+            android:focusable="false"
+            app:srcCompat="@drawable/arrow_left_gray" />
 
         <LinearLayout
             android:id="@+id/linearLayout3"
@@ -39,7 +44,7 @@
             android:paddingRight="10dp"
             android:paddingBottom="5dp">
 
-            <com.example.solution_challenge_2022_vegather_app.CustomEditText
+            <EditText
                 android:id="@+id/editTextTextPersonName5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,8 +53,7 @@
                 android:backgroundTint="#00FFFFFF"
                 android:ems="10"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:hint="Search"
+                android:imeOptions="actionDone"
                 android:inputType="textPersonName"
                 android:textColor="@color/black"
                 android:textColorHint="@color/sub_text_gray"
@@ -58,10 +62,9 @@
         </LinearLayout>
     </LinearLayout>
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
-        android:name="com.example.solution_challenge_2022_vegather_app.SearchRankingAndHistoryFragment"
-        android:layout_width="0dp"
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

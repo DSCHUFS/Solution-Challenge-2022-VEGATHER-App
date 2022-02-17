@@ -19,6 +19,7 @@ class CommentActivity : AppCompatActivity() {
         binding.commentRecycler.layoutManager = LinearLayoutManager(this)
         val adapter = CommentAdapter(CommentRecyclerBinding.inflate(layoutInflater))
         adapter.settingData()
+        adapter.loadParentActivity(this)
         binding.commentRecycler.adapter = adapter
     }
 
