@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.graphics.drawable.DrawableCompat
-import android.R
 import androidx.core.content.ContextCompat
 import android.graphics.drawable.Drawable
 import android.text.Editable
@@ -13,6 +12,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.View.OnTouchListener
+import androidx.core.content.res.ResourcesCompat
 
 //clear 버튼이 있는 EditText 위젯
 class CustomEditText : AppCompatEditText, OnTouchListener, OnFocusChangeListener, TextWatcher {
@@ -32,9 +32,9 @@ class CustomEditText : AppCompatEditText, OnTouchListener, OnFocusChangeListener
     override fun setOnTouchListener(onTouchListener: OnTouchListener?) {
         this.onTouchListener = onTouchListener
     }
-
+//R.drawable.ic_menu_close_clear_cancel
     fun init(){
-        val tempDrawable = ContextCompat.getDrawable(context, R.drawable.ic_menu_close_clear_cancel) //X 아이콘 추후 수정
+        val tempDrawable = ContextCompat.getDrawable(context,R.drawable.x_btn_gray) //X 아이콘 추후 수정
         clearDrawable = tempDrawable?.let { DrawableCompat.wrap(it) }
         clearDrawable?.let { DrawableCompat.setTintList(it, hintTextColors) }
         clearDrawable?.setBounds(
@@ -45,7 +45,6 @@ class CustomEditText : AppCompatEditText, OnTouchListener, OnFocusChangeListener
         )
 
         setClearIconVisible(false)
-
 
         super.setOnTouchListener(this)
         super.setOnFocusChangeListener(this)
