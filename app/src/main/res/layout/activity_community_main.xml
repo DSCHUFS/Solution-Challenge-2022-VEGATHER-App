@@ -33,7 +33,7 @@
         android:id="@+id/btnWrite"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="70dp"
         android:background="@drawable/login_btn_shpe"
         android:backgroundTint="@color/main_green"
         android:text="Write"
