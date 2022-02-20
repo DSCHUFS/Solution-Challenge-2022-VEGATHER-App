@@ -17,6 +17,7 @@
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -44,7 +45,7 @@
             android:paddingRight="10dp"
             android:paddingBottom="5dp">
 
-            <EditText
+            <com.example.solution_challenge_2022_vegather_app.CustomEditText
                 android:id="@+id/editTextTextPersonName5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,7 +54,7 @@
                 android:backgroundTint="#00FFFFFF"
                 android:ems="10"
                 android:focusable="true"
-                android:imeOptions="actionDone"
+                android:imeOptions="actionSearch"
                 android:inputType="textPersonName"
                 android:textColor="@color/black"
                 android:textColorHint="@color/sub_text_gray"
@@ -66,6 +67,7 @@
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
