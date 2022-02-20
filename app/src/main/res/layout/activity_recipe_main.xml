@@ -44,7 +44,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="50dp"
                     android:backgroundTint="#00883939"
                     app:srcCompat="@drawable/arrow_left_white"
                     app:tint="#FFFFFF" />

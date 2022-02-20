@@ -1,10 +1,13 @@
 package com.example.solution_challenge_2022_vegather_app
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsetsController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityMainBinding
@@ -18,7 +21,12 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 검색 메인페이지가 따로 있기 때문에 focus표시를 피하기 위해 textView를 사용
+        //가독성을 위해 상태 바, 네비게이션 바 색상 변경
+        val uiBarCustom = UiBar(window)
+        uiBarCustom.setNaviBarIconColor(isBlack = true)
+        uiBarCustom.setStatusBarIconColor(isBlack = true)
+
+        // 검색 메인페이지 이동을 위해 액티비티 전환
         binding.textView18.setOnClickListener(){
             val intentSearch = Intent(this,SearchActivity::class.java)
             startActivity(intentSearch)
@@ -38,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         val intentCommunity = Intent(this, CommunityMainActivity::class.java)
         val intentMypage = Intent(this, MypageActivity::class.java)
 
+        // 'See more' -> 레시피 페이지 과정에서 해당 레시피에 대한 정보를 넘긴다.
         binding.textView19.setOnClickListener {
             val intentRecipe = Intent(this,RecipeMainActivity::class.java)
             intentRecipe.putExtra("callNumber",1)
