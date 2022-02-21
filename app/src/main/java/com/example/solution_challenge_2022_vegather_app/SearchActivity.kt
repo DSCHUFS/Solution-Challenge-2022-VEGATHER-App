@@ -2,16 +2,16 @@ package com.example.solution_challenge_2022_vegather_app
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivitySearchBinding
+import com.google.android.material.snackbar.Snackbar
 
 class SearchActivity : AppCompatActivity() {
 
@@ -49,22 +49,10 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-
-        // 완료 버튼을 누르면 포커싱 해제 -> 결과화면으로 이동을 위해 키보드를 내림
-        binding.editTextTextPersonName5.setOnEditorActionListener{ textView, action, event ->
-            var handled = false
-
-            if (action == EditorInfo.IME_ACTION_DONE) {
-                hideKeyboard(binding)
-                handled = true
-                clearFocusSearchbar(binding)
-            }
-            handled
-        }
-
         // 프래그먼트 영역의 default xml은 인기검색어와 검색기록이어야 한다.
         transaction.add(R.id.fragmentContainer,fragmentSearchHistory).commitNow()
 
+        // 사용자가 입력한 검색어에 연관된 키워드를 제공하기 위해서는 프래그먼트간의 전환은 필수적이다.
         binding.editTextTextPersonName5.doOnTextChanged { text, start, before, count ->
             if( text.toString().isNotEmpty() ){
                 relatedSearchWord.clear()
@@ -86,19 +74,21 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
+        // 입력값이 없을 경우에는 검색어를 입력하라고 알려주어야 한다.
         binding.editTextTextPersonName5.setOnEditorActionListener { v, actionId, event ->
             var handled = false
             if( actionId == EditorInfo.IME_ACTION_SEARCH ){
-                val fragmentSearchResult = SearchResultFragment()
-                transaction = fragmentManager.beginTransaction()
-                transaction.remove(fragmentSearchHistory)
-                transaction.remove(fragmentSearchKeyword)
-                transaction.replace(R.id.fragmentContainer,fragmentSearchResult)
-                           .addToBackStack(null)
-                           .commit()
-                v.clearFocus()
-                hideKeyboard(binding)
-                handled = true
+                if (v.text.isEmpty() ){
+                    v.clearFocus()
+                    showKeyboard(binding)
+                    printSnack(binding.searchContainer)
+                }
+                else{
+                    changeFragment("searchResult")
+                    v.clearFocus()
+                    hideKeyboard(binding)
+                    handled = true
+                }
             }
             handled
         }
@@ -109,8 +99,9 @@ class SearchActivity : AppCompatActivity() {
         inputMethodManager.hideSoftInputFromWindow(binding.editTextTextPersonName5.windowToken, 0)
     }
 
-    private fun clearFocusSearchbar(binding : ActivitySearchBinding){
-        binding.editTextTextPersonName5.clearFocus()
+    private fun showKeyboard(binding : ActivitySearchBinding){
+        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.showSoftInput(binding.editTextTextPersonName5,0)
     }
 
     // 사용자가 검색창 이외의 화면을 터치하면 키보드를 내려서 화면을 가리지 않도록 한다.
@@ -133,7 +124,15 @@ class SearchActivity : AppCompatActivity() {
                 fragmentSearchKeyword.arguments = bundle
                 transaction.add(R.id.fragmentContainer,fragmentSearchKeyword).commitNow()
             }
-            "searchHistory" -> transaction.replace(R.id.fragmentContainer,fragmentSearchHistory).commit()
+            // 검색버튼을 누르면 검색결과 화면만 보여야 한다.
+            "searchResult" -> {
+                val fragmentSearchResult = SearchResultFragment()
+                transaction.remove(fragmentSearchHistory)
+                transaction.remove(fragmentSearchKeyword)
+                transaction.replace(R.id.fragmentContainer,fragmentSearchResult)
+                    .addToBackStack(null)
+                    .commit()
+            }
         }
     }
 
@@ -166,6 +165,13 @@ class SearchActivity : AppCompatActivity() {
                 startIndex.add(startPosition)
             }
         }
+    }
+
+    private fun printSnack(view : View){
+        val snack = Snackbar.make(view,"Please enter the search word.", Snackbar.LENGTH_SHORT)
+        snack.setTextColor(Color.WHITE)
+        snack.view.setBackgroundResource(R.drawable.mypage_top_background)
+        snack.show()
     }
 
 }
