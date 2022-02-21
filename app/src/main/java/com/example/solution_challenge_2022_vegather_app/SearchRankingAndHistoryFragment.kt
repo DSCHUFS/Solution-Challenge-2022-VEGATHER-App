@@ -42,7 +42,6 @@ class SearchRankingAndHistoryFragment : Fragment() {
             recycler.deleteAllSearchHistory()
         }
         return binding.root
-
     }
 
 

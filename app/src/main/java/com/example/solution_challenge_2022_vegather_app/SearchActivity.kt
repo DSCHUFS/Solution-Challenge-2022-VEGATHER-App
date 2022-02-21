@@ -1,6 +1,7 @@
 package com.example.solution_challenge_2022_vegather_app
 
 import android.annotation.SuppressLint
+import android.app.appsearch.SearchResult
 import android.content.Context
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +10,9 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivitySearchBinding
 import com.google.android.material.snackbar.Snackbar
 
@@ -20,12 +23,14 @@ class SearchActivity : AppCompatActivity() {
     private val foodData : ArrayList<FoodInfo> = createTestData()
     private val relatedSearchWord = ArrayList<String>()
     private val startIndex = ArrayList<Int>()
+    private var inputSearchLength = 0
 
     private val fragmentManager = supportFragmentManager
     private var transaction = fragmentManager.beginTransaction()
 
     private val fragmentSearchHistory = SearchRankingAndHistoryFragment()
     private var fragmentSearchKeyword = SearchKeywordFragment()
+    private var fragmentSearchResult = SearchResultFragment()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,17 +65,15 @@ class SearchActivity : AppCompatActivity() {
                 appendSimilarWord(text.toString())
 
                 if( relatedSearchWord.isNotEmpty() ){
-                    bundle.putInt("inputSearchLength",text.toString().length)
+                    inputSearchLength = text.toString().length
                     changeFragment("searchKeyword")
                 }
                 else{
-                    transaction = fragmentManager.beginTransaction()
-                    transaction.detach(fragmentSearchKeyword).commitNow()
+                    detachFragment()
                 }
             }
             else{
-                transaction = fragmentManager.beginTransaction()
-                transaction.detach(fragmentSearchKeyword).commitNow()
+                detachFragment()
             }
         }
 
@@ -78,17 +81,15 @@ class SearchActivity : AppCompatActivity() {
         binding.editTextTextPersonName5.setOnEditorActionListener { v, actionId, event ->
             var handled = false
             if( actionId == EditorInfo.IME_ACTION_SEARCH ){
-                if (v.text.isEmpty() ){
-                    v.clearFocus()
-                    showKeyboard(binding)
-                    printSnack(binding.searchContainer)
+                if( v.text.isEmpty() ){
+                    printSnackFromViewAndBinding(v,binding)
                 }
                 else{
-                    changeFragment("searchResult")
                     v.clearFocus()
                     hideKeyboard(binding)
-                    handled = true
+                    changeFragment("searchResult")
                 }
+                handled = true
             }
             handled
         }
@@ -118,15 +119,12 @@ class SearchActivity : AppCompatActivity() {
             // 검색어 자동완성을 위해서 키 입력마다 계속해서 프래그먼트를 초기화해야한다. 그 과정에서 검색어 관련 정보를 넘긴다.
             "searchKeyword" -> {
                 transaction.remove(fragmentSearchKeyword).commitNow()
-                fragmentSearchKeyword = SearchKeywordFragment()
-                bundle.putStringArrayList("foodNameList",relatedSearchWord)
-                bundle.putIntegerArrayList("startIndex",startIndex)
-                fragmentSearchKeyword.arguments = bundle
+                sendDataToNextFragment(fragmentSearchKeyword)
                 transaction.add(R.id.fragmentContainer,fragmentSearchKeyword).commitNow()
             }
             // 검색버튼을 누르면 검색결과 화면만 보여야 한다.
             "searchResult" -> {
-                val fragmentSearchResult = SearchResultFragment()
+                sendDataToNextFragment(fragmentSearchResult)
                 transaction.remove(fragmentSearchHistory)
                 transaction.remove(fragmentSearchKeyword)
                 transaction.replace(R.id.fragmentContainer,fragmentSearchResult)
@@ -167,11 +165,42 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun printSnack(view : View){
+    private fun makeSnack(view : View){
         val snack = Snackbar.make(view,"Please enter the search word.", Snackbar.LENGTH_SHORT)
         snack.setTextColor(Color.WHITE)
         snack.view.setBackgroundResource(R.drawable.mypage_top_background)
         snack.show()
     }
 
+    private fun printSnackFromViewAndBinding(v : TextView, binding : ActivitySearchBinding){
+            v.clearFocus()
+            showKeyboard(binding)
+            makeSnack(binding.searchContainer)
+        }
+
+    private fun createDataBundle(){
+        bundle = Bundle()
+        bundle.putStringArrayList("foodNameList",relatedSearchWord)
+        bundle.putIntegerArrayList("startIndex",startIndex)
+        bundle.putInt("inputSearchLength",inputSearchLength)
+    }
+
+    private fun sendDataToNextFragment(fragment : Fragment){
+        createDataBundle()
+        when(fragment){
+            fragmentSearchKeyword -> {
+                fragmentSearchKeyword = SearchKeywordFragment()
+                fragmentSearchKeyword.arguments = bundle
+            }
+            fragmentSearchResult -> {
+                fragmentSearchResult = SearchResultFragment()
+                fragmentSearchResult.arguments = bundle
+            }
+        }
+    }
+
+    private fun detachFragment(){
+        transaction = fragmentManager.beginTransaction()
+        transaction.detach(fragmentSearchKeyword).commitNow()
+    }
 }
