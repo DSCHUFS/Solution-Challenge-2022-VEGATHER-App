@@ -25,11 +25,11 @@
         app:layout_constraintWidth_percent="0.9">
 
         <TextView
-            android:id="@+id/textView15"
+            android:id="@+id/searchHistoryText"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_height="match_parent"
             android:layout_marginEnd="5dp"
+            android:gravity="center_vertical"
             android:text="TextView"
             android:textSize="16sp" />
 

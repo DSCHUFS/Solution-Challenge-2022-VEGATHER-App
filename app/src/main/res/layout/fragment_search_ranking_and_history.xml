@@ -62,7 +62,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/top1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -89,7 +89,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/top2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -116,7 +116,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/top3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -142,7 +142,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/top4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -167,7 +167,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/top5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
