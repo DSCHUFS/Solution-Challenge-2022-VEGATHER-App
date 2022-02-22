@@ -49,6 +49,10 @@ class CommunityWriteActivity : AppCompatActivity() {
 
     private lateinit var db: FirebaseFirestore
 
+    var ingredientNameForDB = mutableListOf<String>()
+    var ingredientAmountForDB = mutableListOf<String>()
+    var recipeForDB = mutableListOf<String>()
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +79,9 @@ class CommunityWriteActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.N)
     private fun uploadRecipe() {
 
+        currentFocus?.clearFocus()
+        binding.parentOfWrite.requestFocus()
+
         val date = System.currentTimeMillis()
         val sdf = SimpleDateFormat("yyyy.MM.dd")
         val formattedDate = sdf.format(date)
@@ -84,6 +91,10 @@ class CommunityWriteActivity : AppCompatActivity() {
         newpost["like"] = 0
         newpost["comment"] = 0
         newpost["timestamp"] = formattedDate
+
+        newpost["ingredientName"] = ingredientNameForDB
+        newpost["ingredientAmount"] = ingredientAmountForDB
+        newpost["recipe"] = recipeForDB
 
         db.collection("Post").document()
             .set(newpost)
@@ -96,11 +107,16 @@ class CommunityWriteActivity : AppCompatActivity() {
                 e -> Log.d(TAG, "Error writing new recipe", e)
             }
 
+        ingredientNameForDB.clear()
+        ingredientAmountForDB.clear()
+        recipeForDB.clear()
     }
 
     //재료 추가 버튼이 눌리면 실행하는 함수
     private fun addIngredient() {
         countIngredients++
+        currentFocus?.clearFocus()
+        binding.parentOfWrite.requestFocus()
 
         val ingredientNumber = TextView(this).apply{
             id = countIngredients
@@ -109,14 +125,13 @@ class CommunityWriteActivity : AppCompatActivity() {
             height = 48.dp
             textSize = 6.dp.toFloat()
             setTextColor(ContextCompat.getColor(context!!, R.color.main_green))
-            //Log.d("text id created", id.toString())
         }
         val ingredientName = EditText(this).apply{
             id = countIngredients
             hint = "Food name"
             width = 150.dp
             height = 48.dp
-            //Log.d("Name id created", id.toString())
+
         }
         val ingredientAmount = EditText(this).apply{
             hint = "Amount"
@@ -130,15 +145,30 @@ class CommunityWriteActivity : AppCompatActivity() {
 //
 //            }
 //        }
+        ingredientName.setOnFocusChangeListener { v, hasFocus ->
+            if(!hasFocus){
+                ingredientNameForDB.add(ingredientName.text.toString())
+            }
+        }
+        ingredientAmount.setOnFocusChangeListener { v, hasFocus ->
+            if(!hasFocus){
+                ingredientAmountForDB.add(ingredientAmount.text.toString())
+            }
+        }
         ingredientLayout.addView(ingredientNumber)
         ingredientLayout.addView(ingredientName)
         ingredientLayout.addView(ingredientAmount)
 //        ingredientLayout.addView(ingredientRemove, 48.dp, 48.dp)
+
+
+
     }
 
     //조리법 추가 버튼이 눌리면 실행되는 함수
     private fun addOrder(){
         countOrder++
+        currentFocus?.clearFocus()
+        binding.parentOfWrite.requestFocus()
 
         val orderNumber = TextView(this).apply {
             id = countOrder
@@ -166,6 +196,11 @@ class CommunityWriteActivity : AppCompatActivity() {
             setOnClickListener {
                 photoNumForOrder = orderNumber.id
                 setPhotoOrder(photoNumForOrder)
+            }
+        }
+        orderComment.setOnFocusChangeListener { v, hasFocus ->
+            if(!hasFocus){
+                recipeForDB.add(orderComment.text.toString())
             }
         }
         orderLayout.addView(orderNumber)
@@ -227,7 +262,13 @@ class CommunityWriteActivity : AppCompatActivity() {
             Toast.makeText(this, "Can't remove under 0", Toast.LENGTH_SHORT).show()
         }
         else{
+            currentFocus?.clearFocus()
+            binding.parentOfWrite.requestFocus()
+            Log.d("ingredient Order", "${ingredientNameForDB.lastIndex}")
+            Log.d("ingredient Order", "${ingredientAmountForDB.lastIndex}")
             ingredientLayout.removeViews(countIngredients*3-3, 3)
+            ingredientNameForDB.removeAt(ingredientNameForDB.lastIndex)
+            ingredientAmountForDB.removeAt(ingredientAmountForDB.lastIndex)
             countIngredients--
         }
     }
@@ -238,7 +279,11 @@ class CommunityWriteActivity : AppCompatActivity() {
             Toast.makeText(this, "Can't remove under 0", Toast.LENGTH_SHORT).show()
         }
         else{
+            currentFocus?.clearFocus()
+            binding.parentOfWrite.requestFocus()
+            Log.d("remove Recipe", "${recipeForDB.lastIndex}")
             orderLayout.removeViews(countOrder*3-3, 3)
+            recipeForDB.removeAt(recipeForDB.lastIndex)
             countOrder--
         }
     }
