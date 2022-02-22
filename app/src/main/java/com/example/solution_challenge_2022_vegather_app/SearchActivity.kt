@@ -1,7 +1,6 @@
 package com.example.solution_challenge_2022_vegather_app
 
 import android.annotation.SuppressLint
-import android.app.appsearch.SearchResult
 import android.content.Context
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -24,11 +23,12 @@ class SearchActivity : AppCompatActivity() {
     private val relatedSearchWord = ArrayList<String>()
     private val startIndex = ArrayList<Int>()
     private var inputSearchLength = 0
+    private var inputValue : String? = null
 
     private val fragmentManager = supportFragmentManager
     private var transaction = fragmentManager.beginTransaction()
 
-    private val fragmentSearchHistory = SearchRankingAndHistoryFragment()
+    private var fragmentSearchHistory = SearchRankingAndHistoryFragment()
     private var fragmentSearchKeyword = SearchKeywordFragment()
     private var fragmentSearchResult = SearchResultFragment()
 
@@ -43,16 +43,17 @@ class SearchActivity : AppCompatActivity() {
         uiBarCustom.setNaviBarIconColor(isBlack = true)
 
         binding.imageButton.setOnClickListener(){
-            finish()
+            if( fragmentManager.backStackEntryCount==0 ){
+                finish()
+            }
+            else{
+                fragmentManager.popBackStack()
+                binding.editTextTextPersonName5.text = null
+                refreshSearchHistoryFragment()
+            }
         }
 
         binding.editTextTextPersonName5.requestFocus()
-        binding.editTextTextPersonName5.setOnFocusChangeListener { v, hasFocus ->
-            when(hasFocus){
-                true -> binding.editTextTextPersonName5.hint = ""
-                false -> binding.editTextTextPersonName5.hint = "Search"
-            }
-        }
 
         // 프래그먼트 영역의 default xml은 인기검색어와 검색기록이어야 한다.
         transaction.add(R.id.fragmentContainer,fragmentSearchHistory).commitNow()
@@ -69,11 +70,11 @@ class SearchActivity : AppCompatActivity() {
                     changeFragment("searchKeyword")
                 }
                 else{
-                    detachFragment()
+                    detachKeywordFragment()
                 }
             }
             else{
-                detachFragment()
+                detachKeywordFragment()
             }
         }
 
@@ -81,12 +82,16 @@ class SearchActivity : AppCompatActivity() {
         binding.editTextTextPersonName5.setOnEditorActionListener { v, actionId, event ->
             var handled = false
             if( actionId == EditorInfo.IME_ACTION_SEARCH ){
+                inputValue = v.text.toString()
                 if( v.text.isEmpty() ){
                     printSnackFromViewAndBinding(v,binding)
                 }
                 else{
                     v.clearFocus()
                     hideKeyboard(binding)
+                    bundle = Bundle()
+                    bundle.putString("text",inputValue)
+                    fragmentSearchHistory.arguments = bundle
                     changeFragment("searchResult")
                 }
                 handled = true
@@ -128,11 +133,13 @@ class SearchActivity : AppCompatActivity() {
                 transaction.remove(fragmentSearchHistory)
                 transaction.remove(fragmentSearchKeyword)
                 transaction.replace(R.id.fragmentContainer,fragmentSearchResult)
-                    .addToBackStack(null)
+                    .addToBackStack("result")
                     .commit()
             }
         }
     }
+
+
 
     private fun createTestData() : ArrayList<FoodInfo> {
         val foodData = ArrayList<FoodInfo>()
@@ -199,8 +206,13 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun detachFragment(){
+    private fun detachKeywordFragment(){
         transaction = fragmentManager.beginTransaction()
         transaction.detach(fragmentSearchKeyword).commitNow()
+    }
+
+    private fun refreshSearchHistoryFragment(){
+        transaction = fragmentManager.beginTransaction()
+        transaction.detach(fragmentSearchHistory).attach(fragmentSearchHistory).commit()
     }
 }

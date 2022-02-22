@@ -55,6 +55,7 @@
                 android:backgroundTint="#00FFFFFF"
                 android:ems="10"
                 android:focusable="true"
+                android:hint="Search for various recipes"
                 android:imeOptions="actionSearch"
                 android:inputType="textPersonName"
                 android:textColor="@color/black"

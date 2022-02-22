@@ -20,7 +20,6 @@ import com.example.solution_challenge_2022_vegather_app.databinding.SearchHistor
 
 class SearchRankingAndHistoryFragment : Fragment() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,7 +31,8 @@ class SearchRankingAndHistoryFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         val binding = FragmentSearchRankingAndHistoryBinding.inflate(inflater,container,false)
-
+        val bundle = arguments
+        val newSearchHistory = bundle?.getString("text")
 
         binding.top1.setOnClickListener {
             sendFoodInfoToRecipeActivity(binding.top1.text.toString())
@@ -50,10 +50,13 @@ class SearchRankingAndHistoryFragment : Fragment() {
             sendFoodInfoToRecipeActivity(binding.top5.text.toString())
         }
 
-
         binding.searchHistoryRecycler.layoutManager = LinearLayoutManager(requireContext(),RecyclerView.HORIZONTAL,false)
         val adapter = SearchHistoryAdapter(SearchHistoryRecyclerBinding.inflate(layoutInflater))
         adapter.settingData()
+        if( newSearchHistory!=null ){
+            Log.d("text",newSearchHistory.toString())
+            adapter.addData(newSearchHistory.toString())
+        }
         adapter.loadParentActivity(requireContext())
         binding.searchHistoryRecycler.adapter = adapter
 
