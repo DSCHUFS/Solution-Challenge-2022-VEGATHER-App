@@ -2,6 +2,7 @@ package com.example.solution_challenge_2022_vegather_app
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -39,9 +40,11 @@ class SearchKeywordFragment : Fragment() {
 
         if( foodNameList!=null && startIndex!=null && inputValueLength!=null ){
             adapter.setData(foodNameList,startIndex,inputValueLength)
+            adapter.loadParentActivity(requireContext())
+            binding.searchKeywordList.adapter = adapter
         }
-        binding.searchKeywordList.adapter = adapter
 
+        // 검색어를 보기 위해 화면을 터치하는 상황이 발생한다면 방해가 되지 않도록 키보드를 내려야 한다.
         binding.searchKeywordList.setOnTouchListener { v, event ->
             when(event.action){
                 MotionEvent.ACTION_DOWN -> {
@@ -53,6 +56,7 @@ class SearchKeywordFragment : Fragment() {
 
         return binding.root
     }
+
     private fun hideKeyBoard() {
         val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
