@@ -7,16 +7,18 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.solution_challenge_2022_vegather_app.databinding.SearchHistoryRecyclerBinding
 import com.facebook.gamingservices.cloudgaming.CloudGameLoginHandler.init
 
-class SearchHistoryAdapter(private val binding : SearchHistoryRecyclerBinding) :
+class SearchHistoryAdapter(private val binding : SearchHistoryRecyclerBinding,private val listener : SelectedSearchHistoryListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     private val dataset = ArrayList<String>()
     private lateinit var context : Context
+
 
     inner class SearchHistoryViewHolder(val binding : SearchHistoryRecyclerBinding) :
         RecyclerView.ViewHolder(binding.root){}
@@ -34,7 +36,7 @@ class SearchHistoryAdapter(private val binding : SearchHistoryRecyclerBinding) :
         val currentText = binding.searchHistoryText.text.toString()
 
         binding.searchHistoryText.setOnClickListener {
-            sendFoodInfoToRecipeActivity(binding.searchHistoryText.text.toString())
+            listener.onSearchHistorySelected(binding.searchHistoryText.text.toString())
         }
 
         binding.imageButton15.setOnClickListener {

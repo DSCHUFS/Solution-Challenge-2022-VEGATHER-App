@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.solution_challenge_2022_vegather_app.databinding.FragmentSearchKeywordBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.SearchAutocompleteRecyclerBinding
 
-class SearchKeywordFragment : Fragment() {
+class SearchKeywordFragment(private val listener: SelectedSearchHistoryListener) : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,30 +36,14 @@ class SearchKeywordFragment : Fragment() {
         val inputValueLength = bundle?.getInt("inputSearchLength")
 
         binding.searchKeywordList.layoutManager = LinearLayoutManager(this.context)
-        val adapter = AutocompleteSearchAdapter(SearchAutocompleteRecyclerBinding.inflate(layoutInflater))
+        val adapter = AutocompleteSearchAdapter(SearchAutocompleteRecyclerBinding.inflate(layoutInflater),listener)
 
         if( foodNameList!=null && startIndex!=null && inputValueLength!=null ){
             adapter.setData(foodNameList,startIndex,inputValueLength)
             adapter.loadParentActivity(requireContext())
             binding.searchKeywordList.adapter = adapter
         }
-
-        // 검색어를 보기 위해 화면을 터치하는 상황이 발생한다면 방해가 되지 않도록 키보드를 내려야 한다.
-        binding.searchKeywordList.setOnTouchListener { v, event ->
-            when(event.action){
-                MotionEvent.ACTION_DOWN -> {
-                    hideKeyBoard()
-                }
-            }
-            false
-        }
-
         return binding.root
-    }
-
-    private fun hideKeyBoard() {
-        val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
     }
 }
 
