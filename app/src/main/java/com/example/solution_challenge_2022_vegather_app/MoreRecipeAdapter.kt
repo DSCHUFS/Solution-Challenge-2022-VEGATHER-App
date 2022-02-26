@@ -46,6 +46,14 @@ class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding)
         }
     }
 
+    fun setDataIfSearchResult(foodNameList : ArrayList<String>){
+        for (i in foodNameList){
+            val foodInfo = FoodInfo()
+            foodInfo.foodNameData = i
+            dataset.add(foodInfo)
+        }
+    }
+
     fun loadParentActivity( c : Context){
         context = c
     }

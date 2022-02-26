@@ -2,35 +2,42 @@ package com.example.solution_challenge_2022_vegather_app
 
 import android.annotation.SuppressLint
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
+import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivitySearchBinding
+import com.google.android.material.snackbar.Snackbar
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity(), SelectedSearchHistoryListener{
 
     private var bundle = Bundle()
+    private lateinit var binding : ActivitySearchBinding
 
     private val foodData : ArrayList<FoodInfo> = createTestData()
     private val relatedSearchWord = ArrayList<String>()
     private val startIndex = ArrayList<Int>()
+    private var inputSearchLength = 0
+    private var inputValue : String? = null
 
     private val fragmentManager = supportFragmentManager
     private var transaction = fragmentManager.beginTransaction()
 
-    private val fragmentSearchHistory = SearchRankingAndHistoryFragment()
-    private var fragmentSearchKeyword = SearchKeywordFragment()
+    private var fragmentSearchHistory = SearchRankingAndHistoryFragment(this)
+    private var fragmentSearchKeyword = SearchKeywordFragment(this)
+    private var fragmentSearchResult = SearchResultFragment()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivitySearchBinding.inflate(layoutInflater)
+        binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val uiBarCustom = UiBar(window)
@@ -38,33 +45,22 @@ class SearchActivity : AppCompatActivity() {
         uiBarCustom.setNaviBarIconColor(isBlack = true)
 
         binding.imageButton.setOnClickListener(){
-            finish()
+            if( fragmentManager.backStackEntryCount==0 ){
+                finish()
+            }
+            else{
+                fragmentManager.popBackStack()
+                binding.editTextTextPersonName5.text = null
+                refreshSearchHistoryFragment()
+            }
         }
 
         binding.editTextTextPersonName5.requestFocus()
-        binding.editTextTextPersonName5.setOnFocusChangeListener { v, hasFocus ->
-            when(hasFocus){
-                true -> binding.editTextTextPersonName5.hint = ""
-                false -> binding.editTextTextPersonName5.hint = "Search"
-            }
-        }
-
-
-        // 완료 버튼을 누르면 포커싱 해제 -> 결과화면으로 이동을 위해 키보드를 내림
-        binding.editTextTextPersonName5.setOnEditorActionListener{ textView, action, event ->
-            var handled = false
-
-            if (action == EditorInfo.IME_ACTION_DONE) {
-                hideKeyboard(binding)
-                handled = true
-                clearFocusSearchbar(binding)
-            }
-            handled
-        }
 
         // 프래그먼트 영역의 default xml은 인기검색어와 검색기록이어야 한다.
         transaction.add(R.id.fragmentContainer,fragmentSearchHistory).commitNow()
 
+        // 사용자가 입력한 검색어에 연관된 키워드를 제공하기 위해서는 프래그먼트간의 전환은 필수적이다.
         binding.editTextTextPersonName5.doOnTextChanged { text, start, before, count ->
             if( text.toString().isNotEmpty() ){
                 relatedSearchWord.clear()
@@ -72,32 +68,34 @@ class SearchActivity : AppCompatActivity() {
                 appendSimilarWord(text.toString())
 
                 if( relatedSearchWord.isNotEmpty() ){
-                    bundle.putInt("inputSearchLength",text.toString().length)
+                    inputSearchLength = text.toString().length
                     changeFragment("searchKeyword")
                 }
                 else{
-                    transaction = fragmentManager.beginTransaction()
-                    transaction.detach(fragmentSearchKeyword).commitNow()
+                    detachKeywordFragment()
                 }
             }
             else{
-                transaction = fragmentManager.beginTransaction()
-                transaction.detach(fragmentSearchKeyword).commitNow()
+                detachKeywordFragment()
             }
         }
 
+        // 입력값이 없을 경우에는 검색어를 입력하라고 알려주어야 한다.
         binding.editTextTextPersonName5.setOnEditorActionListener { v, actionId, event ->
             var handled = false
             if( actionId == EditorInfo.IME_ACTION_SEARCH ){
-                val fragmentSearchResult = SearchResultFragment()
-                transaction = fragmentManager.beginTransaction()
-                transaction.remove(fragmentSearchHistory)
-                transaction.remove(fragmentSearchKeyword)
-                transaction.replace(R.id.fragmentContainer,fragmentSearchResult)
-                           .addToBackStack(null)
-                           .commit()
-                v.clearFocus()
-                hideKeyboard(binding)
+                inputValue = v.text.toString()
+                if( v.text.isEmpty() ){
+                    printSnackFromViewAndBinding(v,binding)
+                }
+                else{
+                    v.clearFocus()
+                    hideKeyboard(binding)
+                    bundle = Bundle()
+                    bundle.putString("text",inputValue)
+                    fragmentSearchHistory.arguments = bundle
+                    changeFragment("searchResult")
+                }
                 handled = true
             }
             handled
@@ -109,16 +107,26 @@ class SearchActivity : AppCompatActivity() {
         inputMethodManager.hideSoftInputFromWindow(binding.editTextTextPersonName5.windowToken, 0)
     }
 
-    private fun clearFocusSearchbar(binding : ActivitySearchBinding){
-        binding.editTextTextPersonName5.clearFocus()
+    private fun showKeyboard(binding : ActivitySearchBinding){
+        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.showSoftInput(binding.editTextTextPersonName5,0)
     }
 
     // 사용자가 검색창 이외의 화면을 터치하면 키보드를 내려서 화면을 가리지 않도록 한다.
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
-        currentFocus?.clearFocus()
-        return true
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        val focusView = currentFocus
+        if( focusView!=null ){
+            val rect = Rect()
+            focusView.getGlobalVisibleRect(rect)
+            val x = ev!!.x.toInt()
+            val y = ev.y.toInt()
+            if (!rect.contains(x, y)) {
+                val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(focusView.windowToken, 0)
+                focusView.clearFocus()
+            }
+        }
+        return super.dispatchTouchEvent(ev)
     }
 
     private fun changeFragment(name : String){
@@ -127,13 +135,18 @@ class SearchActivity : AppCompatActivity() {
             // 검색어 자동완성을 위해서 키 입력마다 계속해서 프래그먼트를 초기화해야한다. 그 과정에서 검색어 관련 정보를 넘긴다.
             "searchKeyword" -> {
                 transaction.remove(fragmentSearchKeyword).commitNow()
-                fragmentSearchKeyword = SearchKeywordFragment()
-                bundle.putStringArrayList("foodNameList",relatedSearchWord)
-                bundle.putIntegerArrayList("startIndex",startIndex)
-                fragmentSearchKeyword.arguments = bundle
+                sendDataToNextFragment(fragmentSearchKeyword)
                 transaction.add(R.id.fragmentContainer,fragmentSearchKeyword).commitNow()
             }
-            "searchHistory" -> transaction.replace(R.id.fragmentContainer,fragmentSearchHistory).commit()
+            // 검색버튼을 누르면 검색결과 화면만 보여야 한다.
+            "searchResult" -> {
+                sendDataToNextFragment(fragmentSearchResult)
+                transaction.remove(fragmentSearchHistory)
+                transaction.remove(fragmentSearchKeyword)
+                transaction.replace(R.id.fragmentContainer,fragmentSearchResult)
+                    .addToBackStack("result")
+                    .commit()
+            }
         }
     }
 
@@ -168,4 +181,56 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+    private fun makeSnack(view : View){
+        val snack = Snackbar.make(view,"Please enter the search word.", Snackbar.LENGTH_SHORT)
+        snack.setTextColor(Color.WHITE)
+        snack.view.setBackgroundResource(R.drawable.mypage_top_background)
+        snack.show()
+    }
+
+    private fun printSnackFromViewAndBinding(v : TextView, binding : ActivitySearchBinding){
+            v.clearFocus()
+            showKeyboard(binding)
+            makeSnack(binding.searchContainer)
+        }
+
+    private fun createDataBundle(){
+        bundle = Bundle()
+        bundle.putStringArrayList("foodNameList",relatedSearchWord)
+        bundle.putIntegerArrayList("startIndex",startIndex)
+        bundle.putInt("inputSearchLength",inputSearchLength)
+    }
+
+    private fun sendDataToNextFragment(fragment : Fragment){
+        createDataBundle()
+        when(fragment){
+            fragmentSearchKeyword -> {
+                fragmentSearchKeyword = SearchKeywordFragment(this)
+                fragmentSearchKeyword.arguments = bundle
+            }
+            fragmentSearchResult -> {
+                fragmentSearchResult = SearchResultFragment()
+                fragmentSearchResult.arguments = bundle
+            }
+        }
+    }
+
+    private fun detachKeywordFragment(){
+        transaction = fragmentManager.beginTransaction()
+        transaction.detach(fragmentSearchKeyword).commitNow()
+    }
+
+    private fun refreshSearchHistoryFragment(){
+        transaction = fragmentManager.beginTransaction()
+        transaction.detach(fragmentSearchHistory).attach(fragmentSearchHistory).commit()
+    }
+
+    override fun onSearchHistorySelected(keyword: String) {
+        relatedSearchWord.clear()
+        startIndex.clear()
+        appendSimilarWord(keyword)
+        changeFragment("searchResult")
+        binding.editTextTextPersonName5.clearFocus()
+        hideKeyboard(binding)
+    }
 }

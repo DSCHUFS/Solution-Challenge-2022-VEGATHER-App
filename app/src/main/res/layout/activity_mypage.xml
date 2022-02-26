@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="45dp"
         android:backgroundTint="#00FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,28 +21,17 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="Home"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/btn_back"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/user_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="10dp"
         android:text="User"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/btn_back"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_back" />
 
     <ImageView
         android:id="@+id/imageView22"
@@ -57,36 +46,42 @@
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
+        android:layout_marginStart="26dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/mypage_level_btn_background"
         android:text="Lv 34"
         android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="@+id/textView61"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView61" />
 
     <TextView
         android:id="@+id/textView61"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
         android:text="Senior Vegan"
         android:textColor="#81E768"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/user_nickname"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_nickname" />
 
     <Button
         android:id="@+id/btn_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="148dp"
+        android:layout_marginTop="45dp"
+        android:background="#00FFFFFF"
         android:text="Logout"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintStart_toEndOf="@+id/btn_back"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="2dp"
         android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -129,7 +124,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="Eat vegan and stay healthy!" />
+                android:text="Eat vegan and stay healthy!"
+                android:textColor="@color/sub_text_gray" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -145,14 +141,14 @@
 
 
                     <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center">
 
                         <com.example.solution_challenge_2022_vegather_app.CustomCircleBar
                             android:id="@+id/circleBar"
-                            android:layout_width="200dp"
-                            android:layout_height="180dp" />
+                            android:layout_width="match_parent"
+                            android:layout_height="175dp" />
 
                         <TextView
                             android:id="@+id/monthly_percent"
@@ -161,7 +157,7 @@
                             android:layout_gravity="center"
                             android:text="91%"
                             android:textColor="@color/main_green"
-                            android:textSize="20sp" />
+                            android:textSize="18sp" />
                     </FrameLayout>
 
                     <LinearLayout
@@ -176,7 +172,7 @@
                             android:layout_height="wrap_content"
                             android:text="954"
                             android:textColor="@color/main_green"
-                            android:textSize="20sp" />
+                            android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/textView60"
@@ -185,7 +181,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_weight="1"
                             android:text="/ 1000"
-                            android:textSize="20sp" />
+                            android:textSize="18sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -194,7 +190,7 @@
                     android:id="@+id/divider2"
                     android:layout_width="2dp"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:background="#E5E5E5"
                     android:backgroundTint="#E5E5E5"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -219,15 +215,15 @@
 
                         <TextView
                             android:id="@+id/attendance_num"
-                            android:layout_width="40dp"
+                            android:layout_width="35dp"
                             android:layout_height="wrap_content"
-                            android:text="+5" />
+                            android:text="+5"
+                            android:textColor="@color/sub_text_gray" />
 
                         <androidx.appcompat.widget.AppCompatCheckBox
                             android:id="@+id/radioButton1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
                             android:background="@drawable/ingredient_background_selector"
                             android:button="@null"
                             android:checked="false"
@@ -252,15 +248,15 @@
 
                         <TextView
                             android:id="@+id/posting_num"
-                            android:layout_width="40dp"
+                            android:layout_width="35dp"
                             android:layout_height="wrap_content"
-                            android:text="+20" />
+                            android:text="+20"
+                            android:textColor="@color/sub_text_gray" />
 
                         <androidx.appcompat.widget.AppCompatCheckBox
                             android:id="@+id/radioButton2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
                             android:layout_weight="1"
                             android:background="@drawable/ingredient_background_selector"
                             android:button="@null"
@@ -286,15 +282,15 @@
 
                         <TextView
                             android:id="@+id/comment_num"
-                            android:layout_width="40dp"
+                            android:layout_width="35dp"
                             android:layout_height="wrap_content"
-                            android:text="+10" />
+                            android:text="+10"
+                            android:textColor="@color/sub_text_gray" />
 
                         <androidx.appcompat.widget.AppCompatCheckBox
                             android:id="@+id/radioButton3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
                             android:background="@drawable/ingredient_background_selector"
                             android:button="@null"
                             android:checked="false"
@@ -317,15 +313,15 @@
 
                         <TextView
                             android:id="@+id/like_num"
-                            android:layout_width="40dp"
+                            android:layout_width="35dp"
                             android:layout_height="wrap_content"
-                            android:text="+7" />
+                            android:text="+7"
+                            android:textColor="@color/sub_text_gray" />
 
                         <androidx.appcompat.widget.AppCompatCheckBox
                             android:id="@+id/radioButton4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
                             android:background="@drawable/ingredient_background_selector"
                             android:button="@null"
                             android:checked="false"
@@ -354,7 +350,7 @@
             <Button
                 android:id="@+id/btn_like"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
@@ -369,14 +365,17 @@
                 android:gravity="start|center_horizontal|center_vertical"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
+                android:stateListAnimator="@null"
                 android:text="Like"
-                android:textColor="@color/sub_text_gray"
-                android:textSize="24sp" />
+                android:textAllCaps="false"
+                android:textColor="#757575"
+                android:textSize="16sp"
+                android:textStyle="normal" />
 
             <Button
                 android:id="@+id/btn_comment"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="15dp"
@@ -390,17 +389,20 @@
                 android:gravity="start|center_horizontal|center_vertical"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
+                android:stateListAnimator="@null"
                 android:text="Comment"
-                android:textColor="@color/sub_text_gray"
-                android:textSize="24sp" />
+                android:textAllCaps="false"
+                android:textColor="#757575"
+                android:textSize="16sp"
+                android:textStyle="normal" />
 
             <Button
                 android:id="@+id/btn_posting"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="60dp"
                 android:background="@drawable/mypage_btn_background"
                 android:button="@null"
                 android:checked="false"
@@ -411,9 +413,12 @@
                 android:gravity="start|center_horizontal|center_vertical"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
+                android:stateListAnimator="@null"
                 android:text="Posting"
-                android:textColor="@color/sub_text_gray"
-                android:textSize="24sp" />
+                android:textAllCaps="false"
+                android:textColor="#757575"
+                android:textSize="16sp"
+                android:textStyle="normal" />
 
         </LinearLayout>
     </ScrollView>
@@ -422,9 +427,13 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="20dp"
+        android:background="#00FFFFFF"
         android:text="test"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn_logout"
-        app:layout_constraintTop_toTopOf="@+id/btn_logout" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

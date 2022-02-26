@@ -1,15 +1,24 @@
 package com.example.solution_challenge_2022_vegather_app
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.solution_challenge_2022_vegather_app.databinding.SearchHistoryRecyclerBinding
+import com.facebook.gamingservices.cloudgaming.CloudGameLoginHandler.init
 
-class SearchHistoryAdapter(private val binding : SearchHistoryRecyclerBinding) :
+class SearchHistoryAdapter(private val binding : SearchHistoryRecyclerBinding,private val listener : SelectedSearchHistoryListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     private val dataset = ArrayList<String>()
+    private lateinit var context : Context
+
 
     inner class SearchHistoryViewHolder(val binding : SearchHistoryRecyclerBinding) :
         RecyclerView.ViewHolder(binding.root){}
@@ -22,7 +31,13 @@ class SearchHistoryAdapter(private val binding : SearchHistoryRecyclerBinding) :
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as SearchHistoryAdapter.SearchHistoryViewHolder).binding
-        binding.textView15.text = dataset[position]
+
+        binding.searchHistoryText.text = dataset[position]
+        val currentText = binding.searchHistoryText.text.toString()
+
+        binding.searchHistoryText.setOnClickListener {
+            listener.onSearchHistorySelected(binding.searchHistoryText.text.toString())
+        }
 
         binding.imageButton15.setOnClickListener {
             deleteSearchHistory(position)
@@ -40,12 +55,24 @@ class SearchHistoryAdapter(private val binding : SearchHistoryRecyclerBinding) :
         }
     }
 
+    fun addData(text : String){
+        dataset.add(0,text)
+        notifyItemInserted(0)
+        notifyItemRangeInserted(0,itemCount)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
     private fun deleteSearchHistory(position : Int){
         dataset.removeAt(position)
-        if( dataset.size!=0 ){
-            notifyItemRemoved(position)
-        }
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position,itemCount)
+    }
 
+    private fun sendFoodInfoToRecipeActivity(foodName : String){
+        val intentRecipe = Intent(context,RecipeMainActivity::class.java)
+        intentRecipe.putExtra("callNumberFromAdapter",2)
+        intentRecipe.putExtra("foodNameFromAdapter",foodName)
+        context.startActivity(intentRecipe)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -53,4 +80,9 @@ class SearchHistoryAdapter(private val binding : SearchHistoryRecyclerBinding) :
         dataset.clear()
         notifyDataSetChanged()
     }
+
+    fun loadParentActivity(c : Context){
+        context = c
+    }
+
 }

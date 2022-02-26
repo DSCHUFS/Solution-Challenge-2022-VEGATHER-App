@@ -25,14 +25,17 @@ class RecipeMainActivity : AppCompatActivity() {
         val binding = ActivityRecipeMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        window.apply {
-            decorView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            statusBarColor = Color.TRANSPARENT
-        }
-        setStatusBarIconColor(isBlack = true)
-        setNaviBarIconColor(isBlack = true)
+//        window.apply {
+//            decorView.systemUiVisibility =
+//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+//                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//            statusBarColor = Color.TRANSPARENT
+//        }
+        val customUiBar = UiBar(window)
+        customUiBar.setStatusBarTransparent()
+        customUiBar.setStatusBarIconColor(isBlack = true)
+        customUiBar.setNaviBarIconColor(isBlack = true)
+
 
         // 현재 액티비티를 종료시키고 이전 액티비티로 이동한다.
         binding.imageButton2.setOnClickListener {
