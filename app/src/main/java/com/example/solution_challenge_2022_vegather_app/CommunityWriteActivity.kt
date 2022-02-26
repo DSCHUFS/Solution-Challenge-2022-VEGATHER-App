@@ -1,8 +1,12 @@
 package com.example.solution_challenge_2022_vegather_app
 
+import android.Manifest
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Build
@@ -24,9 +28,12 @@ import androidx.core.view.marginRight
 import androidx.gridlayout.widget.GridLayout
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommunityWriteBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import java.io.ByteArrayOutputStream
 
 
-class CommunityWriteActivity : AppCompatActivity() {
+class CommunityWriteActivity : PermissionActivity() {
 
     val binding by lazy{ActivityCommunityWriteBinding.inflate(layoutInflater)}
 
@@ -49,15 +56,22 @@ class CommunityWriteActivity : AppCompatActivity() {
 
     private lateinit var db: FirebaseFirestore
 
-    var ingredientNameForDB = mutableListOf<String>()
-    var ingredientAmountForDB = mutableListOf<String>()
-    var recipeForDB = mutableListOf<String>()
+    var ingredientNameForDB = mutableListOf<Any?>()
+    var ingredientAmountForDB = mutableListOf<Any?>()
+    var recipeForDB = mutableListOf<Any?>()
+
+    private val postList = mutableListOf<Post>()
+    private val photoList = mutableListOf<Bitmap>()
+
+    private val PERM_STORAGE = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+    private val REQ_STORAGE = 100
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        requirePermission(PERM_STORAGE, REQ_STORAGE)
         binding.btnAddIngredient.setOnClickListener {
             addIngredient()
         }
@@ -76,25 +90,49 @@ class CommunityWriteActivity : AppCompatActivity() {
         }
     }
 
+    override fun permissionGranted(requestCode: Int) {
+        when(requestCode){
+            REQ_STORAGE -> {
+                Toast.makeText(this, "Strorage 권한 승인 완료", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun permissionDenied(requestCode: Int) {
+        when(requestCode){
+            REQ_STORAGE -> {
+                Toast.makeText(this, "Strorage 권한 승인 거부시 사진을 첨부할 수 없습니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
+
+
     @RequiresApi(Build.VERSION_CODES.N)
     private fun uploadRecipe() {
 
         currentFocus?.clearFocus()
         binding.parentOfWrite.requestFocus()
 
+
         val date = System.currentTimeMillis()
         val sdf = SimpleDateFormat("yyyy.MM.dd")
         val formattedDate = sdf.format(date)
-        val newpost: MutableMap<String, Any> = HashMap()
-        newpost["title"] = binding.editTextTitle.text.toString()
-        newpost["subtitle"] = binding.editTextSubtitle.text.toString()
-        newpost["like"] = 0
-        newpost["comment"] = 0
-        newpost["timestamp"] = formattedDate
+//        val newpost: MutableMap<String, Any> = HashMap()
+//        newpost["title"] = binding.editTextTitle.text.toString()
+//        newpost["subtitle"] = binding.editTextSubtitle.text.toString()
+//        newpost["like"] = 0
+//        newpost["comment"] = 0
+//        newpost["timestamp"] = formattedDate
+//
+//        newpost["ingredientName"] = ingredientNameForDB
+//        newpost["ingredientAmount"] = ingredientAmountForDB
+//        newpost["recipe"] = recipeForDB
 
-        newpost["ingredientName"] = ingredientNameForDB
-        newpost["ingredientAmount"] = ingredientAmountForDB
-        newpost["recipe"] = recipeForDB
+        val newpost = Post(title = binding.editTextTitle.text.toString(), subtitle = binding.editTextSubtitle.text.toString(), like = 0, comment = 0,
+        timestamp = formattedDate, ingredientName = ingredientNameForDB, ingredientAmount = ingredientAmountForDB, recipe = recipeForDB)
+        postList.add(newpost)
 
         db.collection("Post").document()
             .set(newpost)
@@ -107,27 +145,30 @@ class CommunityWriteActivity : AppCompatActivity() {
                 e -> Log.d(TAG, "Error writing new recipe", e)
             }
 
+        uploadPhoto()
+
         ingredientNameForDB.clear()
         ingredientAmountForDB.clear()
         recipeForDB.clear()
+        countIngredients = 0
+        countOrder = 0
     }
 
     //재료 추가 버튼이 눌리면 실행하는 함수
     private fun addIngredient() {
-        countIngredients++
         currentFocus?.clearFocus()
         binding.parentOfWrite.requestFocus()
 
         val ingredientNumber = TextView(this).apply{
-            id = countIngredients
-            text = countIngredients.toString()
+            id = countIngredients+1
+            text = (countIngredients+1).toString()
             width = 30.dp
             height = 48.dp
             textSize = 6.dp.toFloat()
             setTextColor(ContextCompat.getColor(context!!, R.color.main_green))
         }
         val ingredientName = EditText(this).apply{
-            id = countIngredients
+            id = countIngredients+1
             hint = "Food name"
             width = 150.dp
             height = 48.dp
@@ -145,6 +186,7 @@ class CommunityWriteActivity : AppCompatActivity() {
 //
 //            }
 //        }
+        //포커스가 해제되면 그 위의 내용을 DB로 저장할 리스트에 저장
         ingredientName.setOnFocusChangeListener { v, hasFocus ->
             if(!hasFocus){
                 ingredientNameForDB.add(ingredientName.text.toString())
@@ -160,26 +202,24 @@ class CommunityWriteActivity : AppCompatActivity() {
         ingredientLayout.addView(ingredientAmount)
 //        ingredientLayout.addView(ingredientRemove, 48.dp, 48.dp)
 
-
-
+        countIngredients++
     }
 
     //조리법 추가 버튼이 눌리면 실행되는 함수
     private fun addOrder(){
-        countOrder++
         currentFocus?.clearFocus()
         binding.parentOfWrite.requestFocus()
 
         val orderNumber = TextView(this).apply {
-            id = countOrder
-            text = countOrder.toString()
+            id = countOrder+1
+            text = (countOrder+1).toString()
             width = 30.dp
             height = 48.dp
             textSize = 6.dp.toFloat()
             setTextColor(ContextCompat.getColor(context!!, R.color.main_green))
         }
         val orderComment = EditText(this).apply {
-            id = countOrder
+            id = countOrder+1
             hint = "Add a comment"
             width = 250.dp
             height = 48.dp
@@ -193,19 +233,27 @@ class CommunityWriteActivity : AppCompatActivity() {
             scaleType = ImageView.ScaleType.FIT_CENTER
             background = Color.TRANSPARENT.toDrawable()
 
-            setOnClickListener {
-                photoNumForOrder = orderNumber.id
-                setPhotoOrder(photoNumForOrder)
-            }
         }
+
         orderComment.setOnFocusChangeListener { v, hasFocus ->
             if(!hasFocus){
                 recipeForDB.add(orderComment.text.toString())
             }
         }
+
+        orderPhoto.setOnClickListener {
+            if (checkSelfPermission(PERM_STORAGE[0]) == PackageManager.PERMISSION_GRANTED){
+                photoNumForOrder = orderNumber.id
+                setPhotoOrder(photoNumForOrder)
+            }else{
+                Toast.makeText(this, "Strorage 권한 승인 거부시 사진을 첨부할 수 없습니다.", Toast.LENGTH_SHORT).show()
+            }
+
+        }
         orderLayout.addView(orderNumber)
         orderLayout.addView(orderComment)
         orderLayout.addView(orderPhoto, 48.dp, 48.dp)
+        countOrder++
     }
 
     //사진 추가가 눌리면 실행되는 함수
@@ -224,6 +272,7 @@ class CommunityWriteActivity : AppCompatActivity() {
                     var currentImageUri : Uri? = data?.data
                     try{
                         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, currentImageUri)
+                        photoList.add(bitmap)
 //                        val photo = ImageView(this).apply{
 //                            setImageBitmap(bitmap)
 //                            scaleType = ImageView.ScaleType.FIT_XY
@@ -237,6 +286,11 @@ class CommunityWriteActivity : AppCompatActivity() {
                         val photo = relativeLayout.findViewById<View>(R.id.photo) as ImageView
                         photo.setImageBitmap(bitmap)
                         photo.scaleType = ImageView.ScaleType.FIT_XY
+
+
+//                        val key = db.collection("post").document().id
+//                        Log.d("storage key", key)
+
 
                         val layoutParams = RelativeLayout.LayoutParams(130.dp, 130.dp)
                         layoutParams.setMargins(0, 0, 5.dp, 5)
@@ -254,6 +308,28 @@ class CommunityWriteActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun uploadPhoto(){
+        val storage = Firebase.storage
+        val storageRef = storage.reference
+        val nameRef = storageRef.child("example")
+
+        for (photo in photoList){
+//            val bitmap2 = (photo.drawable as BitmapDrawable).bitmap
+            val baos = ByteArrayOutputStream()
+            photo.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val data = baos.toByteArray()
+
+            var uploadTask = nameRef.putBytes(data)
+            uploadTask.addOnFailureListener {
+                // Handle unsuccessful uploads
+            }.addOnSuccessListener { taskSnapshot ->
+                // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+                // ...
+            }
+        }
+
     }
 
     //재료 제거를 누르면 실행되는 함수
