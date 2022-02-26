@@ -2,10 +2,17 @@ package com.example.solution_challenge_2022_vegather_app
 
 import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+import android.view.WindowManager
+import android.widget.*
+import androidx.annotation.RequiresApi
+import androidx.core.view.WindowCompat
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityMypageBinding
 import com.example.solution_challenge_2022_vegather_app.model.UserDTO
 import com.facebook.login.LoginManager
@@ -24,6 +31,7 @@ class MypageActivity : AppCompatActivity() {
     private lateinit var user : FirebaseUser
     val userInfo = UserDTO()
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -31,6 +39,12 @@ class MypageActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance() //현재 로그인한 사용자 가져오기
         db = FirebaseFirestore.getInstance()
         user = auth.currentUser!!
+
+        val customUiBar = UiBar(window)
+        customUiBar.setStatusBarIconColor(isBlack = false)
+        customUiBar.setNaviBarIconColor(isBlack = true)
+        customUiBar.setStatusBarTransparent()
+
 
         binding.btnBack.setOnClickListener(){
             finish()
@@ -52,6 +66,29 @@ class MypageActivity : AppCompatActivity() {
         binding.button2.setOnClickListener {
             val userRef = db.collection("Users").document(user.email.toString())
             userRef.update("Point", FieldValue.increment(2))
+        }
+
+        binding.btnLike.setOnClickListener {
+            intentMyRecordActivityFrom("Like")
+        }
+        binding.btnComment.setOnClickListener {
+            intentMyRecordActivityFrom("Comment")
+        }
+        binding.btnPosting.setOnClickListener {
+            intentMyRecordActivityFrom("Posting")
+        }
+
+        binding.radioButton1.setOnCheckedChangeListener { buttonView, isChecked ->
+            textHighlightingDailyMission(isChecked,buttonView,binding.attendanceNum)
+        }
+        binding.radioButton2.setOnCheckedChangeListener { buttonView, isChecked ->
+            textHighlightingDailyMission(isChecked,buttonView,binding.postingNum)
+        }
+        binding.radioButton3.setOnCheckedChangeListener { buttonView, isChecked ->
+            textHighlightingDailyMission(isChecked,buttonView,binding.commentNum)
+        }
+        binding.radioButton4.setOnCheckedChangeListener { buttonView, isChecked ->
+            textHighlightingDailyMission(isChecked,buttonView,binding.likeNum)
         }
 
     }
@@ -91,6 +128,22 @@ class MypageActivity : AppCompatActivity() {
         //super.onBackPressed()
     }
 
+    private fun intentMyRecordActivityFrom(text : String){
+        val intentMyRecord = Intent(this,MyRecordActivity::class.java)
+        intentMyRecord.putExtra("category",text)
+        startActivity(intentMyRecord)
+    }
 
-
+    private fun textHighlightingDailyMission(isChecked : Boolean, radioButton : CompoundButton, pointNumber : TextView){
+        when(isChecked){
+            true ->{
+                radioButton.setTextColor(Color.parseColor("#81E768"))
+                pointNumber.setTextColor(Color.parseColor("#81E768"))
+            }
+            false ->{
+                radioButton.setTextColor(Color.parseColor("#BCBCBC"))
+                pointNumber.setTextColor((Color.parseColor("#BCBCBC")))
+            }
+        }
+    }
 }

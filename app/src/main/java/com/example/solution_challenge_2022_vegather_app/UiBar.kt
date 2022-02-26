@@ -1,9 +1,12 @@
 package com.example.solution_challenge_2022_vegather_app
 
+import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.view.Window
 import android.view.WindowInsetsController
+import android.view.WindowManager
+import androidx.core.view.WindowCompat
 
 class UiBar( w : Window) {
     private val window = w
@@ -45,6 +48,21 @@ class UiBar( w : Window) {
                 // 기존 uiVisibility 유지
                 window.decorView.systemUiVisibility
             }
+        }
+    }
+
+    fun setStatusBarTransparent(){
+        if (Build.VERSION.SDK_INT in 21..29) {
+            window.statusBarColor = Color.TRANSPARENT
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.decorView.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+
+        } else if (Build.VERSION.SDK_INT >= 30) {
+            window.statusBarColor = Color.TRANSPARENT
+            // Making status bar overlaps with the activity
+            WindowCompat.setDecorFitsSystemWindows(window, false)
         }
     }
 }
