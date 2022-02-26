@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.solution_challenge_2022_vegather_app.databinding.FragmentSearchRankingAndHistoryBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.SearchHistoryRecyclerBinding
 
-class SearchRankingAndHistoryFragment : Fragment() {
+class SearchRankingAndHistoryFragment(private val listener: SelectedSearchHistoryListener) : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,23 +35,23 @@ class SearchRankingAndHistoryFragment : Fragment() {
         val newSearchHistory = bundle?.getString("text")
 
         binding.top1.setOnClickListener {
-            sendFoodInfoToRecipeActivity(binding.top1.text.toString())
+            listener.onSearchHistorySelected(binding.top1.text.toString())
         }
         binding.top2.setOnClickListener {
-            sendFoodInfoToRecipeActivity(binding.top2.text.toString())
+            listener.onSearchHistorySelected(binding.top2.text.toString())
         }
         binding.top3.setOnClickListener {
-            sendFoodInfoToRecipeActivity(binding.top3.text.toString())
+            listener.onSearchHistorySelected(binding.top3.text.toString())
         }
         binding.top4.setOnClickListener {
-            sendFoodInfoToRecipeActivity(binding.top4.text.toString())
+            listener.onSearchHistorySelected(binding.top4.text.toString())
         }
         binding.top5.setOnClickListener {
-            sendFoodInfoToRecipeActivity(binding.top5.text.toString())
+            listener.onSearchHistorySelected(binding.top5.text.toString())
         }
 
         binding.searchHistoryRecycler.layoutManager = LinearLayoutManager(requireContext(),RecyclerView.HORIZONTAL,false)
-        val adapter = SearchHistoryAdapter(SearchHistoryRecyclerBinding.inflate(layoutInflater))
+        val adapter = SearchHistoryAdapter(SearchHistoryRecyclerBinding.inflate(layoutInflater),listener)
         adapter.settingData()
         if( newSearchHistory!=null ){
             Log.d("text",newSearchHistory.toString())

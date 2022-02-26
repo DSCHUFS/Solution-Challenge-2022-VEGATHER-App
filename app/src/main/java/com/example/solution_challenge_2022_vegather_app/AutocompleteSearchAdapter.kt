@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.solution_challenge_2022_vegather_app.databinding.SearchAutocompleteRecyclerBinding
 
-class AutocompleteSearchAdapter(private val binding : SearchAutocompleteRecyclerBinding) :
+class AutocompleteSearchAdapter(private val binding : SearchAutocompleteRecyclerBinding,private val listener: SelectedSearchHistoryListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private lateinit var context : Context
@@ -35,7 +35,7 @@ class AutocompleteSearchAdapter(private val binding : SearchAutocompleteRecycler
         textHighlighting(binding, position)
 
         binding.relatedText.setOnClickListener {
-            sendFoodInfoToRecipeActivity(binding.relatedText.text.toString())
+            listener.onSearchHistorySelected(binding.relatedText.text.toString())
         }
     }
 

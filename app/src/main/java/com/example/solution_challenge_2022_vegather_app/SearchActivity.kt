@@ -3,21 +3,23 @@ package com.example.solution_challenge_2022_vegather_app
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivitySearchBinding
 import com.google.android.material.snackbar.Snackbar
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity(), SelectedSearchHistoryListener{
 
     private var bundle = Bundle()
+    private lateinit var binding : ActivitySearchBinding
 
     private val foodData : ArrayList<FoodInfo> = createTestData()
     private val relatedSearchWord = ArrayList<String>()
@@ -28,14 +30,14 @@ class SearchActivity : AppCompatActivity() {
     private val fragmentManager = supportFragmentManager
     private var transaction = fragmentManager.beginTransaction()
 
-    private var fragmentSearchHistory = SearchRankingAndHistoryFragment()
-    private var fragmentSearchKeyword = SearchKeywordFragment()
+    private var fragmentSearchHistory = SearchRankingAndHistoryFragment(this)
+    private var fragmentSearchKeyword = SearchKeywordFragment(this)
     private var fragmentSearchResult = SearchResultFragment()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivitySearchBinding.inflate(layoutInflater)
+        binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val uiBarCustom = UiBar(window)
@@ -111,11 +113,20 @@ class SearchActivity : AppCompatActivity() {
     }
 
     // 사용자가 검색창 이외의 화면을 터치하면 키보드를 내려서 화면을 가리지 않도록 한다.
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
-        currentFocus?.clearFocus()
-        return true
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        val focusView = currentFocus
+        if( focusView!=null ){
+            val rect = Rect()
+            focusView.getGlobalVisibleRect(rect)
+            val x = ev!!.x.toInt()
+            val y = ev.y.toInt()
+            if (!rect.contains(x, y)) {
+                val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(focusView.windowToken, 0)
+                focusView.clearFocus()
+            }
+        }
+        return super.dispatchTouchEvent(ev)
     }
 
     private fun changeFragment(name : String){
@@ -138,8 +149,6 @@ class SearchActivity : AppCompatActivity() {
             }
         }
     }
-
-
 
     private fun createTestData() : ArrayList<FoodInfo> {
         val foodData = ArrayList<FoodInfo>()
@@ -196,7 +205,7 @@ class SearchActivity : AppCompatActivity() {
         createDataBundle()
         when(fragment){
             fragmentSearchKeyword -> {
-                fragmentSearchKeyword = SearchKeywordFragment()
+                fragmentSearchKeyword = SearchKeywordFragment(this)
                 fragmentSearchKeyword.arguments = bundle
             }
             fragmentSearchResult -> {
@@ -214,5 +223,14 @@ class SearchActivity : AppCompatActivity() {
     private fun refreshSearchHistoryFragment(){
         transaction = fragmentManager.beginTransaction()
         transaction.detach(fragmentSearchHistory).attach(fragmentSearchHistory).commit()
+    }
+
+    override fun onSearchHistorySelected(keyword: String) {
+        relatedSearchWord.clear()
+        startIndex.clear()
+        appendSimilarWord(keyword)
+        changeFragment("searchResult")
+        binding.editTextTextPersonName5.clearFocus()
+        hideKeyboard(binding)
     }
 }

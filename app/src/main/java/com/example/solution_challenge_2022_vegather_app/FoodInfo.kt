@@ -5,6 +5,6 @@ import android.widget.ImageView
 
 data class FoodInfo(
     var foodNameData : String = "Masala Pasta",
-    val foodInfoData : String = "Lorem Ipsum is simply dummy text of the printing and play...",
+    val foodInfoData : String = "Lorem Ipsum is simply dummy text of the printing and play",
     val likeCount : Int = 1
 )
