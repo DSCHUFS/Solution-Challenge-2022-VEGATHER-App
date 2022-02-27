@@ -1,25 +1,24 @@
 package com.example.solution_challenge_2022_vegather_app
 
-import android.content.ContentValues.TAG
-import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.example.solution_challenge_2022_vegather_app.databinding.ActivityLoginBinding
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
+import com.facebook.CallbackManager.Factory.create
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
-import com.facebook.login.LoginResult
-import com.facebook.login.widget.LoginButton
-import com.example.solution_challenge_2022_vegather_app.databinding.ActivityLoginBinding
 import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+
 
 class FacebookLoginActivity : AppCompatActivity() {
     val binding by lazy { ActivityLoginBinding.inflate(layoutInflater)}
@@ -62,25 +61,6 @@ class FacebookLoginActivity : AppCompatActivity() {
     private fun facebookLogin() {
         LoginManager.getInstance()
             .logInWithReadPermissions(this, listOf("email", "public_profile"))
-
-        LoginManager.getInstance()
-            .registerCallback(callbackManager, object:FacebookCallback<LoginResult>{
-                override fun onSuccess(result: LoginResult?) {
-                    if (result?.accessToken != null) {
-                        // facebook 계정 정보를 firebase 서버에게 전달(로그인)
-                        val accessToken = result.accessToken
-                        firebaseAuthWithFacebook(result?.accessToken)
-                    } else {
-                        Log.d("Facebook", "Fail Facebook Login")
-                    }
-                }
-                override fun onCancel() {
-                    //취소가 된 경우 할일
-                }
-                override fun onError(error: FacebookException?) {
-                    //에러가 난 경우 할일
-                }
-            })
     }
 
     private fun firebaseAuthWithFacebook(accessToken: AccessToken?) {

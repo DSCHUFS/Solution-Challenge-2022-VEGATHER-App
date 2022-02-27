@@ -1,32 +1,41 @@
 package com.example.solution_challenge_2022_vegather_app
 
-import android.app.Activity
 import android.content.ContentValues
-import android.content.ContentValues.TAG
 import android.content.Intent
-import android.media.FaceDetector
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityLoginBinding
 import com.example.solution_challenge_2022_vegather_app.model.UserDTO
-import com.facebook.*
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.CallbackManager.Factory.create
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 
 
 class LoginActivity : AppCompatActivity() {
-
     val binding by lazy {ActivityLoginBinding.inflate(layoutInflater)}
     private lateinit var auth : FirebaseAuth
     private lateinit var db : FirebaseFirestore
+    private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var callbackManager: CallbackManager
     val userInfo = UserDTO()
+    companion object {
+        private const val RC_SIGN_IN = 9001
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,12 +43,21 @@ class LoginActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance() //현재 로그인한 사용자 가져오기
         db = FirebaseFirestore.getInstance()
+
+        // goole login을 위한 사전처리. gogole signin option 개체 생성
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        //facebook 로그인
         callbackManager = CallbackManager.Factory.create()
 
 
         userInfo.uid = auth?.uid.toString() // 로그인한 사용자 id 받아오기
-
         Log.d("auth", auth.toString())
+
 
         //비번 찾기
         binding.btnFindPw.setOnClickListener {
@@ -66,9 +84,7 @@ class LoginActivity : AppCompatActivity() {
 
         //구글 계정으로 로그인
         binding.btnGoogleLogin.setOnClickListener {
-            val intent = Intent(this, GoogleLoginActivity::class.java)
-            startActivity(intent)
-            finish()
+            googleLogin()
         }
         //페이스북 로그인
         binding.btnFacebookLogin.setOnClickListener {
@@ -80,28 +96,12 @@ class LoginActivity : AppCompatActivity() {
         super.onStart()
         var currentUser : FirebaseUser? = auth?.currentUser //현재 로그인한 사용자 가져오기
         if(currentUser != null){ //로그인한 상태일 때
-            currentUser?.let{
-//                val email = currentUser.email
-//                val userRef = db.collection("Users").document(email.toString())
-//                userRef.get()
-//                    .addOnSuccessListener { document ->
-//                        if(document != null) {
-//                            //Log.d(TAG, "$document.data")
-//                            userInfo.nickName =  document.data?.get("NickName").toString()
-//                            Toast.makeText(this,"안녕하세요. ${userInfo.nickName}님!", Toast.LENGTH_SHORT).show()
-//                        }
-//                    }
-//                    .addOnFailureListener{ exception ->
-//                        Log.d(TAG, "get fail with", exception)
-//                    }
-            }
             val intentMain = Intent(this, MainActivity::class.java) //메인으로 바로이동
             startActivity(intentMain)
             // activity 종료
             finish()
         }
     }
-
 
     //이메일 로그인
     private fun signInEmail() {
@@ -118,38 +118,79 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-    //페이스북 로그인
+
+    //소셜 로그인 부분
+    val user: MutableMap<String, Any> = HashMap()
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        // Pass the activity result back to the Facebook SDK
-        callbackManager.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RC_SIGN_IN) { //구글로그인 콜백
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)!!
+                //Log.d(GoogleLoginActivity.TAG, "firebaseAuthWithGoogle:" + account.id)
+                user["NickName"] = account.displayName.toString()
+                firebaseAuthWithGoogle(account.idToken!!)
+            } catch (e: ApiException) {
+                Log.w(GoogleLoginActivity.TAG, "Google sign in failed", e)
+            }
+        }else{ //페이스북로그인 콜백
+            callbackManager.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
+
+    //구글 로그인
+    private fun googleLogin() {
+        val signInIntent = googleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // 처음 가입하는 사람
+                    Log.d(GoogleLoginActivity.TAG, "signInWithCredential:success")
+                    user["Email"] = auth.currentUser?.email.toString()
+                    user["Point"] = 0
+                    user["MonthlyEat"] = 0
+
+                    db.collection("Users").document(auth.currentUser?.email.toString())
+                        .set(user)
+                        .addOnSuccessListener {
+                            val intent = Intent(this, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                        .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
+                } else {
+                    Log.w(GoogleLoginActivity.TAG, "signInWithCredential:failure", task.exception)
+                }
+            }
+    }
+
+
+    //페이스북 로그인
     private fun facebookLogin() {
         LoginManager.getInstance()
             .logInWithReadPermissions(this, listOf("email", "public_profile"))
 
-        LoginManager.getInstance()
-            .registerCallback(callbackManager, object: FacebookCallback<LoginResult> {
+        LoginManager.getInstance().registerCallback(callbackManager,
+            object : FacebookCallback<LoginResult?> {
+                override fun onCancel() {}
+                override fun onError(exception: FacebookException) {}
                 override fun onSuccess(result: LoginResult?) {
                     if (result?.accessToken != null) {
                         // facebook 계정 정보를 firebase 서버에게 전달(로그인)
                         val accessToken = result.accessToken
-
-                        firebaseAuthWithFacebook(result?.accessToken)
+                        firebaseAuthWithFacebook(accessToken)
                     } else {
                         Log.d("Facebook", "Fail Facebook Login")
                     }
                 }
-                override fun onCancel() {
-                    //취소가 된 경우 할일
-                }
-                override fun onError(error: FacebookException?) {
-                    //에러가 난 경우 할일
-                }
             })
     }
-
     private fun firebaseAuthWithFacebook(accessToken: AccessToken?) {
         // AccessToken 으로 Facebook 인증
         val credential = FacebookAuthProvider.getCredential(accessToken?.token!!)
@@ -161,15 +202,14 @@ class LoginActivity : AppCompatActivity() {
                 if(task.isSuccessful){ // 정상적으로 email, password 가 전달된 경우
                     // 로그인 처리
                     // 처음 가입하는 사람
-                    val userInfo: MutableMap<String, Any> = HashMap()
-                    userInfo["Email"] = auth.currentUser?.email.toString()
-                    userInfo["NickName"] = auth.currentUser?.displayName.toString()
-                    userInfo["Point"] = 0
-                    userInfo["MonthlyEat"] = 0
+                    user["Email"] = auth.currentUser?.email.toString()
+                    user["NickName"] = auth.currentUser?.displayName.toString()
+                    user["Point"] = 0
+                    user["MonthlyEat"] = 0
 
                     //User DB에 저장
                     db.collection("Users").document(auth.currentUser?.email.toString())
-                        .set(userInfo)
+                        .set(user)
                         .addOnSuccessListener {
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)

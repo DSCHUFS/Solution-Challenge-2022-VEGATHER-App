@@ -22,8 +22,8 @@ class GoogleLoginActivity : AppCompatActivity() {
     private lateinit var db : FirebaseFirestore
     private lateinit var googleSignInClient: GoogleSignInClient
     companion object {
-        private const val TAG = "GoogleActivity"
-        private const val RC_SIGN_IN = 9001
+        const val TAG = "GoogleActivity"
+        const val RC_SIGN_IN = 9001
     }
 
     private val user: MutableMap<String, Any> = HashMap()
