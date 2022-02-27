@@ -38,6 +38,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:gravity="center"
             android:orientation="vertical" >
 
@@ -72,7 +73,7 @@
                 android:id="@+id/btn_email_login"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/login_btn_shpe"
                 android:backgroundTint="@color/main_green"
                 android:text="Log in"
@@ -112,7 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="40dp"
                 android:text="Login with"
                 android:textSize="16sp" />
 
@@ -129,18 +130,6 @@
                 android:textSize="20sp"
                 android:typeface="sans" />
 
-            <Button
-                android:id="@+id/btn_kakao_login"
-                android:layout_width="250dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/login_btn_shpe"
-                android:backgroundTint="@color/main_green"
-                android:text="Kakaotalk"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
-                android:typeface="sans" />
 
             <Button
                 android:id="@+id/btn_facebook_login"
