@@ -16,7 +16,7 @@ class AutocompleteSearchAdapter(private val binding : SearchAutocompleteRecycler
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private lateinit var context : Context
-    private lateinit var foodName : ArrayList<String>
+    private lateinit var foodName : ArrayList<RecipeInformation>
     private lateinit var startIndex : ArrayList<Int>
     private var length = 1
 
@@ -43,7 +43,7 @@ class AutocompleteSearchAdapter(private val binding : SearchAutocompleteRecycler
         return foodName.size
     }
 
-    fun setData( foodNameList : ArrayList<String>, Index : ArrayList<Int>,len : Int ){
+    fun setData( foodNameList : ArrayList<RecipeInformation>, Index : ArrayList<Int>,len : Int ){
         foodName = foodNameList
         startIndex = Index
         length = len
@@ -54,19 +54,12 @@ class AutocompleteSearchAdapter(private val binding : SearchAutocompleteRecycler
     }
 
     private fun textHighlighting(binding : SearchAutocompleteRecyclerBinding,position : Int){
-        val builder = SpannableStringBuilder(foodName[position])
+        val builder = SpannableStringBuilder(foodName[position].name)
         builder.setSpan(ForegroundColorSpan(Color.parseColor("#81E678")),
             startIndex[position],
             startIndex[position] + length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         binding.relatedText.text = builder
-    }
-
-    private fun sendFoodInfoToRecipeActivity(foodName : String){
-        val intentRecipe = Intent(context,RecipeMainActivity::class.java)
-        intentRecipe.putExtra("callNumberFromAdapter",2)
-        intentRecipe.putExtra("foodNameFromAdapter",foodName)
-        context.startActivity(intentRecipe)
     }
 }
