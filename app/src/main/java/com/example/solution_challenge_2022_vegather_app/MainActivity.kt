@@ -74,9 +74,11 @@ class MainActivity : AppCompatActivity() {
                 val todayRecipe = getRandomRecipeData(it.documents)
                 setTodayRecipe(todayRecipe)
                 setMoreRecipe(it.documents)
+                setDataChangedListener()
             }
     }
 
+    // DB의 데이터를 사용할 수 있게 data class 형태로 만들어서 뷰 객체에 데이터를 기입한다.
     private fun convertDocumentToRecipeInformation(recipeData : MutableList<DocumentSnapshot>){
         for (i in 0 until recipeData.size){
             recipeData[i].toObject(RecipeInformation::class.java)?.let { recipeInfo.add(it) }
@@ -86,7 +88,15 @@ class MainActivity : AppCompatActivity() {
     private fun getRandomRecipeData(recipeData: MutableList<DocumentSnapshot>): RecipeInformation {
         val position = (0 until recipeData.size-1).random()
         todayRecipeIndex = position
-        return recipeInfo[position]
+        return recipeInfo[todayRecipeIndex!!]
+    }
+
+    private fun setDataChangedListener(){
+        db.collection("Recipe").document("${binding.todaysfoodName.text}")
+            .addSnapshotListener { value, error ->
+                val recipe = value?.toObject(RecipeInformation::class.java)
+                binding.todaysLike.text = recipe?.like.toString()
+            }
     }
 
     private fun setTodayRecipe(todayRecipe: RecipeInformation){
@@ -96,6 +106,7 @@ class MainActivity : AppCompatActivity() {
         binding.todaysLike.text = todayRecipe.like.toString()
     }
 
+    // 더 많은 레시피들은 오늘의 레시피 이외의 레시피들을 보여줘야 한다.
     private fun createMoreRecipe(adapter : MoreRecipeAdapter){
         for (i in 0 until recipeInfo.size){
             if( i != todayRecipeIndex ){
@@ -129,7 +140,6 @@ class MainActivity : AppCompatActivity() {
             }
             "Recipe" ->{
                 val intentRecipe = Intent(this,RecipeMainActivity::class.java)
-//                intentRecipe.putExtra("callNumber",1)
                 intentRecipe.putExtra("recipeInfo",recipeInfo[todayRecipeIndex!!])
                 startActivity(intentRecipe)
             }

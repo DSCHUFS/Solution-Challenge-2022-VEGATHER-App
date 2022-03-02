@@ -1,34 +1,64 @@
 package com.example.solution_challenge_2022_vegather_app
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.view.WindowInsetsController
-import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommentBinding.inflate
-import com.example.solution_challenge_2022_vegather_app.databinding.ActivityMainBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityRecipeMainBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.IngredientRecyclerBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.OrderRecyclerBinding
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.*
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class RecipeMainActivity : AppCompatActivity() {
 
     val binding by lazy{ ActivityRecipeMainBinding.inflate(layoutInflater)}
     private var recipeInfo : RecipeInformation? = RecipeInformation()
+    private var currentStatusOfLike = false
+    private lateinit var currentUserRef : DocumentReference
+
+    private lateinit var db: FirebaseFirestore
+    private lateinit var auth : FirebaseAuth
+    private lateinit var user : FirebaseUser
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance() //현재 로그인한 사용자 가져오기
+        user = auth.currentUser!!
+        currentUserRef = db.collection("Users").document(user.email.toString())
+        recipeInfo = intent.getParcelableExtra<RecipeInformation>("recipeInfo")
+
+        currentUserRef.collection("History")
+            .document("Like")
+            .get()
+            .addOnSuccessListener {
+                currentStatusOfLike = isRecipeLiked(it)
+                updateLikeButtonColor(isLiked = currentStatusOfLike)
+            }
+
+        db.collection("Recipe").document("${recipeInfo?.name}")
+            .addSnapshotListener { value, error ->
+                val latestRecipeInfo = value?.toObject(RecipeInformation::class.java)
+                if (latestRecipeInfo != null) {
+                    updateLikeCount(latestRecipeInfo.like)
+                }
+            }
 
         binding.imageButton2.setOnClickListener {
             finish()
@@ -36,14 +66,19 @@ class RecipeMainActivity : AppCompatActivity() {
 
         changeUiBarColor()
 
-        setRecipeData(intent)
+        setFixedRecipeData(intent)
+
+        binding.likeButton.setOnClickListener {
+            currentStatusOfLike = !currentStatusOfLike
+            updateLike(isLiked = currentStatusOfLike)
+            updateLikeButtonColor(currentStatusOfLike)
+        }
 
         binding.recipeComment.setOnClickListener {
             loadCommentActivity()
         }
 
         binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
-            Log.d("id",checkedId.toString())
             when(checkedId) {
                 R.id.radioButton2 -> connectIngredientsAdapterWithOrientation("horizontal")
                 R.id.radioButton3 -> connectIngredientsAdapterWithOrientation("vertical")
@@ -64,6 +99,13 @@ class RecipeMainActivity : AppCompatActivity() {
         val commentIntent = Intent(this,CommentActivity::class.java)
         startActivity(commentIntent)
     }
+
+//    private suspend fun loadCurrentRecipeInfo(): Task<DocumentSnapshot> {
+//
+//        return db.collection("Recipe")
+//            .document("${recipeInfo?.name}")
+//            .get()
+//    }
 
     private fun connectIngredientsAdapterWithOrientation(layout : String){
         when(layout){
@@ -86,19 +128,83 @@ class RecipeMainActivity : AppCompatActivity() {
         binding.orderRecycler.adapter = adapter
     }
 
-    private fun setRecipeData(intent : Intent){
-        recipeInfo = intent.getParcelableExtra<RecipeInformation>("recipeInfo")
+//    private fun setSyncLikeAndComment( data : DocumentSnapshot){
+//        val like = data.get("like").toString()
+//        val comment = data.get("comment").toString()
+//
+//        binding.recipeLike.text = like
+//        binding.recipeComment.text = comment
+//    }
 
-        binding.recipeLike.text = recipeInfo?.like.toString()
-        binding.recipeComment.text = recipeInfo?.comment.toString()
+    private fun setFixedRecipeData(intent : Intent){
+//        val recipeInfo = intent.getParcelableExtra<RecipeInformation>("recipeInfo")
         binding.recipeName.text = recipeInfo?.name
         binding.recipeIntroduce.text = recipeInfo?.introduce
+        binding.recipeLike.text = recipeInfo?.like.toString()
+        binding.recipeComment.text = recipeInfo?.comment.toString()
         binding.recipeNutrition1.text = recipeInfo?.nutrition?.get(0)
         binding.recipeNutrition2.text = recipeInfo?.nutrition?.get(1)
         binding.recipeNutrition3.text = recipeInfo?.nutrition?.get(2)
         binding.recipeNutrition4.text = recipeInfo?.nutrition?.get(3)
         connectOrderAdapter()
         connectIngredientsAdapterWithOrientation("horizontal")
+    }
 
+    private fun isRecipeLiked(likedRecipe: DocumentSnapshot) : Boolean {
+        val likedList = likedRecipe.toObject(HistoryLikedRecipe::class.java)
+        Log.d("isP",likedRecipe.get("basicRecipe").toString())
+        Log.d("isP",likedList?.basicRecipe?.contains(recipeInfo?.name).toString())
+        return likedList?.basicRecipe?.contains(recipeInfo?.name) ?: false
+    }
+
+    private fun updateLikedRecipeInDataBase(isLiked : Boolean){
+        when(isLiked){
+            true -> {
+                currentUserRef.collection("History").document("Like")
+                    .update("basicRecipe", FieldValue.arrayUnion(recipeInfo?.name))
+                    .addOnSuccessListener {
+                        Log.d("addLikedRecipeInBasic", "success")
+                    }
+                    .addOnFailureListener {
+                        Log.d("addLikedRecipeInBasic", "fail")
+                    }
+            }
+            false -> {
+                currentUserRef.collection("History").document("Like")
+                    .update("basicRecipe", FieldValue.arrayRemove(recipeInfo?.name))
+                    .addOnSuccessListener {
+                        Log.d("removeLikedRecipeInBasic", "success")
+                    }
+                    .addOnFailureListener {
+                        Log.d("removeLikedRecipeInBasic", "fail")
+                    }
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateLike(isLiked : Boolean) {
+        val addedNum = if (isLiked) 1 else -1
+
+        db.collection("Recipe")
+            .document("${recipeInfo?.name}")
+            .update("like", recipeInfo?.like?.plus(addedNum))
+            .addOnSuccessListener {
+                updateLikedRecipeInDataBase(isLiked)
+            }
+    }
+
+    private fun updateLikeCount(number : Int){
+        recipeInfo?.like = number
+        binding.recipeLike.text = number.toString()
+    }
+
+    private fun updateLikeButtonColor(isLiked : Boolean){
+        when(isLiked){
+            true -> binding.likeButton
+                .setColorFilter(Color.parseColor("#E16D64"))
+            false -> binding.likeButton
+                .setColorFilter(Color.parseColor("#BCBCBC"))
+        }
     }
 }

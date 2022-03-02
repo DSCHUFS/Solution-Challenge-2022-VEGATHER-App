@@ -2,6 +2,7 @@ package com.example.solution_challenge_2022_vegather_app
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +11,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+
 
     private var dataset = ArrayList<RecipeInformation>()
     private lateinit var context : Context
@@ -29,15 +32,18 @@ class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding)
 
         binding.foodName.text = dataset[position].name
         binding.foodInfo.text = dataset[position].introduce
-        binding.likeCount.text = (dataset[position].like + position).toString()
+        binding.likeCount.text = dataset[position].like.toString()
         binding.imageView3.setImageResource(R.drawable.food_sampe2)
 
         binding.container.setOnClickListener {
-            val intentRecipe = Intent(context,RecipeMainActivity::class.java)
-//            intentRecipe.putExtra("callNumberFromAdapter",2)
-            intentRecipe.putExtra("recipeInfo",dataset[position])
-            context.startActivity(intentRecipe)
+            goToRecipePage(position)
         }
+
+        db.collection("Recipe").document(dataset[position].name)
+            .addSnapshotListener { value, error ->
+                val recipeInfo = value?.toObject(RecipeInformation::class.java)
+                binding.likeCount.text = recipeInfo?.like.toString()
+            }
     }
 
     override fun getItemCount(): Int {
@@ -54,5 +60,11 @@ class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding)
 
     fun loadParentActivity( c : Context){
         context = c
+    }
+
+    private fun goToRecipePage( position: Int ){
+        val intentRecipe = Intent(context,RecipeMainActivity::class.java)
+        intentRecipe.putExtra("recipeInfo",dataset[position])
+        context.startActivity(intentRecipe)
     }
 }

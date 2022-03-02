@@ -66,7 +66,7 @@
                 app:layout_constraintWidth_percent="0.9">
 
                 <ImageButton
-                    android:id="@+id/imageButton8"
+                    android:id="@+id/likeButton"
                     android:layout_width="24dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
