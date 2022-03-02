@@ -12,8 +12,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
-
     private var dataset = ArrayList<RecipeInformation>()
     private lateinit var context : Context
 

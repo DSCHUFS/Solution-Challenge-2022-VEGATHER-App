@@ -8,7 +8,7 @@
     tools:context=".CommentActivity">
 
     <ImageButton
-        android:id="@+id/imageButton4"
+        android:id="@+id/backRecipeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -25,7 +25,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.344"
-        app:layout_constraintStart_toEndOf="@+id/imageButton4"
+        app:layout_constraintStart_toEndOf="@+id/backRecipeBtn"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -39,7 +39,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/textView67"
+            android:id="@+id/commentCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -55,7 +55,7 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton4" />
+        app:layout_constraintTop_toBottomOf="@+id/backRecipeBtn" />
 
     <LinearLayout
         android:id="@+id/linearLayout4"
@@ -72,7 +72,7 @@
         app:layout_constraintWidth_percent="0.9">
 
         <EditText
-            android:id="@+id/editTextTextMultiLine2"
+            android:id="@+id/commentInputText"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="5dp"
@@ -85,7 +85,7 @@
             android:textSize="16sp" />
 
         <ImageButton
-            android:id="@+id/imageButton5"
+            android:id="@+id/inputDoneButton"
             android:layout_width="42dp"
             android:layout_height="wrap_content"
             android:backgroundTint="#00FFFFFF"

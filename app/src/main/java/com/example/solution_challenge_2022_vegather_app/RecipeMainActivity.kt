@@ -44,6 +44,7 @@ class RecipeMainActivity : AppCompatActivity() {
         currentUserRef = db.collection("Users").document(user.email.toString())
         recipeInfo = intent.getParcelableExtra<RecipeInformation>("recipeInfo")
 
+        // 유저가 좋아요한 레시피면 좋아요 표시를 활성화
         currentUserRef.collection("History")
             .document("Like")
             .get()
@@ -52,11 +53,13 @@ class RecipeMainActivity : AppCompatActivity() {
                 updateLikeButtonColor(isLiked = currentStatusOfLike)
             }
 
+        // 좋아요와 댓글 수는 실시간으로 업데이트가 필요한 변수이므로 리스너를 추가
         db.collection("Recipe").document("${recipeInfo?.name}")
             .addSnapshotListener { value, error ->
                 val latestRecipeInfo = value?.toObject(RecipeInformation::class.java)
                 if (latestRecipeInfo != null) {
                     updateLikeCount(latestRecipeInfo.like)
+                    updateCommentCount(latestRecipeInfo.comment)
                 }
             }
 
@@ -97,15 +100,10 @@ class RecipeMainActivity : AppCompatActivity() {
 
     private fun loadCommentActivity(){
         val commentIntent = Intent(this,CommentActivity::class.java)
+        commentIntent.putExtra("commentCount",recipeInfo?.comment)
+        commentIntent.putExtra("recipe",recipeInfo?.name)
         startActivity(commentIntent)
     }
-
-//    private suspend fun loadCurrentRecipeInfo(): Task<DocumentSnapshot> {
-//
-//        return db.collection("Recipe")
-//            .document("${recipeInfo?.name}")
-//            .get()
-//    }
 
     private fun connectIngredientsAdapterWithOrientation(layout : String){
         when(layout){
@@ -128,16 +126,7 @@ class RecipeMainActivity : AppCompatActivity() {
         binding.orderRecycler.adapter = adapter
     }
 
-//    private fun setSyncLikeAndComment( data : DocumentSnapshot){
-//        val like = data.get("like").toString()
-//        val comment = data.get("comment").toString()
-//
-//        binding.recipeLike.text = like
-//        binding.recipeComment.text = comment
-//    }
-
     private fun setFixedRecipeData(intent : Intent){
-//        val recipeInfo = intent.getParcelableExtra<RecipeInformation>("recipeInfo")
         binding.recipeName.text = recipeInfo?.name
         binding.recipeIntroduce.text = recipeInfo?.introduce
         binding.recipeLike.text = recipeInfo?.like.toString()
@@ -197,6 +186,11 @@ class RecipeMainActivity : AppCompatActivity() {
     private fun updateLikeCount(number : Int){
         recipeInfo?.like = number
         binding.recipeLike.text = number.toString()
+    }
+
+    private fun updateCommentCount(number : Int){
+        recipeInfo?.comment = number
+        binding.recipeComment.text = number.toString()
     }
 
     private fun updateLikeButtonColor(isLiked : Boolean){
