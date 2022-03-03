@@ -11,7 +11,7 @@ import com.example.solution_challenge_2022_vegather_app.databinding.OrderRecycle
 class OrderAdapter(private val binding : OrderRecyclerBinding) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val dataset = ArrayList<String>()
+    private val dataset = ArrayList<String>()
 
     inner class OrderViewHolder(val binding : OrderRecyclerBinding) :
         RecyclerView.ViewHolder(binding.root){
@@ -43,9 +43,9 @@ class OrderAdapter(private val binding : OrderRecyclerBinding) :
         return dataset.size
     }
 
-    fun createTestData(){
-        for (i in 1..5){
-            dataset.add("Hello weclome to my xml page! my name is boo!")
+    fun setData(text : RecipeInformation){
+        for (text in text.order){
+            dataset.add(text)
         }
     }
 }

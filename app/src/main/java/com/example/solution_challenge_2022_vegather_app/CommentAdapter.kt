@@ -3,15 +3,20 @@ package com.example.solution_challenge_2022_vegather_app
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.solution_challenge_2022_vegather_app.databinding.CommentRecyclerBinding
+import com.google.firebase.firestore.FirebaseFirestore
 
 class CommentAdapter(private val binding : CommentRecyclerBinding) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
-    val dataset = ArrayList<String>()
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    private var commentObj = ArrayList<CommentForm>()
+    private lateinit var recipeName : String
     private lateinit var context : Context
 
     inner class CommentViewHolder(val binding : CommentRecyclerBinding) :
@@ -23,33 +28,64 @@ class CommentAdapter(private val binding : CommentRecyclerBinding) :
             LayoutInflater.from(parent.context),parent,false))
 
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as CommentAdapter.CommentViewHolder).binding
-        binding.textView38.text = "Masala Pasta"
-        binding.textView39.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-        binding.textView40.text = "2522.11.21"
-        binding.like.text = "999+"
-        binding.textView42.text = "Reply(" + dataset[position] + ")"
 
-        binding.textView42.setOnClickListener {
-            val replyIntent = Intent(context,CommentReplyActivity::class.java)
-            replyIntent.putExtra("nickname",binding.textView38.text)
-            context.startActivity(replyIntent)
+        binding.nickname.text = commentObj[position].nickname
+        binding.commentText.text = commentObj[position].text
+        binding.timeStamp.text = commentObj[position].timestamp
+        binding.like.text = commentObj[position].like.toString()
+        binding.reply.text = "Reply(${commentObj[position].reply})"
+
+        binding.reply.setOnClickListener {
+            loadReply(commentObj[position])
         }
+
+        db.collection("Recipe").document(recipeName).collection("Comment")
+            .document(commentObj[position].documentId.toString())
+            .addSnapshotListener { value, error ->
+                Log.d("안녕",commentObj[position].documentId.toString())
+                val convertedData = value?.toObject(CommentForm::class.java)
+                binding.like.text = convertedData?.like.toString()
+                binding.reply.text = "Reply(${convertedData?.reply.toString()})"
+            }
     }
 
     override fun getItemCount(): Int {
-        return dataset.size
+        return commentObj.size
     }
 
-    fun settingData(){
-        for (i in 1..15){
-            dataset.add((i+100).toString())
-        }
+    fun setData( data : ArrayList<CommentForm>, name : String ){
+        commentObj = data
+        recipeName = name
+    }
+
+    fun addComment( commentInfo : CommentForm ){
+        commentObj.add(commentInfo)
     }
 
     fun loadParentActivity( c : Context ) {
         context = c
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun onDataChangedListener(position : Int){
+        db.collection("Recipe").document(recipeName).collection("Comment")
+            .document(commentObj[position].documentId.toString())
+            .addSnapshotListener { value, error ->
+                Log.d("안녕",commentObj[position].documentId.toString())
+                val convertedData = value?.toObject(CommentForm::class.java)
+                binding.like.text = convertedData?.like.toString()
+                binding.reply.text = "Reply(${convertedData?.reply.toString()})"
+            }
+    }
+
+    private fun loadReply( commentInfo : CommentForm ) {
+        val replyIntent = Intent(context, CommentReplyActivity::class.java)
+        replyIntent.putExtra("commentInfo",commentInfo)
+        replyIntent.putExtra("recipeName",recipeName)
+        context.startActivity(replyIntent)
     }
 
 }

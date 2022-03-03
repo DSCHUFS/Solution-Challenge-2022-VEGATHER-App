@@ -31,17 +31,19 @@ class SearchResultFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val bundle = arguments
-        val foodNameList = bundle?.getStringArrayList("foodNameList")
+        val recipeInfo = bundle?.getParcelableArrayList<RecipeInformation>("foodNameList")
         val binding = FragmentSearchResultBinding.inflate(inflater,container,false)
         binding.textView69.visibility = VISIBLE
 
-        if (foodNameList != null) {
-            if( foodNameList.isNotEmpty() ) {
+        if (recipeInfo != null) {
+            if( recipeInfo.isNotEmpty() ) {
                 binding.searchResultRecycler.layoutManager = LinearLayoutManager(this.context)
+
                 val adapter = MoreRecipeAdapter(MainPageMoreRecipeRecyclerBinding.inflate(layoutInflater))
-                adapter.setDataIfSearchResult(foodNameList)
+                adapter.setData(recipeInfo)
                 adapter.loadParentActivity(requireContext())
                 binding.searchResultRecycler.adapter = adapter
+
                 binding.textView69.visibility = INVISIBLE
             }
         }

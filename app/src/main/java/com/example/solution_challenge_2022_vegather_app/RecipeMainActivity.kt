@@ -1,74 +1,111 @@
 package com.example.solution_challenge_2022_vegather_app
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.view.WindowInsetsController
-import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityRecipeMainBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.IngredientRecyclerBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.OrderRecyclerBinding
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.*
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class RecipeMainActivity : AppCompatActivity() {
+
+    val binding by lazy{ ActivityRecipeMainBinding.inflate(layoutInflater)}
+    private var recipeInfo : RecipeInformation? = RecipeInformation()
+    private var currentStatusOfLike = false
+    private lateinit var currentUserRef : DocumentReference
+
+    private lateinit var db: FirebaseFirestore
+    private lateinit var auth : FirebaseAuth
+    private lateinit var user : FirebaseUser
+
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityRecipeMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        window.apply {
-//            decorView.systemUiVisibility =
-//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-//                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//            statusBarColor = Color.TRANSPARENT
-//        }
-        val customUiBar = UiBar(window)
-        customUiBar.setStatusBarTransparent()
-        customUiBar.setStatusBarIconColor(isBlack = true)
-        customUiBar.setNaviBarIconColor(isBlack = true)
+        db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance() //현재 로그인한 사용자 가져오기
+        user = auth.currentUser!!
+        currentUserRef = db.collection("Users").document(user.email.toString())
+        recipeInfo = intent.getParcelableExtra<RecipeInformation>("recipeInfo")
 
+        // 유저가 좋아요한 레시피면 좋아요 표시를 활성화
+        currentUserRef.collection("History")
+            .document("Like")
+            .get()
+            .addOnSuccessListener {
+                currentStatusOfLike = isRecipeLiked(it)
+                updateLikeButtonColor(isLiked = currentStatusOfLike)
+            }
 
-        // 현재 액티비티를 종료시키고 이전 액티비티로 이동한다.
+        // 좋아요와 댓글 수는 실시간으로 업데이트가 필요한 변수이므로 리스너를 추가
+        db.collection("Recipe").document("${recipeInfo?.name}")
+            .addSnapshotListener { value, error ->
+                val latestRecipeInfo = value?.toObject(RecipeInformation::class.java)
+                if (latestRecipeInfo != null) {
+                    updateLikeCount(latestRecipeInfo.like)
+                    updateCommentCount(latestRecipeInfo.comment)
+                }
+            }
+
         binding.imageButton2.setOnClickListener {
             finish()
         }
 
-        // 메인 페이지에서 음식을 선택하면 선택한 음식의 정보를 레시피 액티비티에서 넘겨받는다.
-        val intent = intent
-        val callNumber = intent.getIntExtra("callNumber",0)
-        val foodName = getFoodNameFromCall(intent)
-        binding.textView27.text = foodName
+        changeUiBarColor()
 
-        binding.textView26.setOnClickListener {
-            val commentIntent = Intent(this,CommentActivity::class.java)
-            startActivity(commentIntent)
+        setFixedRecipeData(intent)
+
+        binding.likeButton.setOnClickListener {
+            currentStatusOfLike = !currentStatusOfLike
+            updateLike(isLiked = currentStatusOfLike)
+            updateLikeButtonColor(currentStatusOfLike)
         }
 
-
-
-        // 재료와 레시피 제작 순서의 리사이클러 뷰를 연결한다.
-        connectOrderAdapter(binding)
-        connectIngredientsAdapterWithOrientation("horizontal",binding)
+        binding.recipeComment.setOnClickListener {
+            loadCommentActivity()
+        }
 
         binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
-            Log.d("id",checkedId.toString())
             when(checkedId) {
-                R.id.radioButton2 -> connectIngredientsAdapterWithOrientation("horizontal",binding)
-                R.id.radioButton3 -> connectIngredientsAdapterWithOrientation("vertical",binding)
+                R.id.radioButton2 -> connectIngredientsAdapterWithOrientation("horizontal")
+                R.id.radioButton3 -> connectIngredientsAdapterWithOrientation("vertical")
             }
         }
     }
 
-    private fun connectIngredientsAdapterWithOrientation(layout : String, binding : ActivityRecipeMainBinding){
+
+
+    private fun changeUiBarColor(){
+        val customUiBar = UiBar(window)
+        customUiBar.setStatusBarTransparent()
+        customUiBar.setStatusBarIconColor(isBlack = true)
+        customUiBar.setNaviBarIconColor(isBlack = true)
+    }
+
+    private fun loadCommentActivity(){
+        val commentIntent = Intent(this,CommentActivity::class.java)
+        commentIntent.putExtra("commentCount",recipeInfo?.comment)
+        commentIntent.putExtra("recipe",recipeInfo?.name)
+        startActivity(commentIntent)
+    }
+
+    private fun connectIngredientsAdapterWithOrientation(layout : String){
         when(layout){
             "horizontal" -> binding.ingredientRecycler.layoutManager = LinearLayoutManager(
                 this, LinearLayoutManager.HORIZONTAL, false)
@@ -76,74 +113,92 @@ class RecipeMainActivity : AppCompatActivity() {
             "vertical" -> binding.ingredientRecycler.layoutManager = LinearLayoutManager(
                 this)
         }
+
         val adapter = IngredientAdapter(IngredientRecyclerBinding.inflate(layoutInflater))
-        adapter.getData()
+        recipeInfo?.let { adapter.setData(it) }
         binding.ingredientRecycler.adapter = adapter
     }
 
-    private fun connectOrderAdapter(binding : ActivityRecipeMainBinding){
+    private fun connectOrderAdapter(){
         binding.orderRecycler.layoutManager = LinearLayoutManager(this)
         val adapter = OrderAdapter(OrderRecyclerBinding.inflate(layoutInflater))
-        adapter.createTestData()
+        recipeInfo?.let { adapter.setData(it) }
         binding.orderRecycler.adapter = adapter
     }
 
-    private fun getFoodNameFromCall(intent : Intent) : String {
-        return when(getCallNumber(intent)){
-            1 -> intent.getStringExtra("foodName").toString()
-            2 -> intent.getStringExtra("foodNameFromAdapter").toString()
-            else -> "None"
-        }
+    private fun setFixedRecipeData(intent : Intent){
+        binding.recipeName.text = recipeInfo?.name
+        binding.recipeIntroduce.text = recipeInfo?.introduce
+        binding.recipeLike.text = recipeInfo?.like.toString()
+        binding.recipeComment.text = recipeInfo?.comment.toString()
+        binding.recipeNutrition1.text = recipeInfo?.nutrition?.get(0)
+        binding.recipeNutrition2.text = recipeInfo?.nutrition?.get(1)
+        binding.recipeNutrition3.text = recipeInfo?.nutrition?.get(2)
+        binding.recipeNutrition4.text = recipeInfo?.nutrition?.get(3)
+        connectOrderAdapter()
+        connectIngredientsAdapterWithOrientation("horizontal")
     }
 
-    private fun getCallNumber(intent : Intent) : Int {
-        val fromMainActivity = intent.getIntExtra("callNumber",0)
-        val fromMoreRecipeAdapter = intent.getIntExtra("callNumberFromAdapter",0)
-
-        return if( fromMainActivity!=0 ){
-            fromMainActivity
-        } else{
-            fromMoreRecipeAdapter
-        }
+    private fun isRecipeLiked(likedRecipe: DocumentSnapshot) : Boolean {
+        val likedList = likedRecipe.toObject(HistoryLikedRecipe::class.java)
+        Log.d("isP",likedRecipe.get("basicRecipe").toString())
+        Log.d("isP",likedList?.basicRecipe?.contains(recipeInfo?.name).toString())
+        return likedList?.basicRecipe?.contains(recipeInfo?.name) ?: false
     }
 
-    private fun setStatusBarIconColor(isBlack : Boolean) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            // android os 12에서 사용 가능
-            window.insetsController?.setSystemBarsAppearance(
-                if (isBlack) WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS else 0,
-                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-            )
-
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // minSdk 6.0부터 사용 가능
-            window.decorView.systemUiVisibility = if (isBlack) {
-                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            } else {
-                // 기존 uiVisibility 유지
-                window.decorView.systemUiVisibility
+    private fun updateLikedRecipeInDataBase(isLiked : Boolean){
+        when(isLiked){
+            true -> {
+                currentUserRef.collection("History").document("Like")
+                    .update("basicRecipe", FieldValue.arrayUnion(recipeInfo?.name))
+                    .addOnSuccessListener {
+                        Log.d("addLikedRecipeInBasic", "success")
+                    }
+                    .addOnFailureListener {
+                        Log.d("addLikedRecipeInBasic", "fail")
+                    }
+            }
+            false -> {
+                currentUserRef.collection("History").document("Like")
+                    .update("basicRecipe", FieldValue.arrayRemove(recipeInfo?.name))
+                    .addOnSuccessListener {
+                        Log.d("removeLikedRecipeInBasic", "success")
+                    }
+                    .addOnFailureListener {
+                        Log.d("removeLikedRecipeInBasic", "fail")
+                    }
             }
         }
     }
 
-    private fun setNaviBarIconColor(isBlack: Boolean) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            // android os 12에서 사용 가능
-            window.insetsController?.setSystemBarsAppearance(
-                if (isBlack) WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS else 0,
-                WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
-            )
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // 내비바 아이콘 색상이 8.0부터 가능하므로 커스텀은 동시에 진행해야 하므로 조건 동일 처리.
-            window.decorView.systemUiVisibility =
-                if (isBlack) {
-                    View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+    @SuppressLint("SetTextI18n")
+    private fun updateLike(isLiked : Boolean) {
+        val addedNum = if (isLiked) 1 else -1
 
-                } else {
-                    // 기존 uiVisibility 유지
-                    // -> 0으로 설정할 경우, 상태바 아이콘 색상 설정 등이 지워지기 때문
-                    window.decorView.systemUiVisibility
-                }
+        db.collection("Recipe")
+            .document("${recipeInfo?.name}")
+            .update("like", recipeInfo?.like?.plus(addedNum))
+            .addOnSuccessListener {
+                updateLikedRecipeInDataBase(isLiked)
+            }
+    }
+
+    private fun updateLikeCount(number : Int){
+        recipeInfo?.like = number
+        binding.recipeLike.text = number.toString()
+    }
+
+    private fun updateCommentCount(number : Int){
+        recipeInfo?.comment = number
+        binding.recipeComment.text = number.toString()
+    }
+
+    private fun updateLikeButtonColor(isLiked : Boolean){
+        when(isLiked){
+            true -> binding.likeButton
+                .setColorFilter(Color.parseColor("#E16D64"))
+            false -> binding.likeButton
+                .setColorFilter(Color.parseColor("#BCBCBC"))
         }
     }
 }
