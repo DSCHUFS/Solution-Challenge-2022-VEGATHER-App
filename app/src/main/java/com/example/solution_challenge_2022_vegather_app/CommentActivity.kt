@@ -69,6 +69,7 @@ class CommentActivity : AppCompatActivity() {
 
         binding.inputDoneButton.setOnClickListener {
             val inputText : String = binding.commentInputText.text.toString()
+
             if( isCorrectInput(inputText) ){
                 addComment(inputText)
             }
@@ -100,7 +101,9 @@ class CommentActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener {
                 for ( document in it){
-                    commentList.add(document.toObject(CommentForm::class.java))
+                    val convertedDta = document.toObject(CommentForm::class.java)
+                    convertedDta.documentId = document.id
+                    commentList.add(convertedDta)
                 }
                 connectCommentAdapter()
             }
@@ -140,6 +143,7 @@ class CommentActivity : AppCompatActivity() {
             reply = 0,
             timestamp = getCurrentTime()
         )
+
         db.collection("Recipe").document(recipeName).collection("Comment")
             .add(newComment)
             .addOnSuccessListener {
@@ -152,8 +156,6 @@ class CommentActivity : AppCompatActivity() {
                     }
                 clearFocus()
             }
-
-
     }
 
     private fun showNotice(text : String){

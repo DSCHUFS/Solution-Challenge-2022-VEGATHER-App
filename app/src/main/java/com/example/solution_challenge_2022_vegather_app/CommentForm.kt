@@ -5,6 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class CommentForm(
+    var documentId : String? = null,
     val useremail : String? = null,
     val nickname : String? = null,
     val text : String? = null,

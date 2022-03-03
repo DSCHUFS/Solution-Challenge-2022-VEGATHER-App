@@ -3,6 +3,7 @@ package com.example.solution_challenge_2022_vegather_app
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -40,7 +41,15 @@ class CommentAdapter(private val binding : CommentRecyclerBinding) :
         binding.reply.setOnClickListener {
             loadReply(commentObj[position])
         }
-        onDataChangedListener(position)
+
+        db.collection("Recipe").document(recipeName).collection("Comment")
+            .document(commentObj[position].documentId.toString())
+            .addSnapshotListener { value, error ->
+                Log.d("안녕",commentObj[position].documentId.toString())
+                val convertedData = value?.toObject(CommentForm::class.java)
+                binding.like.text = convertedData?.like.toString()
+                binding.reply.text = "Reply(${convertedData?.reply.toString()})"
+            }
     }
 
     override fun getItemCount(): Int {
@@ -60,19 +69,22 @@ class CommentAdapter(private val binding : CommentRecyclerBinding) :
         context = c
     }
 
+    @SuppressLint("SetTextI18n")
     private fun onDataChangedListener(position : Int){
         db.collection("Recipe").document(recipeName).collection("Comment")
-            .document(commentObj[position].useremail.toString())
+            .document(commentObj[position].documentId.toString())
             .addSnapshotListener { value, error ->
+                Log.d("안녕",commentObj[position].documentId.toString())
                 val convertedData = value?.toObject(CommentForm::class.java)
-                commentObj[position].like = convertedData?.like
-                commentObj[position].reply = convertedData?.reply
+                binding.like.text = convertedData?.like.toString()
+                binding.reply.text = "Reply(${convertedData?.reply.toString()})"
             }
     }
 
     private fun loadReply( commentInfo : CommentForm ) {
         val replyIntent = Intent(context, CommentReplyActivity::class.java)
         replyIntent.putExtra("commentInfo",commentInfo)
+        replyIntent.putExtra("recipeName",recipeName)
         context.startActivity(replyIntent)
     }
 
