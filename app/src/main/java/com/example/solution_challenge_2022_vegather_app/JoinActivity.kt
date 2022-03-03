@@ -101,6 +101,20 @@ class JoinActivity : AppCompatActivity() {
         user["Point"] = 0
         user["MonthlyEat"] = 0
 
+        val newLikeData = hashMapOf(
+            "basicRecipe" to ArrayList<String>(),
+            "communityRecipe" to ArrayList<String>()
+        )
+
+        val newCommentData = hashMapOf(
+            "basicComment" to ArrayList<String>(),
+            "communityComment" to ArrayList<String>()
+        )
+
+        val newPostingData = hashMapOf(
+            "posting" to ArrayList<String>()
+        )
+
         //User DB에 초기 정보 저장
         db.collection("Users").document(binding.editTextJoinEmail.text.toString())
             .set(user)
@@ -109,9 +123,40 @@ class JoinActivity : AppCompatActivity() {
                 startActivity(intent)
             }
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
+
+        db.collection("Users").document(binding.editTextJoinEmail.text.toString())
+            .collection("History")
+            .document("Like")
+            .set(newLikeData)
+            .addOnSuccessListener {
+                Log.d("createHistoryLike","success")
+            }
+            .addOnFailureListener {
+                Log.d("createHistoryLike","fail")
+            }
+
+        db.collection("Users").document(binding.editTextJoinEmail.text.toString())
+            .collection("History")
+            .document("Comment")
+            .set(newCommentData)
+            .addOnSuccessListener {
+                Log.d("createHistoryComment","success")
+            }
+            .addOnFailureListener {
+                Log.d("createHistoryComment","fail")
+            }
+
+        db.collection("Users").document(binding.editTextJoinEmail.text.toString())
+            .collection("History")
+            .document("Posting")
+            .set(newPostingData)
+            .addOnSuccessListener {
+                Log.d("createHistoryPosting","success")
+            }
+            .addOnFailureListener {
+                Log.d("createHistoryPosting","fail")
+            }
     }
-
-
 }
 
 

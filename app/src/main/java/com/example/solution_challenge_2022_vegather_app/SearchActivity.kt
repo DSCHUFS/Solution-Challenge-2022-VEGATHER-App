@@ -21,8 +21,8 @@ class SearchActivity : AppCompatActivity(), SelectedSearchHistoryListener{
     private var bundle = Bundle()
     private lateinit var binding : ActivitySearchBinding
 
-    private val foodData : ArrayList<FoodInfo> = createTestData()
-    private val relatedSearchWord = ArrayList<String>()
+    private var recipeInfo = ArrayList<RecipeInformation>()
+    private val relatedSearchWord = ArrayList<RecipeInformation>()
     private val startIndex = ArrayList<Int>()
     private var inputSearchLength = 0
     private var inputValue : String? = null
@@ -39,6 +39,10 @@ class SearchActivity : AppCompatActivity(), SelectedSearchHistoryListener{
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val intent = intent
+        recipeInfo = intent.getParcelableArrayListExtra<RecipeInformation>("recipeData")
+                as ArrayList<RecipeInformation>
 
         val uiBarCustom = UiBar(window)
         uiBarCustom.setStatusBarIconColor(isBlack = true)
@@ -150,32 +154,11 @@ class SearchActivity : AppCompatActivity(), SelectedSearchHistoryListener{
         }
     }
 
-    private fun createTestData() : ArrayList<FoodInfo> {
-        val foodData = ArrayList<FoodInfo>()
-        foodData.add(FoodInfo("Tomato Pasta","test textSearching1",123))
-        foodData.add(FoodInfo("Pascal","test textSearching2",42))
-        foodData.add(FoodInfo("Matsta","test textSearching3",38))
-        foodData.add(FoodInfo("Traspe Lemon","test textSearching4",22))
-        foodData.add(FoodInfo("Salmon Salad","test textSearching5",999))
-        foodData.add(FoodInfo("Master mapasta","test textSearching6",34))
-        foodData.add(FoodInfo("Parameter Station","test textSearching7",733))
-        foodData.add(FoodInfo("Photo Booth","test textSearching8",121))
-        foodData.add(FoodInfo("Playlist Bread","test textSearching9",24))
-        foodData.add(FoodInfo("Asparagas","test textSearching11",395))
-        foodData.add(FoodInfo("Airbarn","test textSearching12",395))
-        foodData.add(FoodInfo("Start","test textSearching10",395))
-        foodData.add(FoodInfo("Vegan","test textSearching10",395))
-        foodData.add(FoodInfo("Unbalance","test textSearching10",395))
-        foodData.add(FoodInfo("Stranger","test textSearching10",395))
-
-        return foodData
-    }
-
     private fun appendSimilarWord(food : String){
-        for ( foodInDataBase in foodData){
-            val startPosition = foodInDataBase.foodNameData.indexOf(food)
+        for ( recipe in recipeInfo){
+            val startPosition = recipe.name.indexOf(food)
             if( startPosition!=-1 ){
-                relatedSearchWord.add(foodInDataBase.foodNameData)
+                relatedSearchWord.add(recipe)
                 startIndex.add(startPosition)
             }
         }
@@ -196,7 +179,7 @@ class SearchActivity : AppCompatActivity(), SelectedSearchHistoryListener{
 
     private fun createDataBundle(){
         bundle = Bundle()
-        bundle.putStringArrayList("foodNameList",relatedSearchWord)
+        bundle.putParcelableArrayList("foodNameList",relatedSearchWord)
         bundle.putIntegerArrayList("startIndex",startIndex)
         bundle.putInt("inputSearchLength",inputSearchLength)
     }

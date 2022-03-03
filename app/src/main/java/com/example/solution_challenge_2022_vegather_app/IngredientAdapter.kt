@@ -11,7 +11,7 @@ import com.example.solution_challenge_2022_vegather_app.databinding.IngredientRe
 class IngredientAdapter(private val binding : IngredientRecyclerBinding) :
             RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val dataset = ArrayList<String>()
+    private val dataset = ArrayList<String>()
 
     inner class IngredientViewHolder(val binding : IngredientRecyclerBinding) :
         RecyclerView.ViewHolder(binding.root){
@@ -36,13 +36,9 @@ class IngredientAdapter(private val binding : IngredientRecyclerBinding) :
         return dataset.size
     }
 
-    fun getData(){
-        dataset.add("Carrot  2g")
-        dataset.add("Cheese 100g")
-        dataset.add("Milk  250ml")
-        dataset.add("Ingredient test  1250g")
-        dataset.add("Egg scrumble  20g")
-        dataset.add("Special squid  2m")
+    fun setData(data : RecipeInformation){
+        for (text in data.ingredient)
+            dataset.add(text)
     }
 
 }

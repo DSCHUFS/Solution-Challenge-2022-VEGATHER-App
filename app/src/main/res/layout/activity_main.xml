@@ -43,7 +43,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/textView18"
+                    android:id="@+id/searchBar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
@@ -137,14 +137,14 @@
                 android:layout_marginBottom="3dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/textView21"
+                app:layout_constraintBottom_toTopOf="@+id/todaysKcal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView7"
                 app:layout_constraintWidth_percent="0.9">
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/todaysfoodName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
@@ -161,7 +161,7 @@
                     app:srcCompat="@drawable/heart_icon" />
 
                 <TextView
-                    android:id="@+id/textView20"
+                    android:id="@+id/todaysLike"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="999+"
@@ -170,21 +170,21 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textView21"
+                android:id="@+id/todaysKcal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:text="287kcal"
                 android:textColor="@color/sub_text_gray"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@+id/textView22"
+                app:layout_constraintBottom_toTopOf="@+id/todaysFoodIntroduce"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.059"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />
 
             <TextView
-                android:id="@+id/textView22"
+                android:id="@+id/todaysFoodIntroduce"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -195,7 +195,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView21"
+                app:layout_constraintTop_toBottomOf="@+id/todaysKcal"
                 app:layout_constraintWidth_percent="0.9" />
 
             <LinearLayout
@@ -209,7 +209,7 @@
                 android:paddingBottom="5dp">
 
                 <TextView
-                    android:id="@+id/textView19"
+                    android:id="@+id/seeMore"
                     android:layout_width="wrap_content"
                     android:layout_height="27dp"
                     android:drawableEnd="@drawable/arrow_right_green"
@@ -228,7 +228,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView22">
+                app:layout_constraintTop_toBottomOf="@+id/todaysFoodIntroduce">
 
             </LinearLayout>
 
