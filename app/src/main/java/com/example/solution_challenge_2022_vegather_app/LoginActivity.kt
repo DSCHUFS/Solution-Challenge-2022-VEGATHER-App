@@ -84,6 +84,8 @@ class LoginActivity : AppCompatActivity() {
 
         //구글 계정으로 로그인
         binding.btnGoogleLogin.setOnClickListener {
+            Log.d("Google Login Test", "1")
+
             googleLogin()
         }
         //페이스북 로그인
@@ -123,16 +125,22 @@ class LoginActivity : AppCompatActivity() {
     val user: MutableMap<String, Any> = HashMap()
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        Log.d("Google Login Test", "2")
 
         if (requestCode == RC_SIGN_IN) { //구글로그인 콜백
+            Log.d("Google Login Test", "3")
+
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            Log.d("Google Login Test", "4")
+
             try {
                 val account = task.getResult(ApiException::class.java)!!
                 //Log.d(GoogleLoginActivity.TAG, "firebaseAuthWithGoogle:" + account.id)
                 user["NickName"] = account.displayName.toString()
+                Log.d("Google Login Test", "5")
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
-                Log.w(GoogleLoginActivity.TAG, "Google sign in failed", e)
+                Log.w("Google Login Test", "Google sign in failed", e)
             }
         }else{ //페이스북로그인 콜백
             callbackManager.onActivityResult(requestCode, resultCode, data)
@@ -142,14 +150,22 @@ class LoginActivity : AppCompatActivity() {
 
     //구글 로그인
     private fun googleLogin() {
+        Log.d("Google Login Test", "6")
         val signInIntent = googleSignInClient.signInIntent
+        Log.d("Google Login Test", "7")
+
         startActivityForResult(signInIntent, RC_SIGN_IN)
+        Log.d("Google Login Test", "8")
     }
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
+        Log.d("Google Login Test", "9")
+
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    Log.d("Google Login Test", "10")
+
                     // 처음 가입하는 사람
                     Log.d(GoogleLoginActivity.TAG, "signInWithCredential:success")
                     user["Email"] = auth.currentUser?.email.toString()
@@ -159,6 +175,8 @@ class LoginActivity : AppCompatActivity() {
                     db.collection("Users").document(auth.currentUser?.email.toString())
                         .set(user)
                         .addOnSuccessListener {
+                            Log.d("Google Login Test", "11")
+
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                             finish()

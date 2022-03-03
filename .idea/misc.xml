@@ -4,16 +4,21 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.33645833333333336" />
+        <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/drawable/ingredient_background_green.xml" value="0.232" />
+        <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/drawable/ingredient_background_selector.xml" value="0.232" />
         <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/drawable/login_btn_shpe.xml" value="0.16666666666666666" />
+        <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/drawable/mypage_monthly_selector.xml" value="0.232" />
         <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/layout/activity_community_detail.xml" value="0.20923913043478262" />
         <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/layout/activity_community_main.xml" value="0.20923913043478262" />
         <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/layout/activity_community_write.xml" value="0.20923913043478262" />
         <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/layout/activity_join.xml" value="0.2" />
         <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/layout/activity_main.xml" value="0.20208333333333334" />
+        <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/layout/activity_mypage.xml" value="0.2421875" />
         <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/layout/activity_splash.xml" value="0.264" />
         <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/layout/main_page.xml" value="0.264" />
         <entry key="..\:/KotlinStudy/SolutionChallenge2022VEGATHERApp/app/src/main/res/layout/main_page_more_recipe_recycler.xml" value="0.25625" />
+        <entry key="..\:/SolutionChallenge2022/SolutionChallenge2022VEGATHERApp/app/src/main/res/layout/activity_mypage.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/JunWook Kim/AndroidStudioProjects/Solution-Challenge-2022-VEGATHER-App/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3655" />
         <entry key="..\:/Users/JunWook Kim/AndroidStudioProjects/Solution-Challenge-2022-VEGATHER-App/app/src/main/res/drawable/circle_textview.xml" value="0.3655" />
         <entry key="..\:/Users/JunWook Kim/AndroidStudioProjects/Solution-Challenge-2022-VEGATHER-App/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3655" />

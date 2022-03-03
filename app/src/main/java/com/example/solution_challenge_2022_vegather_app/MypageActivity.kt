@@ -1,17 +1,20 @@
 package com.example.solution_challenge_2022_vegather_app
 
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 import android.view.WindowManager
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityMypageBinding
 import com.example.solution_challenge_2022_vegather_app.model.UserDTO
@@ -22,6 +25,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 import kotlin.concurrent.schedule
+import kotlin.concurrent.timer
 
 class MypageActivity : AppCompatActivity() {
 
@@ -78,18 +82,18 @@ class MypageActivity : AppCompatActivity() {
             intentMyRecordActivityFrom("Posting")
         }
 
-        binding.radioButton1.setOnCheckedChangeListener { buttonView, isChecked ->
-            textHighlightingDailyMission(isChecked,buttonView,binding.attendanceNum)
-        }
-        binding.radioButton2.setOnCheckedChangeListener { buttonView, isChecked ->
-            textHighlightingDailyMission(isChecked,buttonView,binding.postingNum)
-        }
-        binding.radioButton3.setOnCheckedChangeListener { buttonView, isChecked ->
-            textHighlightingDailyMission(isChecked,buttonView,binding.commentNum)
-        }
-        binding.radioButton4.setOnCheckedChangeListener { buttonView, isChecked ->
-            textHighlightingDailyMission(isChecked,buttonView,binding.likeNum)
-        }
+//        binding.radioButton1.setOnCheckedChangeListener { buttonView, isChecked ->
+//            textHighlightingDailyMission(isChecked,buttonView,binding.attendanceNum)
+//        }
+//        binding.radioButton2.setOnCheckedChangeListener { buttonView, isChecked ->
+//            textHighlightingDailyMission(isChecked,buttonView,binding.postingNum)
+//        }
+//        binding.radioButton3.setOnCheckedChangeListener { buttonView, isChecked ->
+//            textHighlightingDailyMission(isChecked,buttonView,binding.commentNum)
+//        }
+//        binding.radioButton4.setOnCheckedChangeListener { buttonView, isChecked ->
+//            textHighlightingDailyMission(isChecked,buttonView,binding.likeNum)
+//        }
 
     }
 
@@ -114,10 +118,17 @@ class MypageActivity : AppCompatActivity() {
                     Log.d(ContentValues.TAG, "get fail with", exception)
                 }
         }
-        for(i in 0..290){
-            Timer().schedule(1000){
-                binding.circleBar.setProgress(i.toFloat())
-            }
+        with(binding){
+            btnAttendance.setBackgroundResource(R.drawable.ingredient_background_green)
+            btnAttendance.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mypage_circle_green, 0, 0, 0)
+            textHighlightingDailyMission(btnAttendance, attendanceNum)
+        }
+
+        var i : Int = 0
+        timer(period = 2, initialDelay = 500){
+            i++
+            binding.circleBar.setProgress(i.toFloat())
+            if(i==290) {cancel()}
         }
     }
 
@@ -134,16 +145,8 @@ class MypageActivity : AppCompatActivity() {
         startActivity(intentMyRecord)
     }
 
-    private fun textHighlightingDailyMission(isChecked : Boolean, radioButton : CompoundButton, pointNumber : TextView){
-        when(isChecked){
-            true ->{
-                radioButton.setTextColor(Color.parseColor("#81E768"))
-                pointNumber.setTextColor(Color.parseColor("#81E768"))
-            }
-            false ->{
-                radioButton.setTextColor(Color.parseColor("#BCBCBC"))
-                pointNumber.setTextColor((Color.parseColor("#BCBCBC")))
-            }
-        }
+    private fun textHighlightingDailyMission(dailyButton : Button, pointNumber : TextView){
+        dailyButton.setTextColor(Color.parseColor("#81E768"))
+        pointNumber.setTextColor(Color.parseColor("#81E768"))
     }
 }
