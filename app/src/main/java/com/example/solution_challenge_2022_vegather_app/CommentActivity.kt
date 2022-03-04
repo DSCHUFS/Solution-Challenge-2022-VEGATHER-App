@@ -29,6 +29,7 @@ import java.util.*
 import java.util.regex.Pattern
 import java.util.regex.Pattern.matches
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 import kotlin.properties.Delegates
 
 class CommentActivity : AppCompatActivity() {
@@ -53,6 +54,7 @@ class CommentActivity : AppCompatActivity() {
 
         getData()
 
+        // 댓글이 증가하면 현재 댓글 수를 업데이트 해주어야 한다.
         db.collection("Recipe").document(recipeName)
             .addSnapshotListener { value, error ->
                 val convertedData = value?.toObject(RecipeInformation::class.java)
@@ -112,6 +114,7 @@ class CommentActivity : AppCompatActivity() {
     private fun setNavIconColor(isBlack : Boolean) {
         val customUiBar = UiBar(window)
         customUiBar.setNaviBarIconColor(isBlack)
+        customUiBar.setStatusBarIconColor(isBlack)
     }
 
     private fun isCorrectInput( inputText : String ) : Boolean {
@@ -129,17 +132,18 @@ class CommentActivity : AppCompatActivity() {
     private fun connectCommentAdapter(){
         binding.commentRecycler.layoutManager = LinearLayoutManager(this)
         commentContainer = CommentAdapter(CommentRecyclerBinding.inflate(layoutInflater))
-        commentContainer.setData(commentList,recipeName)
+        commentContainer.setData(commentList,recipeName,user.email.toString())
         commentContainer.loadParentActivity(this)
         binding.commentRecycler.adapter = commentContainer
     }
 
     private fun addComment( inputText : String){
         val newComment = CommentForm(
+            documentId = null,
             useremail = user.email.toString(),
             nickname = userName,
             text = inputText,
-            like = 0,
+            like = HashMap<String,Boolean>(),
             reply = 0,
             timestamp = getCurrentTime()
         )
@@ -147,7 +151,6 @@ class CommentActivity : AppCompatActivity() {
         db.collection("Recipe").document(recipeName).collection("Comment")
             .add(newComment)
             .addOnSuccessListener {
-                Log.d("댓글 입력 후 갱신","성공")
                 commentContainer.addComment(newComment)
                 db.collection("Recipe").document(recipeName)
                     .update("comment",commentCount+1)

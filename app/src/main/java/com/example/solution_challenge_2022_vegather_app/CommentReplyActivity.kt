@@ -18,6 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class CommentReplyActivity : AppCompatActivity() {
 
@@ -75,7 +76,9 @@ class CommentReplyActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener {
                 for (document in it){
-                    replyCommentList.add(document.toObject(CommentForm::class.java))
+                    val convertedData = document.toObject(CommentForm::class.java)
+                    convertedData.documentId = document.id
+                    replyCommentList.add(convertedData)
                 }
                 showReplyComments()
             }
@@ -109,10 +112,11 @@ class CommentReplyActivity : AppCompatActivity() {
 
     private fun addComment( inputText : String){
         val newComment = CommentForm(
+            documentId = null,
             useremail = user.email.toString(),
             nickname = userName,
             text = inputText,
-            like = 0,
+            like = HashMap<String,Boolean>(),
             reply = null,
             timestamp = getCurrentTime()
         )
@@ -144,7 +148,7 @@ class CommentReplyActivity : AppCompatActivity() {
 
     private fun showReplyComments(){
         binding.replyRecycler.layoutManager = LinearLayoutManager(this)
-        commentContainer.setData(replyCommentList,recipeName)
+        commentContainer.setData(replyCommentList,recipeName,user.email.toString(),commentInfo.documentId.toString())
         binding.replyRecycler.adapter = commentContainer
     }
 
