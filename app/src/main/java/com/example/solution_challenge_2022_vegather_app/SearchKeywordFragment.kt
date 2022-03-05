@@ -31,15 +31,15 @@ class SearchKeywordFragment(private val listener: SelectedSearchHistoryListener)
         // Inflate the layout for this fragment
         val binding = FragmentSearchKeywordBinding.inflate(inflater,container,false)
         val bundle : Bundle? = arguments
-        val foodNameList = bundle?.getStringArrayList("foodNameList")
+        val recipeInfo = bundle?.getParcelableArrayList<RecipeInformation>("foodNameList")
         val startIndex = bundle?.getIntegerArrayList("startIndex")
         val inputValueLength = bundle?.getInt("inputSearchLength")
 
         binding.searchKeywordList.layoutManager = LinearLayoutManager(this.context)
         val adapter = AutocompleteSearchAdapter(SearchAutocompleteRecyclerBinding.inflate(layoutInflater),listener)
 
-        if( foodNameList!=null && startIndex!=null && inputValueLength!=null ){
-            adapter.setData(foodNameList,startIndex,inputValueLength)
+        if( recipeInfo!=null && startIndex!=null && inputValueLength!=null ){
+            adapter.setData(recipeInfo,startIndex,inputValueLength)
             adapter.loadParentActivity(requireContext())
             binding.searchKeywordList.adapter = adapter
         }

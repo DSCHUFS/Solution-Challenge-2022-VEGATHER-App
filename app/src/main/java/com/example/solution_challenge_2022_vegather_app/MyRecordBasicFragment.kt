@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.solution_challenge_2022_vegather_app.databinding.FragmentMyRecordBasicBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.MainPageMoreRecipeRecyclerBinding
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MyRecordBasicFragment : Fragment() {
+
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,8 +26,15 @@ class MyRecordBasicFragment : Fragment() {
         val binding = FragmentMyRecordBasicBinding.inflate(inflater,container,false)
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
 
+        val temp = ArrayList<String>()
+        temp.add("1")
+        temp.add("2")
+        temp.add("3")
+        temp.add("4")
+
+
         val adapter = MoreRecipeAdapter(MainPageMoreRecipeRecyclerBinding.inflate(layoutInflater))
-        adapter.getData(FoodInfo("BasicTest","This is text This is text This is text This is text This is text This is text This is text This is text This is text",777))
+//        adapter.appendRecipeData(RecipeInformation())
         adapter.loadParentActivity(requireContext())
         binding.recyclerView.adapter = adapter
 
