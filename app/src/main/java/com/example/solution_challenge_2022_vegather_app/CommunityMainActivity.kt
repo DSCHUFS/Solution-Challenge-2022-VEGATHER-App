@@ -25,33 +25,21 @@ class CommunityMainActivity : AppCompatActivity() {
 
     val binding by lazy{ActivityCommunityMainBinding.inflate(layoutInflater)}
     private lateinit var db: FirebaseFirestore
+    private lateinit var recyclerAdapter: RecyclerAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val uiBarCustom = UiBar(window)
+        uiBarCustom.setStatusBarIconColor(isBlack = true)
+        uiBarCustom.setNaviBarIconColor(isBlack = true)
+
         db = FirebaseFirestore.getInstance()
-        val post = loadPost()
+//        val post = loadPost()
 
-        var recyclerAdapter = RecyclerAdapter(post)
-
-        binding.communityRecyclerView.adapter = recyclerAdapter
-        binding.communityRecyclerView.layoutManager = LinearLayoutManager(this)
-
-        binding.btnWrite.setOnClickListener{
-            val intent = Intent(this, CommunityWriteActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnGoMain.setOnClickListener{
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
-    }
-
-
-    fun loadPost() : MutableList<Post> {
+        //var recyclerAdapter = RecyclerAdapter(post)
         val postList = mutableListOf<Post>()
         db.collection("Post")
             .get()
@@ -66,25 +54,64 @@ class CommunityMainActivity : AppCompatActivity() {
                     Log.d("add post to postList", postList[postList.size-1].title.toString() + postList[postList.size-1].subtitle.toString() + postList[postList.size-1].timestamp.toString())
                     Log.d("before iter end post list", postList.toString())
                 }
+//                recyclerAdapter = RecyclerAdapter(postList)
+                recyclerAdapter.notifyDataSetChanged()
             }
             .addOnFailureListener { e->
                 Log.d(TAG, "Error getting documents: ", e)
             }
-        //        for (idx in 1..10){
-//            val title = "Title $idx"
-//            val subtitle = "Lorem Ipsum is simply dummy text printing and typesetting industry. Lorem Ipsum is simply dummy text printing and typesetting industry."
-//            val date = System.currentTimeMillis()
-//            val post = Post(title=title, subtitle=subtitle, timestamp = date.toString())
-//            postList.add(post)
-//        }
-//        Thread.sleep(1000)
 
-        Log.d("after iter end post list", postList.toString())
-        return postList
+        recyclerAdapter = RecyclerAdapter(postList)
+        recyclerAdapter.notifyDataSetChanged()
+        binding.communityRecyclerView.adapter = recyclerAdapter
+        binding.communityRecyclerView.layoutManager = LinearLayoutManager(this)
+
+
+        binding.btnWrite.setOnClickListener{
+            val intent = Intent(this, CommunityWriteActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnGoMain.setOnClickListener{
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 
-
+//    fun loadPost() : MutableList<Post> {
+//        val postList = mutableListOf<Post>()
+//        db.collection("Post")
+//            .get()
+//            .addOnSuccessListener { result ->
+//                for(document in result){
+//                    val title = document.get("title")
+//                    val subtitle = document.get("subtitle")
+//                    val date = document.get("timestamp")
+//                    Log.d("load Post", title.toString() + subtitle.toString() + date.toString())
+//                    val post = Post(title=title, subtitle=subtitle, timestamp = date)
+//                    postList.add(post)
+//                    Log.d("add post to postList", postList[postList.size-1].title.toString() + postList[postList.size-1].subtitle.toString() + postList[postList.size-1].timestamp.toString())
+//                    Log.d("before iter end post list", postList.toString())
+//                }
+//                recyclerAdapter = RecyclerAdapter(postList)
+//                recyclerAdapter.notifyDataSetChanged()
+//            }
+//            .addOnFailureListener { e->
+//                Log.d(TAG, "Error getting documents: ", e)
+//            }
+//        //        for (idx in 1..10){
+////            val title = "Title $idx"
+////            val subtitle = "Lorem Ipsum is simply dummy text printing and typesetting industry. Lorem Ipsum is simply dummy text printing and typesetting industry."
+////            val date = System.currentTimeMillis()
+////            val post = Post(title=title, subtitle=subtitle, timestamp = date.toString())
+////            postList.add(post)
+////        }
+////        Thread.sleep(1000)
+//
+//        Log.d("after iter end post list", postList.toString())
+//        return postList
+//    }
 }
 
 class RecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Adapter<RecyclerAdapter.Holder>() {
@@ -96,9 +123,7 @@ class RecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Adapter<Recy
             with(binding){
                 textView10.text = "${post.title}"
                 textView11.text = "${post.subtitle}"
-                val sdf = SimpleDateFormat("yyyy.MM.dd")
-                val formattedDate = sdf.format(post.timestamp)
-                textView12.text = formattedDate
+                textView12.text = "${post.timestamp}"
                 textView13.text = "${post.like}"
                 textView14.text = "${post.comment}"
             }
