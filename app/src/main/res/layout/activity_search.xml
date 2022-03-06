@@ -25,7 +25,7 @@
         app:layout_constraintWidth_percent="0.9">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/backMainButton"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center"
@@ -47,7 +47,7 @@
             android:paddingBottom="5dp">
 
             <com.example.solution_challenge_2022_vegather_app.CustomEditText
-                android:id="@+id/editTextTextPersonName5"
+                android:id="@+id/searchInputTextBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"

@@ -67,7 +67,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="2"
-                android:text="Pasta"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -94,7 +93,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="2"
-                android:text="Sea Weed"
                 android:textSize="18sp" />
 
         </LinearLayout>
@@ -121,7 +119,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="2"
-                android:text="TextView"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -147,7 +144,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="2"
-                android:text="TextView"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -172,7 +168,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="2"
-                android:text="TextView"
                 android:textSize="18sp" />
         </LinearLayout>
     </LinearLayout>
