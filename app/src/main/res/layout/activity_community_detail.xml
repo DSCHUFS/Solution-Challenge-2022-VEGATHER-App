@@ -23,50 +23,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/food_sampe2" />
 
-        <TextView
-            android:id="@+id/textView54"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
-            android:text="Lorem Ipsum is simply dummy text of the printing "
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView53"
-            app:layout_constraintTop_toTopOf="@+id/textView53" />
-
-        <TextView
-            android:id="@+id/textView49"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="2"
-            android:textColor="@color/main_green"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView18" />
-
-        <ImageView
-            android:id="@+id/imageView19"
-            android:layout_width="241dp"
-            android:layout_height="117dp"
-            android:layout_marginTop="4dp"
-            android:scaleType="centerInside"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView50"
-            app:srcCompat="@drawable/food_sampe2" />
-
-        <TextView
-            android:id="@+id/textView50"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
-            android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView49"
-            app:layout_constraintTop_toTopOf="@+id/textView49" />
-
         <View
             android:id="@+id/view6"
             android:layout_width="0dp"
@@ -161,7 +117,7 @@
             app:srcCompat="@drawable/profile_icon" />
 
         <TextView
-            android:id="@+id/textView18"
+            android:id="@+id/textNickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -171,7 +127,7 @@
             app:layout_constraintTop_toTopOf="@+id/imageView7" />
 
         <TextView
-            android:id="@+id/textView19"
+            android:id="@+id/textTimsStamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -182,7 +138,7 @@
             app:layout_constraintStart_toEndOf="@+id/imageView7" />
 
         <TextView
-            android:id="@+id/textView24"
+            android:id="@+id/textLike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
@@ -195,8 +151,8 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginEnd="12dp"
-            app:layout_constraintEnd_toStartOf="@+id/textView24"
-            app:layout_constraintTop_toTopOf="@+id/textView24"
+            app:layout_constraintEnd_toStartOf="@+id/textLike"
+            app:layout_constraintTop_toTopOf="@+id/textLike"
             app:srcCompat="@drawable/heart_icon" />
 
         <ImageView
@@ -204,12 +160,12 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/textView30"
-            app:layout_constraintTop_toTopOf="@+id/textView30"
+            app:layout_constraintEnd_toStartOf="@+id/textComment"
+            app:layout_constraintTop_toTopOf="@+id/textComment"
             app:srcCompat="@drawable/comment_icon" />
 
         <TextView
-            android:id="@+id/textView30"
+            android:id="@+id/textComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -219,7 +175,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
         <TextView
-            android:id="@+id/textView31"
+            android:id="@+id/textTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -230,7 +186,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView7" />
 
         <TextView
-            android:id="@+id/textView32"
+            android:id="@+id/textSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -238,7 +194,7 @@
             android:textColor="#C4C4C4"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView31" />
+            app:layout_constraintTop_toBottomOf="@+id/textTitle" />
 
         <TextView
             android:id="@+id/textView33"
@@ -249,7 +205,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView32" />
+            app:layout_constraintTop_toBottomOf="@+id/textSubtitle" />
 
         <TextView
             android:id="@+id/textView34"
@@ -385,68 +341,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view5" />
 
-        <TextView
-            android:id="@+id/textView47"
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/orderRecycler"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="1"
-            android:textColor="@color/main_green"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView46" />
 
-        <TextView
-            android:id="@+id/textView48"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
-            android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView47"
-            app:layout_constraintTop_toTopOf="@+id/textView47" />
-
-        <ImageView
-            android:id="@+id/imageView18"
-            android:layout_width="241dp"
-            android:layout_height="117dp"
-            android:layout_marginTop="4dp"
-            android:scaleType="centerInside"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView48"
-            app:srcCompat="@drawable/food_sampe2" />
-
-        <TextView
-            android:id="@+id/textView51"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="3"
-            android:textColor="@color/main_green"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView19" />
-
-        <TextView
-            android:id="@+id/textView52"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
-            android:text="Lorem Ipsum is simply dummy text of the printing "
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView51"
-            app:layout_constraintTop_toTopOf="@+id/textView51" />
-
-        <TextView
-            android:id="@+id/textView53"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="4"
-            android:textColor="@color/main_green"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView52" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

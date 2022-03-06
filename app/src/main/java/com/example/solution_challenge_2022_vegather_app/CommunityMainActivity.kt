@@ -20,12 +20,13 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.initialize
 import com.google.firebase.storage.ktx.storage
+import java.util.ArrayList
 
 class CommunityMainActivity : AppCompatActivity() {
 
     val binding by lazy{ActivityCommunityMainBinding.inflate(layoutInflater)}
     private lateinit var db: FirebaseFirestore
-    private lateinit var recyclerAdapter: RecyclerAdapter
+    private lateinit var recyclerAdapter: communityRecyclerAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +62,7 @@ class CommunityMainActivity : AppCompatActivity() {
                 Log.d(TAG, "Error getting documents: ", e)
             }
 
-        recyclerAdapter = RecyclerAdapter(postList)
+        recyclerAdapter = communityRecyclerAdapter(postList)
         recyclerAdapter.notifyDataSetChanged()
         binding.communityRecyclerView.adapter = recyclerAdapter
         binding.communityRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -114,7 +115,7 @@ class CommunityMainActivity : AppCompatActivity() {
 //    }
 }
 
-class RecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Adapter<RecyclerAdapter.Holder>() {
+class communityRecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Adapter<communityRecyclerAdapter.Holder>() {
 
     class Holder(val binding:CommunityRecyclerBinding):RecyclerView.ViewHolder(binding.root){
 
@@ -123,9 +124,10 @@ class RecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Adapter<Recy
             with(binding){
                 textView10.text = "${post.title}"
                 textView11.text = "${post.subtitle}"
-                textView12.text = "${post.timestamp}"
+                textView12.text = "${post.timestamp.toString().substring(0, 10)}"
                 textView13.text = "${post.like}"
                 textView14.text = "${post.comment}"
+
             }
         }
     }
@@ -142,8 +144,10 @@ class RecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Adapter<Recy
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, CommunityDetailActivity::class.java)
-            //intent.putExtra~~
-            ContextCompat.startActivity(holder.itemView?.context, intent, null)
+            intent.putExtra("post info", "${post.timestamp} ${post.title}")
+            intent.putExtra("like", post.like)
+            intent.putExtra("comment", post.comment)
+            startActivity(holder.itemView?.context, intent, null)
         }
     }
 

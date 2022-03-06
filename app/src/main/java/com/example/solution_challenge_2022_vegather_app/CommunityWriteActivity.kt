@@ -63,7 +63,7 @@ class CommunityWriteActivity : PermissionActivity() {
 
     private val postList = mutableListOf<Post>()
     private val photoList = mutableListOf<Bitmap?>()
-    private val havePhotoList = mutableListOf<Boolean>(false)
+    private val havePhotoList = mutableListOf("false")
     private lateinit var formattedDate : String
 
     private val PERM_STORAGE = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -137,15 +137,11 @@ class CommunityWriteActivity : PermissionActivity() {
 //        ingredientAmountForDB = ingredientAmountForDB.chunked(countIngredients)[0] as MutableList<Any?>
 //        recipeForDB = recipeForDB.chunked(countOrder)[0] as MutableList<Any?>
 
-        val sdf2 = SimpleDateFormat("yyyy.MM.dd")
-        val timestampForDB = sdf2.format(date)
-
-
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         Log.d("uid", uid.toString()+formattedDate)
         val email = FirebaseAuth.getInstance().currentUser?.email
         val newpost = Post(title = binding.editTextTitle.text.toString(), subtitle = binding.editTextSubtitle.text.toString(), like = 0, comment = 0,
-        timestamp = timestampForDB, ingredientName = ingredientNameForDB, ingredientAmount = ingredientAmountForDB, recipe = recipeForDB)
+        timestamp = formattedDate, ingredientName = ingredientNameForDB, ingredientAmount = ingredientAmountForDB, recipe = recipeForDB, havePhoto = havePhotoList)
 
         db.collection("Users").document(email.toString()).get()
             .addOnSuccessListener { document ->
@@ -243,7 +239,7 @@ class CommunityWriteActivity : PermissionActivity() {
         binding.parentOfWrite.requestFocus()
 
         recipeForDB.add(null)
-        havePhotoList.add(false)
+        havePhotoList.add("false")
 
         val orderNumber = TextView(this).apply {
             id = countOrder+1
@@ -297,7 +293,7 @@ class CommunityWriteActivity : PermissionActivity() {
     //사진 추가가 눌리면 실행되는 함수
     private fun setPhotoOrder(orderNumber : Int) {
 
-        havePhotoList[orderNumber] = true
+        havePhotoList[orderNumber] = "true"
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
 //        intent.putExtra("num", orderNumber)
@@ -392,7 +388,7 @@ class CommunityWriteActivity : PermissionActivity() {
         Log.d("havePhotoList", havePhotoList.toString())
 
         for (i in 0 until havePhotoList.size){
-            if (havePhotoList[i]){
+            if (havePhotoList[i] == "true"){
                 havePhotoIndexList.add(i)
             }
         }
@@ -415,6 +411,7 @@ class CommunityWriteActivity : PermissionActivity() {
                 }.addOnSuccessListener { taskSnapshot ->
                     // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
                     // ...
+                    Log.d("upload to storage successfully", "$path $taskSnapshot")
                 }
                 path = chunkedUid!![0]+" "+formattedDate
             }
@@ -451,6 +448,7 @@ class CommunityWriteActivity : PermissionActivity() {
             Log.d("remove Recipe", "${recipeForDB.lastIndex}")
             orderLayout.removeViews(countOrder*3-3, 3)
             recipeForDB.removeAt(recipeForDB.lastIndex)
+            havePhotoList.removeAt(havePhotoList.lastIndex)
             countOrder--
         }
     }
