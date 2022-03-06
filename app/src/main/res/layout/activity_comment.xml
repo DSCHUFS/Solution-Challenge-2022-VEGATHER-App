@@ -21,31 +21,20 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.344"
-        app:layout_constraintStart_toEndOf="@+id/backRecipeBtn"
+        app:layout_constraintStart_toStartOf="@+id/backRecipeBtn"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textView66"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
             android:text="Comment"
             android:textColor="@color/sub_text_gray"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/commentCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="142"
-            android:textColor="@color/main_green"
-            android:textSize="18sp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

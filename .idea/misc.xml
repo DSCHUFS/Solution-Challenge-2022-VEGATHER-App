@@ -115,8 +115,8 @@
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.22932586669921878" />
         <entry key="app/src/main/res/layout/comment.xml" value="0.335" />
         <entry key="app/src/main/res/layout/comment_frame.xml" value="0.4123224419218621" />
-        <entry key="app/src/main/res/layout/comment_recycler.xml" value="0.5447433471679688" />
-        <entry key="app/src/main/res/layout/comment_reply.xml" value="0.3907787980740661" />
+        <entry key="app/src/main/res/layout/comment_recycler.xml" value="1.509493670886076" />
+        <entry key="app/src/main/res/layout/comment_reply.xml" value="0.6893063583815029" />
         <entry key="app/src/main/res/layout/comment_reply_recycler.xml" value="0.4185175577799479" />
         <entry key="app/src/main/res/layout/community_recycler.xml" value="0.4907895737800045" />
         <entry key="app/src/main/res/layout/fragment_my_record_basic.xml" value="0.21603260869565216" />

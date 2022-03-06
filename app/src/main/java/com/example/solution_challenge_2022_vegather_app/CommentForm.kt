@@ -10,6 +10,6 @@ data class CommentForm(
     val nickname : String? = null,
     val text : String? = null,
     val timestamp : String? = null,
-    var like : Int? = null,
+    var like : HashMap<String,Boolean> = HashMap(),
     var reply : Int? = null
 ) : Parcelable

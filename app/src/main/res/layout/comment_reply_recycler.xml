@@ -47,11 +47,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
+                android:lineSpacingExtra="5dp"
                 android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
                 android:textSize="16sp" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center|start"
                 android:orientation="horizontal">
@@ -60,7 +61,7 @@
                     android:id="@+id/textView40"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="7dp"
+                    android:layout_marginRight="9dp"
                     android:text="2020.11.21"
                     android:textColor="@color/sub_text_gray"
                     android:textSize="14sp" />
@@ -77,10 +78,25 @@
                     android:id="@+id/like"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="7dp"
+                    android:layout_marginRight="9dp"
                     android:text="999+"
                     android:textColor="@color/sub_text_gray"
                     android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/replyDeleteBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:background="#00FFFFFF"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/x_btn_gray" />
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
