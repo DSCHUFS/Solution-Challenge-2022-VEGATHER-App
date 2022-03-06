@@ -12,6 +12,7 @@ data class Post(
     var timestamp:Any?,
     var like:Int? = 0,
     var comment:Int? = 0,
-    var havePhoto: MutableList<String> = mutableListOf("false")
+    var havePhoto: MutableList<String> = mutableListOf("false"),
+    var uid:String? = ""
 
 )

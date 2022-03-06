@@ -74,6 +74,9 @@ class CommunityWriteActivity : PermissionActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val uiBarCustom = UiBar(window)
+        uiBarCustom.setStatusBarIconColor(isBlack = true)
+        uiBarCustom.setNaviBarIconColor(isBlack = true)
 
         requirePermission(PERM_STORAGE, REQ_STORAGE)
         binding.btnAddIngredient.setOnClickListener {
@@ -140,15 +143,18 @@ class CommunityWriteActivity : PermissionActivity() {
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         Log.d("uid", uid.toString()+formattedDate)
         val email = FirebaseAuth.getInstance().currentUser?.email
+
         val newpost = Post(title = binding.editTextTitle.text.toString(), subtitle = binding.editTextSubtitle.text.toString(), like = 0, comment = 0,
-        timestamp = formattedDate, ingredientName = ingredientNameForDB, ingredientAmount = ingredientAmountForDB, recipe = recipeForDB, havePhoto = havePhotoList)
+            timestamp = formattedDate, ingredientName = ingredientNameForDB, ingredientAmount = ingredientAmountForDB, recipe = recipeForDB, havePhoto = havePhotoList, uid = uid)
 
         db.collection("Users").document(email.toString()).get()
             .addOnSuccessListener { document ->
                 val nickname = document.data?.get("NickName").toString()
-                Log.d(TAG, "nickname = ${document.data?.get("NickName").toString()}")
+                Log.d(TAG, "nickname = $nickname")
                 newpost.writer = nickname
+                Log.d(TAG, newpost.writer.toString())
             }
+
         postList.add(newpost)
 
         val chunkedUid = uid?.chunked(10)
@@ -172,6 +178,7 @@ class CommunityWriteActivity : PermissionActivity() {
         countIngredients = 0
         countOrder = 0
     }
+
 
     //재료 추가 버튼이 눌리면 실행하는 함수
     private fun addIngredient() {
@@ -453,7 +460,7 @@ class CommunityWriteActivity : PermissionActivity() {
         }
     }
 
-    val Int.dp: Int
+    private val Int.dp: Int
         get() {
             val metrics = resources.displayMetrics
             return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), metrics).toInt()

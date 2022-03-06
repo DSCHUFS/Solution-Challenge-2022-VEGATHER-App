@@ -49,7 +49,7 @@ class CommunityMainActivity : AppCompatActivity() {
                     val title = document.get("title")
                     val subtitle = document.get("subtitle")
                     val date = document.get("timestamp")
-                    Log.d("load Post", title.toString() + subtitle.toString() + date.toString())
+                    Log.d("load Post", title.toString() +" "+subtitle.toString() + " " + date.toString())
                     val post = Post(title=title, subtitle=subtitle, timestamp = date)
                     postList.add(post)
                     Log.d("add post to postList", postList[postList.size-1].title.toString() + postList[postList.size-1].subtitle.toString() + postList[postList.size-1].timestamp.toString())
