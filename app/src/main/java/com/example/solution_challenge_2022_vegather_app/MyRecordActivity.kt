@@ -22,6 +22,8 @@ class MyRecordActivity : AppCompatActivity() {
         }
 
         val viewPagerAdapter = MyRecordViewPagerAdapter(this)
+        viewPagerAdapter.notifyDataSetChanged()
+
         binding.vp.adapter = viewPagerAdapter
 
         val tabList = listOf<String>("Basic","Community")
