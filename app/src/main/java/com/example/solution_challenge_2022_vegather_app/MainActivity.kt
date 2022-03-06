@@ -58,8 +58,7 @@ class MainActivity : AppCompatActivity() {
            }
        })
     }
-
-
+    
     private fun changeUiBarColor(){
         val uiBarCustom = UiBar(window)
         uiBarCustom.setNaviBarIconColor(isBlack = true)
