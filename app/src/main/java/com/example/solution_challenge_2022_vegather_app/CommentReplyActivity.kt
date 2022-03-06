@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -14,10 +15,12 @@ import com.example.solution_challenge_2022_vegather_app.databinding.CommentReply
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class CommentReplyActivity : AppCompatActivity() {
 
@@ -32,66 +35,36 @@ class CommentReplyActivity : AppCompatActivity() {
     private lateinit var user: FirebaseUser
     private lateinit var userRef: DocumentReference
 
-    private lateinit var commentContainer : CommentReplyAdapter
-    private val replyCommentList = ArrayList<CommentForm>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         setNavIconColor(isBlack = true)
-
         getData()
+        getReplyComments()
 
-        db.collection("Recipe").document(recipeName).collection("Comment")
-            .document(commentInfo.documentId.toString())
-            .addSnapshotListener { value, error ->
-                val latestData = value?.toObject(CommentForm::class.java)
-                commentInfo.reply = latestData?.reply
-            }
+        binding.replyInputDoneBtn.setOnClickListener {
+            val inputText : String = binding.replyCommentInputText.text.toString()
+            if( isCorrectInput(inputText) ) addComment(inputText)
+            else showNotice("There's no comment.")
+        }
 
         binding.imageButton3.setOnClickListener {
             finish()
         }
-
-        showReplyComments()
-
-        binding.replyInputDoneBtn.setOnClickListener {
-            val inputText : String = binding.replyCommentInputText.text.toString()
-
-            if( isCorrectInput(inputText) ){
-                addComment(inputText)
-            }
-            else{
-                showNotice("There's no comment.")
-            }
-        }
     }
 
-    private fun setReplyCommentData(){
-        db.collection("Recipe").document(recipeName).collection("Comment")
-            .document(commentInfo.documentId!!)
-            .collection("Reply")
-            .get()
-            .addOnSuccessListener {
-                for (document in it){
-                    replyCommentList.add(document.toObject(CommentForm::class.java))
-                }
-                showReplyComments()
-            }
-    }
+    // 1.데이터 get,set 작업
 
     private fun getData(){
         commentInfo = intent.getParcelableExtra<CommentForm>("commentInfo")!!
         recipeName = intent.getStringExtra("recipeName").toString()
-        commentContainer = CommentReplyAdapter(CommentReplyRecyclerBinding.inflate(layoutInflater))
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
         user = auth.currentUser!!
         userRef = db.collection("Users").document(user.email.toString())
 
-        // 현재 유저의 닉네임 저장
         userRef.get().addOnSuccessListener {
             val convertedData = it.toObject(UserForm::class.java)
             userName = convertedData?.NickName.toString()
@@ -99,63 +72,94 @@ class CommentReplyActivity : AppCompatActivity() {
 
         binding.name.text = commentInfo.nickname
         binding.userText.text = commentInfo.text
-        binding.time.text = commentInfo.timestamp
-
-        // 답글 리스트를 불러와서 화면에 출력
-        if( commentInfo.documentId!=null ){
-            setReplyCommentData()
-        }
+        binding.time.text = commentInfo.timestamp?.slice(0..10)
     }
 
-    private fun addComment( inputText : String){
-        val newComment = CommentForm(
+    private fun getReplyComments(){
+        val commentAdapter= CommentReplyAdapter(CommentReplyRecyclerBinding.inflate(layoutInflater),
+            recipeName,
+            user.email.toString(),
+            commentInfo.documentId.toString())
+
+        binding.replyRecycler.layoutManager = LinearLayoutManager(this)
+        binding.replyRecycler.adapter = commentAdapter
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun getCurrentTime(): String {
+        val now = System.currentTimeMillis()
+        return DateFormat.format("yyyy.MM.dd kk:mm:ss",now).toString()
+    }
+
+    // 2. 데이터베이스 작업
+
+    data class HistoryComment(
+        val basicComment : HashMap<String,Int> = HashMap(),
+        val communityComment : HashMap<String,Int> = HashMap()
+    )
+
+    private fun updateUserHistoryToComment( data : HashMap<String,Int> ){
+        userRef.collection("History").document("Comment")
+            .update("basicComment",data)
+    }
+
+    private fun setHistoryCommentData(list: HashMap<String, Int>): HashMap<String, Int> {
+        if (recipeName in list) {
+            list[recipeName] = list[recipeName]!! + 1
+        } else {
+            list[recipeName] = 1
+        }
+        return list
+    }
+
+    private fun addUserHistoryToComment() {
+        userRef.collection("History").document("Comment")
+            .get()
+            .addOnSuccessListener {
+                var container = it.toObject(HistoryComment::class.java)?.basicComment
+                if (container != null) {
+                    container = setHistoryCommentData(container)
+                    updateUserHistoryToComment(container)
+                }
+            }
+    }
+
+    private fun createCommentForm(inputText: String): CommentForm {
+        return CommentForm(
+            documentId = null,
             useremail = user.email.toString(),
             nickname = userName,
             text = inputText,
-            like = 0,
-            reply = null,
+            like = HashMap(),
+            reply = 0,
             timestamp = getCurrentTime()
         )
+    }
+
+    private fun addComment( inputText : String){
+        val newComment = createCommentForm(inputText)
 
         db.collection("Recipe").document(recipeName).collection("Comment")
             .document(commentInfo.documentId.toString())
             .collection("Reply")
             .add(newComment)
             .addOnSuccessListener {
-                commentContainer.addReplyComment(newComment)
-
-                db.collection("Recipe").document(recipeName)
-                    .collection("Comment")
-                    .document(commentInfo.documentId.toString())
-                    .update("reply", commentInfo.reply?.plus(1))
-
+                addUserHistoryToComment()
                 clearFocus()
             }
     }
 
-    private fun setNavIconColor(isBlack : Boolean) {
-        val customUiBar = UiBar(window)
-        customUiBar.setNaviBarIconColor(isBlack)
-    }
+    // 3. 부가적인 작업 ( 서브 )
 
     private fun isCorrectInput( inputText : String ) : Boolean {
         return inputText.trim().isNotEmpty()
     }
 
-    private fun showReplyComments(){
-        binding.replyRecycler.layoutManager = LinearLayoutManager(this)
-        commentContainer.setData(replyCommentList,recipeName)
-        binding.replyRecycler.adapter = commentContainer
+    private fun setNavIconColor(isBlack : Boolean) {
+        val customUiBar = UiBar(window)
+        customUiBar.setNaviBarIconColor(isBlack)
+        customUiBar.setStatusBarIconColor(isBlack)
     }
-
-    @SuppressLint("SimpleDateFormat")
-    private fun getCurrentTime(): String {
-        val now = System.currentTimeMillis()
-        val date = Date(now)
-        val dateFormat = SimpleDateFormat("yyyy.MM.dd")
-        return dateFormat.format(date)
-    }
-
 
     private fun showNotice(text : String){
         val duration = Toast.LENGTH_SHORT

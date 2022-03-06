@@ -60,6 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
+                android:lineSpacingExtra="5dp"
                 android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
                 android:textSize="16sp" />
 
@@ -73,7 +74,7 @@
                     android:id="@+id/textView40"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="9dp"
                     android:text="2020.11.21"
                     android:textColor="@color/sub_text_gray" />
 
