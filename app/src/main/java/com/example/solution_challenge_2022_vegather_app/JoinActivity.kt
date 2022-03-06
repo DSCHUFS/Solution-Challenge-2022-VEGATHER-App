@@ -107,8 +107,8 @@ class JoinActivity : AppCompatActivity() {
         )
 
         val newCommentData = hashMapOf(
-            "basicComment" to ArrayList<String>(),
-            "communityComment" to ArrayList<String>()
+            "basicComment" to HashMap<String,Int>(),
+            "communityComment" to HashMap<String,Int>()
         )
 
         val newPostingData = hashMapOf(
