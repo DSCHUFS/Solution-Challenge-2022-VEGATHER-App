@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -24,6 +25,9 @@ import org.w3c.dom.Text
 
 class SearchRankingAndHistoryFragment(private val listener: SelectedSearchHistoryListener) : Fragment() {
 
+    private var _binding : FragmentSearchRankingAndHistoryBinding? = null
+    private val binding get() = _binding!!
+
     private val db : FirebaseFirestore = FirebaseFirestore.getInstance()
     private val topSearchedRecipeList = ArrayList<String>()
 
@@ -36,16 +40,17 @@ class SearchRankingAndHistoryFragment(private val listener: SelectedSearchHistor
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentSearchRankingAndHistoryBinding.inflate(inflater,container,false)
+        _binding = FragmentSearchRankingAndHistoryBinding.inflate(inflater,container,false)
         val topFiveTextViewList : MutableList<TextView> = mutableListOf(
             binding.top1,
             binding.top2,
             binding.top3,
             binding.top4,
             binding.top5)
-
+//
         getTopSearchedRecipe(topFiveTextViewList)
         setTopSearchedListener(topFiveTextViewList)
+        binding.liveTime.text = getCurrentTime()
 
         val adapter = SearchHistoryAdapter(SearchHistoryRecyclerBinding.inflate(layoutInflater),listener,requireContext())
         binding.searchHistoryRecycler.layoutManager = LinearLayoutManager(requireContext(),RecyclerView.HORIZONTAL,false)
@@ -56,6 +61,11 @@ class SearchRankingAndHistoryFragment(private val listener: SelectedSearchHistor
         }
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setTopSearchedRecipe( topFiveTextViewList : MutableList<TextView>){
@@ -84,6 +94,12 @@ class SearchRankingAndHistoryFragment(private val listener: SelectedSearchHistor
                 }
                 setTopSearchedRecipe(topFiveTextViewList)
             }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun getCurrentTime(): String {
+        val now = System.currentTimeMillis()
+        return DateFormat.format("MM.dd kk:mm",now).toString()
     }
 
 }

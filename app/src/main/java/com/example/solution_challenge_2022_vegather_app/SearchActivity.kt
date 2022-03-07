@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -16,10 +17,17 @@ import androidx.fragment.app.Fragment
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommentBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivitySearchBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SearchActivity : AppCompatActivity(), SelectedSearchHistoryListener{
 
     val binding by lazy { ActivitySearchBinding.inflate(layoutInflater) }
+
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val user = FirebaseAuth.getInstance().currentUser!!
+    private val userRef: DocumentReference = db.collection("Users").document(user.email.toString())
 
     private var bundle = Bundle()
 
@@ -82,13 +90,15 @@ class SearchActivity : AppCompatActivity(), SelectedSearchHistoryListener{
             var handled = false
             if( actionId == EditorInfo.IME_ACTION_SEARCH ){
                 inputValue = v.text.toString()
-                if( v.text.isEmpty() ){
-                    printSnackFromViewAndBinding(v,binding)
+                if( v.text.isEmpty() || inputValue!!.trim().isEmpty() ){
+                    binding.searchInputTextBar.text = null
+                    printSnackFromViewAndBinding(v)
                 }
                 else{
                     v.clearFocus()
-                    hideKeyboard(binding)
+                    hideKeyboard()
                     changeFragment("searchResult")
+                    addKeywordToSearchHistory(inputValue!!)
                 }
                 handled = true
             }
@@ -149,7 +159,7 @@ class SearchActivity : AppCompatActivity(), SelectedSearchHistoryListener{
         appendSimilarWord(keyword)
         changeFragment("searchResult")
         binding.searchInputTextBar.clearFocus()
-        hideKeyboard(binding)
+        hideKeyboard()
     }
 
     // 2. 데이터 분류
@@ -167,7 +177,36 @@ class SearchActivity : AppCompatActivity(), SelectedSearchHistoryListener{
         }
     }
 
-    // 3. 부가적인 작업 ( 서브 )
+    // 3. 데이터베이스 작업 ( 검색기록 추가 )
+
+    @SuppressLint("SimpleDateFormat")
+    private fun getCurrentTime(): String {
+        val now = System.currentTimeMillis()
+        return DateFormat.format("yyyy.MM.dd kk:mm:ss",now).toString()
+    }
+
+    data class SearchHistory(
+        val basicSearch : HashMap<String,String> = HashMap(),
+        val communitySearch : HashMap<String,String> = HashMap()
+    )
+
+    private fun updateSearchHistory( updatedData : HashMap<String,String>){
+        userRef.collection("History").document("Search")
+            .update("basicSearch",updatedData)
+    }
+
+    private fun addKeywordToSearchHistory(text : String){
+        userRef.collection("History").document("Search").get()
+            .addOnSuccessListener {
+                val searchHistoryHash = it.toObject(SearchHistory::class.java)?.basicSearch
+                searchHistoryHash?.set(text, getCurrentTime())
+                if (searchHistoryHash != null) {
+                    updateSearchHistory(searchHistoryHash)
+                }
+            }
+    }
+
+    // 4. 부가적인 작업 ( 서브 )
 
     private fun makeSnack(view : View){
         val snack = Snackbar.make(view,"Please enter the search word.", Snackbar.LENGTH_SHORT)
@@ -176,18 +215,18 @@ class SearchActivity : AppCompatActivity(), SelectedSearchHistoryListener{
         snack.show()
     }
 
-    private fun printSnackFromViewAndBinding(v : TextView, binding : ActivitySearchBinding){
+    private fun printSnackFromViewAndBinding(v : TextView){
         v.clearFocus()
-        showKeyboard(binding)
+        showKeyboard()
         makeSnack(binding.searchContainer)
     }
 
-    private fun hideKeyboard(binding : ActivitySearchBinding){
+    private fun hideKeyboard(){
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(binding.searchInputTextBar.windowToken, 0)
     }
 
-    private fun showKeyboard(binding : ActivitySearchBinding){
+    private fun showKeyboard(){
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.showSoftInput(binding.searchInputTextBar,0)
     }
