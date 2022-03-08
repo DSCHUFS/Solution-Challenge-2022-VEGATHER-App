@@ -25,8 +25,8 @@ class AutocompleteSearchAdapter(private val binding : SearchAutocompleteRecycler
     private val userRef: DocumentReference = db.collection("Users").document(user.email.toString())
 
     private lateinit var context : Context
-    private lateinit var foodName : ArrayList<RecipeInformation>
-    private lateinit var startIndex : ArrayList<Int>
+    private var foodName = ArrayList<RecipeInformation>()
+    private var startIndex = ArrayList<Int>()
     private var length = 1
 
     inner class AutocompleteSearchViewHolder(val binding : SearchAutocompleteRecyclerBinding) :

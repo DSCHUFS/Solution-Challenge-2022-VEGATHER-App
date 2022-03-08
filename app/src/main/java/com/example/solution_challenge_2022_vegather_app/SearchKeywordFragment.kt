@@ -27,8 +27,6 @@ class SearchKeywordFragment(private val listener: SelectedSearchHistoryListener)
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("text","호출")
-        // Inflate the layout for this fragment
         val binding = FragmentSearchKeywordBinding.inflate(inflater,container,false)
         val bundle : Bundle? = arguments
         val recipeInfo = bundle?.getParcelableArrayList<RecipeInformation>("foodNameList")
@@ -40,9 +38,10 @@ class SearchKeywordFragment(private val listener: SelectedSearchHistoryListener)
 
         if( recipeInfo!=null && startIndex!=null && inputValueLength!=null ){
             adapter.setData(recipeInfo,startIndex,inputValueLength)
-            adapter.loadParentActivity(requireContext())
-            binding.searchKeywordList.adapter = adapter
         }
+        adapter.loadParentActivity(requireContext())
+        binding.searchKeywordList.adapter = adapter
+
         return binding.root
     }
 }

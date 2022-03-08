@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -55,7 +56,7 @@ class SearchActivity : AppCompatActivity(), SelectedSearchHistoryListener{
         setUiBarColor(isBlack = true)
         binding.searchInputTextBar.requestFocus()
         // 프래그먼트 영역의 default xml은 인기검색어와 검색기록이어야 한다.
-        transaction.add(R.id.fragmentContainer,fragmentSearchHistory).commitNow()
+        transaction.add(R.id.fragmentContainer,fragmentSearchHistory).commit()
 
         binding.backMainButton.setOnClickListener(){
             if( fragmentManager.backStackEntryCount==0 ){
@@ -77,6 +78,7 @@ class SearchActivity : AppCompatActivity(), SelectedSearchHistoryListener{
                     changeFragment("searchKeyword")
                 }
                 else{
+                    Log.d("확인차","관련검색어없음")
                     detachKeywordFragment()
                 }
             }
@@ -113,17 +115,15 @@ class SearchActivity : AppCompatActivity(), SelectedSearchHistoryListener{
         when(name){
             // 검색어 자동완성을 위해서 키 입력마다 계속해서 프래그먼트를 초기화해야한다. 그 과정에서 검색어 관련 정보를 넘긴다.
             "searchKeyword" -> {
-                transaction.remove(fragmentSearchKeyword).commitNow()
+                transaction.remove(fragmentSearchKeyword).commit()
+                transaction = fragmentManager.beginTransaction()
                 sendDataToNextFragment(fragmentSearchKeyword)
-                transaction.add(R.id.fragmentContainer,fragmentSearchKeyword).commitNow()
+                transaction.add(R.id.fragmentContainer,fragmentSearchKeyword).commit()
             }
             // 검색버튼을 누르면 검색결과 화면만 보여야 한다.
             "searchResult" -> {
                 sendDataToNextFragment(fragmentSearchResult)
-                transaction.remove(fragmentSearchHistory)
-                transaction.remove(fragmentSearchKeyword)
-                transaction.replace(R.id.fragmentContainer,fragmentSearchResult)
-                    .addToBackStack("result")
+                transaction.replace(R.id.fragmentContainer,fragmentSearchResult).addToBackStack(null)
                     .commit()
             }
         }
@@ -152,7 +152,7 @@ class SearchActivity : AppCompatActivity(), SelectedSearchHistoryListener{
 
     private fun detachKeywordFragment(){
         transaction = fragmentManager.beginTransaction()
-        transaction.detach(fragmentSearchKeyword).commitNow()
+        transaction.detach(fragmentSearchKeyword).commit()
     }
 
     override fun onSearchHistorySelected(keyword: String) {
