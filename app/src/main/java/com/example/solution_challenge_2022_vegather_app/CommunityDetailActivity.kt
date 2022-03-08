@@ -48,6 +48,7 @@ class CommunityDetailActivity : AppCompatActivity() {
             val commentIntent = Intent(this,CommentActivity::class.java)
             startActivity(commentIntent)
         }
+
         db = FirebaseFirestore.getInstance()
         val postInfo = intent.getStringExtra("post info").toString().split(" ")
         val testInfo = intent.getStringExtra("post info").toString()
@@ -63,19 +64,22 @@ class CommunityDetailActivity : AppCompatActivity() {
             deletePost(postTimeStamp)
         }
 
-
         val orderList = mutableListOf<Any?>()
         var havePhotoIndex = mutableListOf<Int?>()
         var uidForPhoto = mutableListOf<String?>()
         var timestampForPhoto = mutableListOf<String?>()
         val orderAdapter = OrderRecyclerAdapter(orderList, havePhotoIndex, uidForPhoto, timestampForPhoto)
 
+        //재료 리사이클러뷰 왼쪽
         val ingredientNameListForEven = mutableListOf<String?>()
         val ingredientAmountListForEven = mutableListOf<String?>()
+        val ingredientAdapterEven = IngredientRecyclerAdapter(ingredientNameListForEven, ingredientAmountListForEven)
+        //재료 리사이클러뷰 오른쪽
         val ingredientNameListForOdd = mutableListOf<String?>()
         val ingredientAmountListForOdd = mutableListOf<String?>()
-        val ingredientAdapterEven = IngredientRecyclerAdapter(ingredientNameListForEven, ingredientAmountListForEven)
         val ingredientAdapterOdd = IngredientRecyclerAdapter(ingredientNameListForOdd, ingredientAmountListForOdd)
+
+        //Firebase에서 해당 post찾아 필요한 data 가져오기
         db.collection("Post").whereEqualTo("timestamp", postTimeStamp)
             .whereEqualTo("title", postTitle)
             .get()
@@ -147,6 +151,9 @@ class CommunityDetailActivity : AppCompatActivity() {
         ingredientAdapterOdd.notifyDataSetChanged()
         binding.ingredientRecyclerOdd.adapter = ingredientAdapterOdd
         binding.ingredientRecyclerOdd.layoutManager = LinearLayoutManager(this)
+
+        //좋아요 버튼 작업
+
     }
 
     private fun deletePost(postTimeStamp: String) {

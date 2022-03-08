@@ -14,5 +14,4 @@ data class Post(
     var comment:Int? = 0,
     var havePhoto: MutableList<String> = mutableListOf("false"),
     var uid:String? = ""
-
 )
