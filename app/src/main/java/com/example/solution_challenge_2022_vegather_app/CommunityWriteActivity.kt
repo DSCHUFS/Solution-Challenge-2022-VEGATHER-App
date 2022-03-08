@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Build
@@ -17,14 +16,10 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.*
-import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
-import androidx.core.view.marginEnd
-import androidx.core.view.marginRight
 import androidx.gridlayout.widget.GridLayout
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommunityWriteBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -61,9 +56,8 @@ class CommunityWriteActivity : PermissionActivity() {
     var ingredientAmountForDB = mutableListOf<Any?>()
     var recipeForDB = mutableListOf<Any?>()
 
-    private val postList = mutableListOf<Post>()
     private val photoList = mutableListOf<Bitmap?>()
-    private val havePhotoList = mutableListOf<Boolean>(false)
+    private val havePhotoList = mutableListOf("false")
     private lateinit var formattedDate : String
 
     private val PERM_STORAGE = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -74,6 +68,9 @@ class CommunityWriteActivity : PermissionActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val uiBarCustom = UiBar(window)
+        uiBarCustom.setStatusBarIconColor(isBlack = true)
+        uiBarCustom.setNaviBarIconColor(isBlack = true)
 
         requirePermission(PERM_STORAGE, REQ_STORAGE)
         binding.btnAddIngredient.setOnClickListener {
@@ -137,31 +134,33 @@ class CommunityWriteActivity : PermissionActivity() {
 //        ingredientAmountForDB = ingredientAmountForDB.chunked(countIngredients)[0] as MutableList<Any?>
 //        recipeForDB = recipeForDB.chunked(countOrder)[0] as MutableList<Any?>
 
-        val sdf2 = SimpleDateFormat("yyyy.MM.dd")
-        val timestampForDB = sdf2.format(date)
-
-
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         Log.d("uid", uid.toString()+formattedDate)
         val email = FirebaseAuth.getInstance().currentUser?.email
-        val newpost = Post(title = binding.editTextTitle.text.toString(), subtitle = binding.editTextSubtitle.text.toString(), like = 0, comment = 0,
-        timestamp = timestampForDB, ingredientName = ingredientNameForDB, ingredientAmount = ingredientAmountForDB, recipe = recipeForDB)
+
+        var newpost = Post(title = binding.editTextTitle.text.toString(), subtitle = binding.editTextSubtitle.text.toString(), like = 0, comment = 0,
+            timestamp = formattedDate, ingredientName = ingredientNameForDB, ingredientAmount = ingredientAmountForDB, recipe = recipeForDB,
+            havePhoto = havePhotoList, uid = uid)
+        var nickname : String
 
         db.collection("Users").document(email.toString()).get()
             .addOnSuccessListener { document ->
-                val nickname = document.data?.get("NickName").toString()
-                Log.d(TAG, "nickname = ${document.data?.get("NickName").toString()}")
+                val nicknameFromDB = document.data?.get("NickName")
+                nickname = nicknameFromDB.toString()
+                Log.d("get nickname from db", "nickname = $nickname")
                 newpost.writer = nickname
+                Log.d("add nickname in newpost", newpost.writer.toString())
             }
-        postList.add(newpost)
 
+        Log.d("newpost", newpost.toString())
         val chunkedUid = uid?.chunked(10)
         val path = chunkedUid!![0]+" "+formattedDate
 
         db.collection("Post").document(path)
             .set(newpost)
             .addOnSuccessListener {
-                uploadPhoto()
+                Log.d("newpost setting successfully", newpost.toString())
+                uploadPhoto(photoList, havePhotoList)
                 Log.d(TAG, "Upload new recipe successfully")
                 val intent = Intent(this, CommunityMainActivity::class.java)
                 startActivity(intent)
@@ -176,6 +175,7 @@ class CommunityWriteActivity : PermissionActivity() {
         countIngredients = 0
         countOrder = 0
     }
+
 
     //재료 추가 버튼이 눌리면 실행하는 함수
     private fun addIngredient() {
@@ -243,7 +243,8 @@ class CommunityWriteActivity : PermissionActivity() {
         binding.parentOfWrite.requestFocus()
 
         recipeForDB.add(null)
-        havePhotoList.add(false)
+        havePhotoList.add("false")
+        photoList.add(null)
 
         val orderNumber = TextView(this).apply {
             id = countOrder+1
@@ -267,7 +268,6 @@ class CommunityWriteActivity : PermissionActivity() {
             setImageResource(R.drawable.camera_icon)
             scaleType = ImageView.ScaleType.FIT_CENTER
             background = Color.TRANSPARENT.toDrawable()
-
         }
 
         orderComment.setOnFocusChangeListener { v, hasFocus ->
@@ -281,8 +281,13 @@ class CommunityWriteActivity : PermissionActivity() {
 
         orderPhoto.setOnClickListener {
             if (checkSelfPermission(PERM_STORAGE[0]) == PackageManager.PERMISSION_GRANTED){
-                photoNumForOrder = orderNumber.id
-                setPhotoOrder(photoNumForOrder)
+                if (havePhotoList[orderNumber.id] == "true"){
+                    Toast.makeText(this, "You already add your photo!", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    photoNumForOrder = orderNumber.id
+                    setPhotoOrder(photoNumForOrder)
+                }
             }else{
                 Toast.makeText(this, "Strorage permission denied", Toast.LENGTH_SHORT).show()
             }
@@ -297,10 +302,9 @@ class CommunityWriteActivity : PermissionActivity() {
     //사진 추가가 눌리면 실행되는 함수
     private fun setPhotoOrder(orderNumber : Int) {
 
-        havePhotoList[orderNumber] = true
+        havePhotoList[orderNumber] = "true"
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-//        intent.putExtra("num", orderNumber)
         Log.d(TAG, "setPhotoOrder putExtra intent : $orderNumber")
         startActivityForResult(intent, 1)
 
@@ -350,11 +354,14 @@ class CommunityWriteActivity : PermissionActivity() {
 //                                Log.d(TAG, "photoList index error")
 //                            }
 //                        }
-                        photoList.add(bitmap)
+
+
                         val relativeLayout = layoutInflater.inflate(R.layout.photo_order, null) as RelativeLayout
 
                         val photoNum = relativeLayout.findViewById<View>(R.id.photoNumber) as TextView
                         photoNum.text = photoNumForOrder.toString()
+
+                        photoList[photoNum.text.toString().toInt()-1] = bitmap
 
                         val photo = relativeLayout.findViewById<View>(R.id.photo) as ImageView
                         photo.setImageBitmap(bitmap)
@@ -368,7 +375,16 @@ class CommunityWriteActivity : PermissionActivity() {
 
                         val removePhoto = relativeLayout.findViewById<View>(R.id.removePhoto) as TextView
                         removePhoto.setOnClickListener {
-                            binding.photoOrder.removeView(relativeLayout)
+                            val builder = AlertDialog.Builder(this)
+                            builder.setTitle("Remove photo").setMessage("Do you want to remove photo?")
+                            builder.setNegativeButton("Remove"){ _, _ ->
+                                binding.photoOrder.removeView(relativeLayout)
+                                havePhotoList[photoNum.text.toString().toInt()] = "false"
+                                photoList[photoNum.text.toString().toInt()-1] = null
+                            }
+                            builder.setPositiveButton("Cancel", null)
+                            builder.create()
+                            builder.show()
                         }
 
                     }
@@ -380,7 +396,7 @@ class CommunityWriteActivity : PermissionActivity() {
         }
     }
 
-    private fun uploadPhoto(){
+    private fun uploadPhoto(photoList: MutableList<Bitmap?>, havePhotoList: MutableList<String>) {
         val storage = Firebase.storage
         val storageRef = storage.reference
         val uid = FirebaseAuth.getInstance().currentUser?.uid
@@ -391,8 +407,8 @@ class CommunityWriteActivity : PermissionActivity() {
 
         Log.d("havePhotoList", havePhotoList.toString())
 
-        for (i in 0 until havePhotoList.size){
-            if (havePhotoList[i]){
+        for (i in 0 until this.havePhotoList.size){
+            if (this.havePhotoList[i] == "true"){
                 havePhotoIndexList.add(i)
             }
         }
@@ -403,6 +419,7 @@ class CommunityWriteActivity : PermissionActivity() {
             if (photo != null){
                 val index = havePhotoIndexList[0]
                 path = "$path $index"
+                Log.d("storage path in write activity", path)
                 havePhotoIndexList.removeAt(0)
                 val nameRef = storageRef.child(path)
                 val baos = ByteArrayOutputStream()
@@ -411,10 +428,11 @@ class CommunityWriteActivity : PermissionActivity() {
 
                 var uploadTask = nameRef.putBytes(data)
                 uploadTask.addOnFailureListener {
-                    // Handle unsuccessful uploads
+                    Log.d("upload photo into storage failed", "")
                 }.addOnSuccessListener { taskSnapshot ->
                     // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
                     // ...
+                    Log.d("upload to storage successfully", "$path $taskSnapshot")
                 }
                 path = chunkedUid!![0]+" "+formattedDate
             }
@@ -451,11 +469,12 @@ class CommunityWriteActivity : PermissionActivity() {
             Log.d("remove Recipe", "${recipeForDB.lastIndex}")
             orderLayout.removeViews(countOrder*3-3, 3)
             recipeForDB.removeAt(recipeForDB.lastIndex)
+            havePhotoList.removeAt(havePhotoList.lastIndex)
             countOrder--
         }
     }
 
-    val Int.dp: Int
+    private val Int.dp: Int
         get() {
             val metrics = resources.displayMetrics
             return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), metrics).toInt()
