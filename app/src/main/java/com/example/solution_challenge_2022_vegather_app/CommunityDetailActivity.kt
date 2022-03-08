@@ -1,7 +1,6 @@
 package com.example.solution_challenge_2022_vegather_app
 
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -10,19 +9,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommunityDetailBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.CommunityOrderRecyclerBinding
-import com.example.solution_challenge_2022_vegather_app.databinding.CommunityRecyclerBinding
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import kotlinx.coroutines.currentCoroutineContext
-import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 class CommunityDetailActivity : AppCompatActivity() {
@@ -41,6 +39,8 @@ class CommunityDetailActivity : AppCompatActivity() {
 
         binding.textLike.text = intent.getIntExtra("like", -1).toString()
         binding.textComment.text = intent.getIntExtra("comment", -1).toString()
+        binding.textNickname.text = intent.getStringExtra("nickname")
+
 
         binding.textComment.setOnClickListener {
             val commentIntent = Intent(this,CommentActivity::class.java)
@@ -52,15 +52,14 @@ class CommunityDetailActivity : AppCompatActivity() {
         Log.d("get post info", testInfo)
         binding.textTimsStamp.text = postInfo[0]
         val postTimeStamp = postInfo[0] + " " + postInfo[1]
-//        val postTimeStamp = postInfo[0]
         val postTitle = testInfo.substring(20)
-//        val postTitle = postInfo[2]
+
         Log.d(TAG, "$postTimeStamp")
         Log.d(TAG, "$postTitle")
 
-//        val havePhoto = intent.getStringArrayListExtra("have photo")
-//        Log.d("have Photo", havePhoto.toString())
-
+        binding.imageButtonDeletePost.setOnClickListener {
+            deletePost(postTimeStamp)
+        }
 
         val ingredientNameList = mutableListOf<Any?>()
         val ingredientAmountList = mutableListOf<Any?>()
@@ -94,13 +93,17 @@ class CommunityDetailActivity : AppCompatActivity() {
                         orderList.add(null)
                         orderList[i] = tempList[i]
                     }
-                    val getUid = document.get("uid").toString().chunked(10)[0]
-                    uidForPhoto.add(getUid)
+                    val getUid = document.get("uid")
+                    uidForPhoto.add(getUid.toString().chunked(10)[0])
                     Log.d("uidForPhoto", uidForPhoto.toString())
 
                     val getTimeStamp = document.get("timestamp").toString()
                     timestampForPhoto.add(getTimeStamp)
                     Log.d("timestampForPhoto", timestampForPhoto.toString())
+
+                    if (Firebase.auth.currentUser!!.uid == getUid){
+                        binding.imageButtonDeletePost.visibility = View.VISIBLE
+                    }
                 }
                 orderAdapter.notifyDataSetChanged()
             }
@@ -112,6 +115,22 @@ class CommunityDetailActivity : AppCompatActivity() {
         binding.orderRecycler.layoutManager = LinearLayoutManager(this)
     }
 
+    private fun deletePost(postTimeStamp: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Delete post").setMessage("Do you want to delete post?")
+        builder.setNegativeButton("Delete"){_, _ ->
+            val deletePath = Firebase.auth.currentUser!!.uid.chunked(10)[0] + " " + postTimeStamp
+            db.collection("Post").document(deletePath).delete()
+                .addOnSuccessListener { Log.d("delete Post Successfully", deletePath)
+                    val deleteIntent = Intent(this, CommunityMainActivity::class.java)
+                    startActivity(deleteIntent)
+                }
+
+                .addOnFailureListener { Log.d("delete Post Failed", deletePath) }
+        }
+        builder.setPositiveButton("Cancel", null)
+        builder.create()
+        builder.show()
 }
 
 class OrderRecyclerAdapter(private val orderList:MutableList<Any?>, private val havePhotoIndex:MutableList<Int?>
@@ -138,6 +157,7 @@ class OrderRecyclerAdapter(private val orderList:MutableList<Any?>, private val 
                             }
                         }
                         imageViewOrder.visibility = View.VISIBLE
+                        imageViewOrder.scaleType = ImageView.ScaleType.FIT_CENTER
                         havePhotoIndex.removeAt(0)
                     }
                 }
@@ -165,4 +185,5 @@ class OrderRecyclerAdapter(private val orderList:MutableList<Any?>, private val 
     override fun getItemCount(): Int {
         return orderList.size
     }
+}
 }

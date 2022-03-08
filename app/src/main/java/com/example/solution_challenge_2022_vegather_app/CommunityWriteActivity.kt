@@ -56,7 +56,6 @@ class CommunityWriteActivity : PermissionActivity() {
     var ingredientAmountForDB = mutableListOf<Any?>()
     var recipeForDB = mutableListOf<Any?>()
 
-    private val postList = mutableListOf<Post>()
     private val photoList = mutableListOf<Bitmap?>()
     private val havePhotoList = mutableListOf("false")
     private lateinit var formattedDate : String
@@ -139,25 +138,28 @@ class CommunityWriteActivity : PermissionActivity() {
         Log.d("uid", uid.toString()+formattedDate)
         val email = FirebaseAuth.getInstance().currentUser?.email
 
-        val newpost = Post(title = binding.editTextTitle.text.toString(), subtitle = binding.editTextSubtitle.text.toString(), like = 0, comment = 0,
-            timestamp = formattedDate, ingredientName = ingredientNameForDB, ingredientAmount = ingredientAmountForDB, recipe = recipeForDB, havePhoto = havePhotoList, uid = uid)
+        var newpost = Post(title = binding.editTextTitle.text.toString(), subtitle = binding.editTextSubtitle.text.toString(), like = 0, comment = 0,
+            timestamp = formattedDate, ingredientName = ingredientNameForDB, ingredientAmount = ingredientAmountForDB, recipe = recipeForDB,
+            havePhoto = havePhotoList, uid = uid)
+        var nickname : String
 
         db.collection("Users").document(email.toString()).get()
             .addOnSuccessListener { document ->
-                val nickname = document.data?.get("NickName").toString()
-                Log.d(TAG, "nickname = $nickname")
+                val nicknameFromDB = document.data?.get("NickName")
+                nickname = nicknameFromDB.toString()
+                Log.d("get nickname from db", "nickname = $nickname")
                 newpost.writer = nickname
-                Log.d(TAG, newpost.writer.toString())
+                Log.d("add nickname in newpost", newpost.writer.toString())
             }
 
-        postList.add(newpost)
-
+        Log.d("newpost", newpost.toString())
         val chunkedUid = uid?.chunked(10)
         val path = chunkedUid!![0]+" "+formattedDate
 
         db.collection("Post").document(path)
             .set(newpost)
             .addOnSuccessListener {
+                Log.d("newpost setting successfully", newpost.toString())
                 uploadPhoto(photoList, havePhotoList)
                 Log.d(TAG, "Upload new recipe successfully")
                 val intent = Intent(this, CommunityMainActivity::class.java)

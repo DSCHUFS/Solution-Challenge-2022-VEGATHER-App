@@ -51,8 +51,9 @@ class CommunityMainActivity : AppCompatActivity() {
                     val title = document.get("title")
                     val subtitle = document.get("subtitle")
                     val date = document.get("timestamp")
+                    val nickname = document.get("writer")
                     Log.d("load Post", title.toString() +" "+subtitle.toString() + " " + date.toString())
-                    val post = Post(title=title, subtitle=subtitle, timestamp = date)
+                    val post = Post(title=title, subtitle=subtitle, timestamp = date, writer = nickname)
                     postList.add(post)
                     Log.d("add post to postList", postList[postList.size-1].title.toString() + postList[postList.size-1].subtitle.toString() + postList[postList.size-1].timestamp.toString())
                     Log.d("before iter end post list", postList.toString())
@@ -149,6 +150,7 @@ class communityRecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Ada
             intent.putExtra("post info", "${post.timestamp} ${post.title}")
             intent.putExtra("like", post.like)
             intent.putExtra("comment", post.comment)
+            intent.putExtra("nickname", post.writer.toString())
             startActivity(holder.itemView?.context, intent, null)
         }
     }

@@ -350,5 +350,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView46" />
 
+        <ImageButton
+            android:id="@+id/imageButtonDeletePost"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/imageView6"
+            app:layout_constraintTop_toTopOf="@+id/imageView6"
+            app:srcCompat="@drawable/x_btn_gray" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
