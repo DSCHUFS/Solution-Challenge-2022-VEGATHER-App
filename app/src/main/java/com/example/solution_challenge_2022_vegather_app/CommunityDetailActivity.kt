@@ -16,7 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommunityDetailBinding
+import com.example.solution_challenge_2022_vegather_app.databinding.CommunityIngredientRecyclerBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.CommunityOrderRecyclerBinding
+import com.facebook.internal.Mutable
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -61,14 +63,19 @@ class CommunityDetailActivity : AppCompatActivity() {
             deletePost(postTimeStamp)
         }
 
-        val ingredientNameList = mutableListOf<Any?>()
-        val ingredientAmountList = mutableListOf<Any?>()
+
         val orderList = mutableListOf<Any?>()
         var havePhotoIndex = mutableListOf<Int?>()
         var uidForPhoto = mutableListOf<String?>()
         var timestampForPhoto = mutableListOf<String?>()
         val orderAdapter = OrderRecyclerAdapter(orderList, havePhotoIndex, uidForPhoto, timestampForPhoto)
 
+        val ingredientNameListForEven = mutableListOf<String?>()
+        val ingredientAmountListForEven = mutableListOf<String?>()
+        val ingredientNameListForOdd = mutableListOf<String?>()
+        val ingredientAmountListForOdd = mutableListOf<String?>()
+        val ingredientAdapterEven = IngredientRecyclerAdapter(ingredientNameListForEven, ingredientAmountListForEven)
+        val ingredientAdapterOdd = IngredientRecyclerAdapter(ingredientNameListForOdd, ingredientAmountListForOdd)
         db.collection("Post").whereEqualTo("timestamp", postTimeStamp)
             .whereEqualTo("title", postTitle)
             .get()
@@ -94,6 +101,9 @@ class CommunityDetailActivity : AppCompatActivity() {
                         orderList[i] = tempList[i]
                     }
                     val getUid = document.get("uid")
+                    if (Firebase.auth.currentUser!!.uid == getUid){
+                        binding.imageButtonDeletePost.visibility = View.VISIBLE
+                    }
                     uidForPhoto.add(getUid.toString().chunked(10)[0])
                     Log.d("uidForPhoto", uidForPhoto.toString())
 
@@ -101,18 +111,42 @@ class CommunityDetailActivity : AppCompatActivity() {
                     timestampForPhoto.add(getTimeStamp)
                     Log.d("timestampForPhoto", timestampForPhoto.toString())
 
-                    if (Firebase.auth.currentUser!!.uid == getUid){
-                        binding.imageButtonDeletePost.visibility = View.VISIBLE
+
+                    val ingredientNameListFromDB = document.get("ingredientName") as MutableList<String?>
+                    val ingredientAmountListFromDB = document.get("ingredientAmount") as MutableList<String?>
+                    if(ingredientNameListFromDB.size == ingredientAmountListFromDB.size){
+                        for(i in 0 until ingredientNameListFromDB.size){
+                            if(i % 2 == 0){
+                                ingredientNameListForEven.add(ingredientNameListFromDB[i])
+                                ingredientAmountListForEven.add(ingredientAmountListFromDB[i])
+                            }
+                            else{
+                                ingredientNameListForOdd.add(ingredientNameListFromDB[i])
+                                ingredientAmountListForOdd.add(ingredientAmountListFromDB[i])
+                            }
+                        }
+
                     }
                 }
                 orderAdapter.notifyDataSetChanged()
+                ingredientAdapterEven.notifyDataSetChanged()
+                ingredientAdapterOdd.notifyDataSetChanged()
             }
             .addOnFailureListener {
                 Log.d(TAG,"error in get from db")
             }
+
         orderAdapter.notifyDataSetChanged()
         binding.orderRecycler.adapter = orderAdapter
         binding.orderRecycler.layoutManager = LinearLayoutManager(this)
+
+        ingredientAdapterEven.notifyDataSetChanged()
+        binding.ingredientRecyclerEven.adapter = ingredientAdapterEven
+        binding.ingredientRecyclerEven.layoutManager = LinearLayoutManager(this)
+
+        ingredientAdapterOdd.notifyDataSetChanged()
+        binding.ingredientRecyclerOdd.adapter = ingredientAdapterOdd
+        binding.ingredientRecyclerOdd.layoutManager = LinearLayoutManager(this)
     }
 
     private fun deletePost(postTimeStamp: String) {
@@ -186,4 +220,34 @@ class OrderRecyclerAdapter(private val orderList:MutableList<Any?>, private val 
         return orderList.size
     }
 }
+}
+
+class IngredientRecyclerAdapter(private val ingredientNameList: MutableList<String?>, private val ingredientAmountList: MutableList<String?>)
+    : RecyclerView.Adapter<IngredientRecyclerAdapter.Holder>(){
+    class Holder(val binding: CommunityIngredientRecyclerBinding):RecyclerView.ViewHolder(binding.root){
+        fun set(ingredientName: String?, ingredientAmount: String?) {
+                binding.textViewIngredientName.text = ingredientName.toString()
+                binding.textViewIngredientAmount.text = ingredientAmount.toString()
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        val binding = CommunityIngredientRecyclerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return Holder(binding)
+    }
+
+    override fun onBindViewHolder(holder: Holder, position: Int) {
+        try{
+            val ingredientName = ingredientNameList[position]
+            val ingredientAmount = ingredientAmountList[position]
+            holder.set(ingredientName, ingredientAmount)
+        }
+        catch (e:Exception){
+            e.printStackTrace()
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return ingredientNameList.size
+    }
 }
