@@ -26,8 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/food_sampe2" />
+            android:scaleType="centerInside" />
 
     </androidx.cardview.widget.CardView>
 
@@ -59,8 +58,9 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
-                android:maxLines="3"
                 android:ellipsize="end"
+                android:lineSpacingExtra="2dp"
+                android:maxLines="3"
                 android:text="article"
                 android:textSize="16sp" />
 

@@ -30,6 +30,8 @@ class SearchResultFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+         Log.d("확인","프래그먼트")
         val bundle = arguments
         val recipeInfo = bundle?.getParcelableArrayList<RecipeInformation>("foodNameList")
         val binding = FragmentSearchResultBinding.inflate(inflater,container,false)
@@ -47,8 +49,6 @@ class SearchResultFragment : Fragment() {
                 binding.textView69.visibility = INVISIBLE
             }
         }
-
         return binding.root
     }
-
 }

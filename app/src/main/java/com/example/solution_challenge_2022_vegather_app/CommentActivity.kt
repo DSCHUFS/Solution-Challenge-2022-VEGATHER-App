@@ -73,10 +73,6 @@ class CommentActivity : AppCompatActivity() {
         binding.commentRecycler.adapter = commentContainer
     }
 
-    private fun isCorrectInput( inputText : String ) : Boolean {
-        return inputText.trim().isNotEmpty()
-    }
-
     @SuppressLint("SimpleDateFormat")
     private fun getCurrentTime(): String {
         val now = System.currentTimeMillis()
@@ -140,6 +136,10 @@ class CommentActivity : AppCompatActivity() {
     }
 
     // 3. 부가적인 작업 ( 서브 )
+
+    private fun isCorrectInput( inputText : String ) : Boolean {
+        return inputText.trim().isNotEmpty()
+    }
 
     private fun showNotice(text : String){
         val duration = Toast.LENGTH_SHORT
