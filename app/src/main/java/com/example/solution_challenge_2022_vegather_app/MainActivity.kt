@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Adapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityMainBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.MainPageMoreRecipeRecyclerBinding
 import com.google.android.gms.tasks.Task
@@ -13,6 +15,8 @@ import com.google.android.material.tabs.TabLayout
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,6 +28,8 @@ class MainActivity : AppCompatActivity() {
     val binding by lazy{ ActivityMainBinding.inflate(layoutInflater)}
 
     private lateinit var db: FirebaseFirestore
+    private lateinit var storageRef : StorageReference
+
     private val recipeInfo = ArrayList<RecipeInformation>()
     private var todayRecipeIndex : Int? = null
 
@@ -31,10 +37,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+
         db = FirebaseFirestore.getInstance()
+        storageRef = FirebaseStorage.getInstance().reference
+            Glide.with(this)
+                .load(R.drawable.loading_bigsize)
+                .centerInside()
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .into(binding.imageView7)
         getRecipeDataFromFireBase()
 
         changeUiBarColor()
+
 
         binding.searchBar.setOnClickListener(){
             switchActivity("Search")
@@ -72,15 +86,19 @@ class MainActivity : AppCompatActivity() {
                 convertDocumentToRecipeInformation(it.documents)
                 val todayRecipe = getRandomRecipeData(it.documents)
                 setTodayRecipe(todayRecipe)
-                setMoreRecipe(it.documents)
+                getMoreRecipe()
                 setDataChangedListener()
             }
     }
 
     // DB의 데이터를 사용할 수 있게 data class 형태로 만들어서 뷰 객체에 데이터를 기입한다.
     private fun convertDocumentToRecipeInformation(recipeData : MutableList<DocumentSnapshot>){
-        for (i in 0 until recipeData.size){
-            recipeData[i].toObject(RecipeInformation::class.java)?.let { recipeInfo.add(it) }
+        for (recipe in recipeData){
+            val convertedData = recipe.toObject(RecipeInformation::class.java)
+            convertedData?.imgUrl = getRecipeImageUrl(convertedData?.name.toString())
+            if (convertedData != null) {
+                recipeInfo.add(convertedData)
+            }
         }
     }
 
@@ -98,26 +116,33 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
+    private fun getRecipeImageUrl( recipeName : String ) : String {
+        return "Recipe/${recipeName}.jpg"
+    }
+
+    private fun getImage( url : String ){
+        val imgRef = storageRef.child(url)
+        imgRef.downloadUrl.addOnSuccessListener {
+            Glide.with(this)
+                .load(it)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(binding.imageView7)
+        }
+    }
+
     private fun setTodayRecipe(todayRecipe: RecipeInformation){
         binding.todaysfoodName.text = todayRecipe.name
         binding.todaysFoodIntroduce.text = todayRecipe.introduce
         binding.todaysKcal.text = todayRecipe.nutrition[1] + "Kcal"
         binding.todaysLike.text = todayRecipe.like.toString()
+        getImage(getRecipeImageUrl(todayRecipe.name))
     }
 
-    // 더 많은 레시피들은 오늘의 레시피 이외의 레시피들을 보여줘야 한다.
-    private fun createMoreRecipe(adapter : MoreRecipeAdapter){
-        for (i in 0 until recipeInfo.size){
-            if( i != todayRecipeIndex ){
-                adapter.appendRecipeData(recipeInfo[i])
-            }
-        }
-    }
-
-    private fun setMoreRecipe(recipeData : MutableList<DocumentSnapshot>){
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+    private fun getMoreRecipe(){
         val adapter = MoreRecipeAdapter(MainPageMoreRecipeRecyclerBinding.inflate(layoutInflater))
-        createMoreRecipe(adapter)
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        adapter.setData(recipeInfo)
         adapter.loadParentActivity(this)
         binding.recyclerView.adapter = adapter
     }
