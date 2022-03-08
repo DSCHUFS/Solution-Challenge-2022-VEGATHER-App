@@ -6,18 +6,27 @@ import android.content.Intent
 import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.format.DateFormat
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.solution_challenge_2022_vegather_app.databinding.SearchAutocompleteRecyclerBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 
 class AutocompleteSearchAdapter(private val binding : SearchAutocompleteRecyclerBinding,private val listener: SelectedSearchHistoryListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val user = FirebaseAuth.getInstance().currentUser!!
+    private val userRef: DocumentReference = db.collection("Users").document(user.email.toString())
+
     private lateinit var context : Context
-    private lateinit var foodName : ArrayList<RecipeInformation>
-    private lateinit var startIndex : ArrayList<Int>
+    private var foodName = ArrayList<RecipeInformation>()
+    private var startIndex = ArrayList<Int>()
     private var length = 1
 
     inner class AutocompleteSearchViewHolder(val binding : SearchAutocompleteRecyclerBinding) :
@@ -35,6 +44,7 @@ class AutocompleteSearchAdapter(private val binding : SearchAutocompleteRecycler
         textHighlighting(binding, position)
 
         binding.relatedText.setOnClickListener {
+            addKeywordToSearchHistory(binding.relatedText.text.toString())
             listener.onSearchHistorySelected(binding.relatedText.text.toString())
         }
     }
@@ -61,5 +71,32 @@ class AutocompleteSearchAdapter(private val binding : SearchAutocompleteRecycler
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         binding.relatedText.text = builder
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun getCurrentTime(): String {
+        val now = System.currentTimeMillis()
+        return DateFormat.format("yyyy.MM.dd kk:mm:ss",now).toString()
+    }
+
+    data class SearchHistory(
+        val basicSearch : HashMap<String,String> = HashMap(),
+        val communitySearch : HashMap<String,String> = HashMap()
+    )
+
+    private fun updateSearchHistory( updatedData : HashMap<String,String>){
+        userRef.collection("History").document("Search")
+            .update("basicSearch",updatedData)
+    }
+
+    private fun addKeywordToSearchHistory(text : String){
+        userRef.collection("History").document("Search").get()
+            .addOnSuccessListener {
+                val searchHistoryHash = it.toObject(SearchHistory::class.java)?.basicSearch
+                searchHistoryHash?.set(text, getCurrentTime())
+                if (searchHistoryHash != null) {
+                    updateSearchHistory(searchHistoryHash)
+                }
+            }
     }
 }

@@ -11,6 +11,7 @@ data class RecipeInformation(
     var searched : Int = 0,
     var name : String = "None",
     var introduce : String = "None",
+    var imgUrl : String? = null,
     var nutrition : ArrayList<String> = ArrayList<String>(),
     var ingredient : ArrayList<String> = ArrayList<String>(),
     var order : ArrayList<String> = ArrayList<String>()
