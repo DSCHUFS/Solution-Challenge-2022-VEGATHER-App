@@ -120,13 +120,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginBottom="10dp"
-                android:scaleType="centerCrop"
+                android:scaleType="centerInside"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_signup"
-                app:srcCompat="@drawable/food_sampe2" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_signup" />
 
             <LinearLayout
                 android:id="@+id/linearLayout7"
@@ -188,8 +187,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
+                android:lineSpacingExtra="2dp"
                 android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout8"
@@ -204,7 +204,6 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="15dp"
-                android:background="@drawable/underline_maingreen"
                 android:orientation="horizontal"
                 android:paddingBottom="5dp">
 
@@ -212,7 +211,7 @@
                     android:id="@+id/seeMore"
                     android:layout_width="wrap_content"
                     android:layout_height="27dp"
-                    android:drawableEnd="@drawable/arrow_right_green"
+                    android:drawableEnd="@drawable/arrow_right_gray"
                     android:text="See More"
                     android:textColor="@color/main_green"
                     android:textSize="18sp" />

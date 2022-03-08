@@ -60,7 +60,7 @@
                 android:inputType="textPersonName"
                 android:textColor="@color/black"
                 android:textColorHint="@color/sub_text_gray"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
         </LinearLayout>
     </LinearLayout>
