@@ -131,7 +131,7 @@ class OrderRecyclerAdapter(private val orderList:MutableList<Any?>, private val 
                         Log.d("uid", uid!!)
                         Log.d("timestamp", timestamp!!)
                         val path = storageRef.child(uid + " " + timestamp + " " + havePhotoIndex[0].toString())
-                        Log.d("storage path", uid + " " + timestamp + " " + havePhotoIndex[0].toString())
+                        Log.d("storage path in detail activity", uid + " " + timestamp + " " + havePhotoIndex[0].toString())
                         path.downloadUrl.addOnCompleteListener {
                             if (it.isSuccessful){
                                 Glide.with(this.imageViewOrder).load(it.result).into(imageViewOrder)

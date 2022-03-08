@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Build
@@ -17,14 +16,10 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.*
-import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
-import androidx.core.view.marginEnd
-import androidx.core.view.marginRight
 import androidx.gridlayout.widget.GridLayout
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommunityWriteBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -163,7 +158,7 @@ class CommunityWriteActivity : PermissionActivity() {
         db.collection("Post").document(path)
             .set(newpost)
             .addOnSuccessListener {
-                uploadPhoto()
+                uploadPhoto(photoList, havePhotoList)
                 Log.d(TAG, "Upload new recipe successfully")
                 val intent = Intent(this, CommunityMainActivity::class.java)
                 startActivity(intent)
@@ -247,6 +242,7 @@ class CommunityWriteActivity : PermissionActivity() {
 
         recipeForDB.add(null)
         havePhotoList.add("false")
+        photoList.add(null)
 
         val orderNumber = TextView(this).apply {
             id = countOrder+1
@@ -270,7 +266,6 @@ class CommunityWriteActivity : PermissionActivity() {
             setImageResource(R.drawable.camera_icon)
             scaleType = ImageView.ScaleType.FIT_CENTER
             background = Color.TRANSPARENT.toDrawable()
-
         }
 
         orderComment.setOnFocusChangeListener { v, hasFocus ->
@@ -284,8 +279,13 @@ class CommunityWriteActivity : PermissionActivity() {
 
         orderPhoto.setOnClickListener {
             if (checkSelfPermission(PERM_STORAGE[0]) == PackageManager.PERMISSION_GRANTED){
-                photoNumForOrder = orderNumber.id
-                setPhotoOrder(photoNumForOrder)
+                if (havePhotoList[orderNumber.id] == "true"){
+                    Toast.makeText(this, "You already add your photo!", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    photoNumForOrder = orderNumber.id
+                    setPhotoOrder(photoNumForOrder)
+                }
             }else{
                 Toast.makeText(this, "Strorage permission denied", Toast.LENGTH_SHORT).show()
             }
@@ -303,7 +303,6 @@ class CommunityWriteActivity : PermissionActivity() {
         havePhotoList[orderNumber] = "true"
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-//        intent.putExtra("num", orderNumber)
         Log.d(TAG, "setPhotoOrder putExtra intent : $orderNumber")
         startActivityForResult(intent, 1)
 
@@ -353,11 +352,14 @@ class CommunityWriteActivity : PermissionActivity() {
 //                                Log.d(TAG, "photoList index error")
 //                            }
 //                        }
-                        photoList.add(bitmap)
+
+
                         val relativeLayout = layoutInflater.inflate(R.layout.photo_order, null) as RelativeLayout
 
                         val photoNum = relativeLayout.findViewById<View>(R.id.photoNumber) as TextView
                         photoNum.text = photoNumForOrder.toString()
+
+                        photoList[photoNum.text.toString().toInt()-1] = bitmap
 
                         val photo = relativeLayout.findViewById<View>(R.id.photo) as ImageView
                         photo.setImageBitmap(bitmap)
@@ -371,7 +373,16 @@ class CommunityWriteActivity : PermissionActivity() {
 
                         val removePhoto = relativeLayout.findViewById<View>(R.id.removePhoto) as TextView
                         removePhoto.setOnClickListener {
-                            binding.photoOrder.removeView(relativeLayout)
+                            val builder = AlertDialog.Builder(this)
+                            builder.setTitle("Remove photo").setMessage("Do you want to remove photo?")
+                            builder.setNegativeButton("Remove"){ _, _ ->
+                                binding.photoOrder.removeView(relativeLayout)
+                                havePhotoList[photoNum.text.toString().toInt()] = "false"
+                                photoList[photoNum.text.toString().toInt()-1] = null
+                            }
+                            builder.setPositiveButton("Cancel", null)
+                            builder.create()
+                            builder.show()
                         }
 
                     }
@@ -383,7 +394,7 @@ class CommunityWriteActivity : PermissionActivity() {
         }
     }
 
-    private fun uploadPhoto(){
+    private fun uploadPhoto(photoList: MutableList<Bitmap?>, havePhotoList: MutableList<String>) {
         val storage = Firebase.storage
         val storageRef = storage.reference
         val uid = FirebaseAuth.getInstance().currentUser?.uid
@@ -394,8 +405,8 @@ class CommunityWriteActivity : PermissionActivity() {
 
         Log.d("havePhotoList", havePhotoList.toString())
 
-        for (i in 0 until havePhotoList.size){
-            if (havePhotoList[i] == "true"){
+        for (i in 0 until this.havePhotoList.size){
+            if (this.havePhotoList[i] == "true"){
                 havePhotoIndexList.add(i)
             }
         }
@@ -406,6 +417,7 @@ class CommunityWriteActivity : PermissionActivity() {
             if (photo != null){
                 val index = havePhotoIndexList[0]
                 path = "$path $index"
+                Log.d("storage path in write activity", path)
                 havePhotoIndexList.removeAt(0)
                 val nameRef = storageRef.child(path)
                 val baos = ByteArrayOutputStream()
@@ -414,7 +426,7 @@ class CommunityWriteActivity : PermissionActivity() {
 
                 var uploadTask = nameRef.putBytes(data)
                 uploadTask.addOnFailureListener {
-                    // Handle unsuccessful uploads
+                    Log.d("upload photo into storage failed", "")
                 }.addOnSuccessListener { taskSnapshot ->
                     // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
                     // ...

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommunityMainBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.CommunityRecyclerBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.initialize
 import com.google.firebase.storage.ktx.storage
@@ -43,6 +44,7 @@ class CommunityMainActivity : AppCompatActivity() {
         //var recyclerAdapter = RecyclerAdapter(post)
         val postList = mutableListOf<Post>()
         db.collection("Post")
+            .orderBy("timestamp", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { result ->
                 for(document in result){
