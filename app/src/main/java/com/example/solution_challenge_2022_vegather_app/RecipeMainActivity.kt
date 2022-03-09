@@ -97,7 +97,20 @@ class RecipeMainActivity : AppCompatActivity() {
         binding.imageButton2.setOnClickListener {
             finish()
         }
+
+        val customUiBar = UiBar(window)
+        binding.nestedScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if( scrollY < binding.reipceImage.height ){
+                customUiBar.setStatusBarIconColor(isBlack = false)
+            }
+            else{
+                customUiBar.setStatusBarIconColor(isBlack = true)
+            }
+        }
     }
+
+
+
 
     private fun connectIngredientsAdapterWithOrientation(layout : String){
         when(layout){
@@ -206,7 +219,6 @@ class RecipeMainActivity : AppCompatActivity() {
     private fun changeUiBarColor(){
         val customUiBar = UiBar(window)
         customUiBar.setStatusBarTransparent()
-        customUiBar.setStatusBarIconColor(isBlack = true)
         customUiBar.setNaviBarIconColor(isBlack = true)
     }
 
