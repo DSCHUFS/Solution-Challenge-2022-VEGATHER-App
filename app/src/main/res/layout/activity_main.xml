@@ -190,7 +190,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
                 android:lineSpacingExtra="2dp"
-                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+                android:textAlignment="viewStart"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout8"
                 app:layout_constraintEnd_toEndOf="parent"
