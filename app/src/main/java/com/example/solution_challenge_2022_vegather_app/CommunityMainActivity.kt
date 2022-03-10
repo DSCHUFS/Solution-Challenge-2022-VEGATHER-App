@@ -17,15 +17,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommunityMainBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.CommunityRecyclerBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.initialize
 import com.google.firebase.storage.ktx.storage
+import java.util.ArrayList
 
 class CommunityMainActivity : AppCompatActivity() {
 
     val binding by lazy{ActivityCommunityMainBinding.inflate(layoutInflater)}
     private lateinit var db: FirebaseFirestore
-    private lateinit var recyclerAdapter: RecyclerAdapter
+    private lateinit var recyclerAdapter: communityRecyclerAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,14 +44,16 @@ class CommunityMainActivity : AppCompatActivity() {
         //var recyclerAdapter = RecyclerAdapter(post)
         val postList = mutableListOf<Post>()
         db.collection("Post")
+            .orderBy("timestamp", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { result ->
                 for(document in result){
                     val title = document.get("title")
                     val subtitle = document.get("subtitle")
                     val date = document.get("timestamp")
-                    Log.d("load Post", title.toString() + subtitle.toString() + date.toString())
-                    val post = Post(title=title, subtitle=subtitle, timestamp = date)
+                    val nickname = document.get("writer")
+                    Log.d("load Post", title.toString() +" "+subtitle.toString() + " " + date.toString())
+                    val post = Post(title=title, subtitle=subtitle, timestamp = date, writer = nickname)
                     postList.add(post)
                     Log.d("add post to postList", postList[postList.size-1].title.toString() + postList[postList.size-1].subtitle.toString() + postList[postList.size-1].timestamp.toString())
                     Log.d("before iter end post list", postList.toString())
@@ -61,7 +65,7 @@ class CommunityMainActivity : AppCompatActivity() {
                 Log.d(TAG, "Error getting documents: ", e)
             }
 
-        recyclerAdapter = RecyclerAdapter(postList)
+        recyclerAdapter = communityRecyclerAdapter(postList)
         recyclerAdapter.notifyDataSetChanged()
         binding.communityRecyclerView.adapter = recyclerAdapter
         binding.communityRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -114,7 +118,7 @@ class CommunityMainActivity : AppCompatActivity() {
 //    }
 }
 
-class RecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Adapter<RecyclerAdapter.Holder>() {
+class communityRecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Adapter<communityRecyclerAdapter.Holder>() {
 
     class Holder(val binding:CommunityRecyclerBinding):RecyclerView.ViewHolder(binding.root){
 
@@ -123,9 +127,10 @@ class RecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Adapter<Recy
             with(binding){
                 textView10.text = "${post.title}"
                 textView11.text = "${post.subtitle}"
-                textView12.text = "${post.timestamp}"
+                textView12.text = "${post.timestamp.toString().substring(0, 10)}"
                 textView13.text = "${post.like}"
                 textView14.text = "${post.comment}"
+
             }
         }
     }
@@ -142,8 +147,11 @@ class RecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Adapter<Recy
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, CommunityDetailActivity::class.java)
-            //intent.putExtra~~
-            ContextCompat.startActivity(holder.itemView?.context, intent, null)
+            intent.putExtra("post info", "${post.timestamp} ${post.title}")
+            intent.putExtra("like", post.like)
+            intent.putExtra("comment", post.comment)
+            intent.putExtra("nickname", post.writer.toString())
+            startActivity(holder.itemView?.context, intent, null)
         }
     }
 
