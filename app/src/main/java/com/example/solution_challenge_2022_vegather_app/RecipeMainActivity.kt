@@ -121,10 +121,10 @@ class RecipeMainActivity : AppCompatActivity() {
     }
 
     private fun getImageLoadingEffect(){
-        Glide.with(this)
-            .load(R.drawable.loading_bigsize)
-            .centerInside()
-            .into(binding.reipceImage)
+//        Glide.with(this)
+//            .load(R.drawable.loading_bigsize)
+//            .centerInside()
+//            .into(binding.reipceImage)
     }
 
     private fun getImage( url : String ){

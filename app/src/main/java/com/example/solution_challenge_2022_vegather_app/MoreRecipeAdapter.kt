@@ -33,9 +33,9 @@ class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as MoreRecipeViewHolder).binding
 
-        Glide.with(context)
-            .load(R.drawable.loading_bigsize)
-            .into(binding.imageView3)
+//        Glide.with(context)
+//            .load(R.drawable.loading_bigsize)
+//            .into(binding.imageView3)
 
         binding.foodName.text = dataset[position].name
         binding.foodInfo.text = dataset[position].introduce

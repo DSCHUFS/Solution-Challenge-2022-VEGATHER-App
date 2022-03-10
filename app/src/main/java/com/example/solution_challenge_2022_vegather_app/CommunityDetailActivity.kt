@@ -2,6 +2,7 @@ package com.example.solution_challenge_2022_vegather_app
 
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,8 +19,12 @@ import com.bumptech.glide.Glide
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommunityDetailBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.CommunityIngredientRecyclerBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.CommunityOrderRecyclerBinding
-import com.facebook.internal.Mutable
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -28,20 +33,30 @@ import java.lang.Exception
 class CommunityDetailActivity : AppCompatActivity() {
 
     private lateinit var db : FirebaseFirestore
-
+    private var currentStatusOfLike = false
+    private lateinit var auth : FirebaseAuth
+    private lateinit var user : FirebaseUser
+    private lateinit var currentUserRef : DocumentReference
+    private lateinit var documentName : String
+    val binding by lazy{ActivityCommunityDetailBinding.inflate(layoutInflater)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityCommunityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val uiBarCustom = UiBar(window)
         uiBarCustom.setStatusBarIconColor(isBlack = true)
         uiBarCustom.setNaviBarIconColor(isBlack = true)
 
-        binding.textLike.text = intent.getIntExtra("like", -1).toString()
-        binding.textComment.text = intent.getIntExtra("comment", -1).toString()
+
         binding.textNickname.text = intent.getStringExtra("nickname")
+        var nowLike : Int? =  intent.getIntExtra("like", -1)
+        var nowComment : Int? = intent.getIntExtra("comment", -1)
+        documentName = intent.getStringExtra("document name").toString()
+        Log.d("document name", documentName)
+
+        binding.textLike.text = nowLike.toString()
+        binding.textComment.text = nowComment.toString()
 
 
         binding.textComment.setOnClickListener {
@@ -153,7 +168,98 @@ class CommunityDetailActivity : AppCompatActivity() {
         binding.ingredientRecyclerOdd.layoutManager = LinearLayoutManager(this)
 
         //좋아요 버튼 작업
+        auth = FirebaseAuth.getInstance()
+        user = auth.currentUser!!
+        currentUserRef = db.collection("Users").document(user.email.toString())
 
+        currentUserRef.collection("History")
+            .document("Like")
+            .get()
+            .addOnSuccessListener {
+                currentStatusOfLike = isRecipeLiked(it, documentName)
+                updateLikeButtonColor(currentStatusOfLike)
+            }
+
+        binding.imageViewLike.setOnClickListener {
+            currentStatusOfLike = !currentStatusOfLike
+            Log.d("click like button -> now like state", currentStatusOfLike.toString())
+            updateLike(isLiked = currentStatusOfLike, nowLike)
+            updateLikeButtonColor(currentStatusOfLike)
+        }
+
+        db.collection("Post").document(documentName)
+            .addSnapshotListener { value, error ->
+                val getLike = value!!.get("like")
+                Log.d("type of getLike", getLike!!.javaClass.name)
+                Log.d("type of getLike", (getLike as Long).toIntOrNull()!!.javaClass.name)
+                nowLike = (getLike as Long).toIntOrNull()
+                nowComment = (value!!.get("comment") as Long).toIntOrNull()
+
+                binding.textLike.text = nowLike.toString()
+                binding.textComment.text = nowComment.toString()
+            }
+    }
+
+    //Long to Int type casting
+    private fun Long.toIntOrNull(): Int? {
+        val i = this.toInt()
+        return if (i.toLong() == this) i else null
+    }
+
+    private fun isRecipeLiked(likedRecipe: DocumentSnapshot?, documentName: String): Boolean {
+        val likedList = likedRecipe!!.toObject(HistoryLikedRecipe::class.java)
+        return likedList?.communityRecipe?.contains(documentName) ?: false
+    }
+
+    private fun updateLikeButtonColor(isLiked: Boolean) {
+        when(isLiked){
+            true -> binding.imageViewLike
+                .setColorFilter(Color.parseColor("#E16D64"))
+            false -> binding.imageViewLike
+                .setColorFilter(Color.parseColor("#BCBCBC"))
+        }
+    }
+
+    private fun updateLike(isLiked: Boolean, nowLike: Int?) {
+        val addedNum = if (isLiked) 1 else -1
+
+        if(nowLike is Int){
+            db.collection("Post")
+                .document(documentName)
+                .update("like", nowLike + addedNum)
+                .addOnSuccessListener {
+                    updateLikedRecipeInDataBase(isLiked)
+                }
+        }
+        else{
+            Log.d(TAG, "nowLike is null")
+        }
+
+    }
+
+    private fun updateLikedRecipeInDataBase(isLiked: Boolean) {
+        when(isLiked){
+            true -> {
+                currentUserRef.collection("History").document("Like")
+                    .update("communityRecipe", FieldValue.arrayUnion(documentName))
+                    .addOnSuccessListener {
+                        Log.d("addLikedRecipeInBasic", "success")
+                    }
+                    .addOnFailureListener {
+                        Log.d("addLikedRecipeInBasic", "fail")
+                    }
+            }
+            false -> {
+                currentUserRef.collection("History").document("Like")
+                    .update("communityRecipe", FieldValue.arrayRemove(documentName))
+                    .addOnSuccessListener {
+                        Log.d("removeLikedRecipeInBasic", "success")
+                    }
+                    .addOnFailureListener {
+                        Log.d("removeLikedRecipeInBasic", "fail")
+                    }
+            }
+        }
     }
 
     private fun deletePost(postTimeStamp: String) {
