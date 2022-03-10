@@ -59,10 +59,7 @@ class CommunityDetailActivity : AppCompatActivity() {
         binding.textComment.text = nowComment.toString()
 
 
-        binding.textComment.setOnClickListener {
-            val commentIntent = Intent(this,CommentActivity::class.java)
-            startActivity(commentIntent)
-        }
+
 
         db = FirebaseFirestore.getInstance()
         val postInfo = intent.getStringExtra("post info").toString().split(" ")
@@ -200,7 +197,14 @@ class CommunityDetailActivity : AppCompatActivity() {
                     binding.textComment.text = nowComment.toString()
                 }
             }
-    }
+
+        //댓글 작업
+        binding.textComment.setOnClickListener {
+            val commentIntent = Intent(this,CommunityCommentActivity::class.java)
+            commentIntent.putExtra("document name", documentName)
+            startActivity(commentIntent)
+        }
+    }// end of onCreate
 
     //Long to Int type casting
     private fun Long.toIntOrNull(): Int? {
