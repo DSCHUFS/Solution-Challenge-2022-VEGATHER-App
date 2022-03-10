@@ -190,13 +190,15 @@ class CommunityDetailActivity : AppCompatActivity() {
         db.collection("Post").document(documentName)
             .addSnapshotListener { value, error ->
                 val getLike = value!!.get("like")
-                Log.d("type of getLike", getLike!!.javaClass.name)
-                Log.d("type of getLike", (getLike as Long).toIntOrNull()!!.javaClass.name)
-                nowLike = (getLike as Long).toIntOrNull()
-                nowComment = (value!!.get("comment") as Long).toIntOrNull()
+                if (getLike != null){
+                    Log.d("type of getLike", getLike!!.javaClass.name)
+                    Log.d("type of getLike", (getLike as Long).toIntOrNull()!!.javaClass.name)
+                    nowLike = (getLike as Long).toIntOrNull()
+                    nowComment = (value!!.get("comment") as Long).toIntOrNull()
 
-                binding.textLike.text = nowLike.toString()
-                binding.textComment.text = nowComment.toString()
+                    binding.textLike.text = nowLike.toString()
+                    binding.textComment.text = nowComment.toString()
+                }
             }
     }
 
@@ -268,7 +270,20 @@ class CommunityDetailActivity : AppCompatActivity() {
         builder.setNegativeButton("Delete"){_, _ ->
             val deletePath = Firebase.auth.currentUser!!.uid.chunked(10)[0] + " " + postTimeStamp
             db.collection("Post").document(deletePath).delete()
-                .addOnSuccessListener { Log.d("delete Post Successfully", deletePath)
+                .addOnSuccessListener {
+                    Log.d("delete Post Successfully", deletePath)
+
+                    val email = FirebaseAuth.getInstance().currentUser?.email
+                    db.collection("Users").document(email.toString())
+                        .collection("History").document("Posting")
+                        .update("posting", FieldValue.arrayRemove(deletePath))
+                        .addOnSuccessListener {
+                            Log.d("delete History posting", "success")
+                        }
+                        .addOnFailureListener {
+                            Log.d("delete History posting", "fail")
+                        }
+
                     val deleteIntent = Intent(this, CommunityMainActivity::class.java)
                     startActivity(deleteIntent)
                 }

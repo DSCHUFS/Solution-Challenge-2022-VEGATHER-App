@@ -40,11 +40,11 @@ class MainActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         storageRef = FirebaseStorage.getInstance().reference
-//            Glide.with(this)
-//                .load(R.drawable.loading_bigsize)
-//                .centerInside()
-//                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-//                .into(binding.imageView7)
+            Glide.with(this)
+                .load(R.drawable.loading_bigsize)
+                .centerInside()
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .into(binding.imageView7)
         getRecipeDataFromFireBase()
 
         changeUiBarColor()
