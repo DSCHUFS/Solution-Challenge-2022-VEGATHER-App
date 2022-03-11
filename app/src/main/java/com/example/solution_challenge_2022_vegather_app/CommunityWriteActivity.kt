@@ -23,6 +23,7 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.gridlayout.widget.GridLayout
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommunityWriteBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -162,6 +163,17 @@ class CommunityWriteActivity : PermissionActivity() {
                 Log.d("newpost setting successfully", newpost.toString())
                 uploadPhoto(photoList, havePhotoList)
                 Log.d(TAG, "Upload new recipe successfully")
+
+                db.collection("Users").document(email.toString())
+                    .collection("History").document("Posting")
+                    .update("posting", FieldValue.arrayUnion(path))
+                    .addOnSuccessListener {
+                        Log.d("add History posting", "success")
+                    }
+                    .addOnFailureListener {
+                        Log.d("add History posting", "fail")
+                    }
+
                 val intent = Intent(this, CommunityMainActivity::class.java)
                 startActivity(intent)
             }

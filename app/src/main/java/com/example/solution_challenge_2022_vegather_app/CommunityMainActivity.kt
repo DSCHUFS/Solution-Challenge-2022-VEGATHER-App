@@ -39,9 +39,7 @@ class CommunityMainActivity : AppCompatActivity() {
         uiBarCustom.setNaviBarIconColor(isBlack = true)
 
         db = FirebaseFirestore.getInstance()
-//        val post = loadPost()
 
-        //var recyclerAdapter = RecyclerAdapter(post)
         val postList = mutableListOf<Post>()
         db.collection("Post")
             .orderBy("timestamp", Query.Direction.DESCENDING)
@@ -52,8 +50,9 @@ class CommunityMainActivity : AppCompatActivity() {
                     val subtitle = document.get("subtitle")
                     val date = document.get("timestamp")
                     val nickname = document.get("writer")
+                    val uid = document.get("uid")
                     Log.d("load Post", title.toString() +" "+subtitle.toString() + " " + date.toString())
-                    val post = Post(title=title, subtitle=subtitle, timestamp = date, writer = nickname)
+                    val post = Post(title=title, subtitle=subtitle, timestamp = date, writer = nickname, uid = uid.toString())
                     postList.add(post)
                     Log.d("add post to postList", postList[postList.size-1].title.toString() + postList[postList.size-1].subtitle.toString() + postList[postList.size-1].timestamp.toString())
                     Log.d("before iter end post list", postList.toString())
@@ -151,6 +150,7 @@ class communityRecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Ada
             intent.putExtra("like", post.like)
             intent.putExtra("comment", post.comment)
             intent.putExtra("nickname", post.writer.toString())
+            intent.putExtra("document name", "${post.uid!!.chunked(10)[0]} ${post.timestamp}")
             startActivity(holder.itemView?.context, intent, null)
         }
     }
