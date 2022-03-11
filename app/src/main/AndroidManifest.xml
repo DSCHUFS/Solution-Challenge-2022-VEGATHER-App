@@ -18,6 +18,9 @@
         android:theme="@style/Theme.SolutionChallenge2022VEGATHERApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".CommunityCommentReplyActivity"
+            android:exported="false" />
+        <activity
             android:name=".CommunityCommentActivity"
             android:exported="false" />
         <activity
