@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.solution_challenge_2022_vegather_app.databinding.MainPageMoreRecipeRecyclerBinding
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -57,13 +58,13 @@ class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding)
                 position + 3
             }
             dataset.subList(position, endPosition ).map { it.imgUrl }.forEach {
-                preload(context, it.toString())
+                preㅣoad(context, it.toString())
             }
         }
 
-
         binding.container.setOnClickListener {
             goToRecipePage(position)
+            updateSearchCount(dataset[position])
         }
 
         db.collection("Recipe").document(dataset[position].name)
@@ -84,19 +85,12 @@ class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding)
         }
     }
 
-    private fun getRecipeImageUrl( recipeName : String ) : String {
-        return "Recipe/${recipeName}.jpg"
+    private fun updateSearchCount( recipe : RecipeInformation ){
+        db.collection("Recipe").document(recipe.name)
+            .update("searched",FieldValue.increment(1))
     }
 
-    private fun getImage( url : String, Img : ImageView ){
-        val imgRef = storageRef.child(url)
-        imgRef.downloadUrl.addOnSuccessListener {
-            Glide.with(context)
-                .load(it)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(Img)
-        }
-    }
+
 
     fun loadParentActivity( c : Context){
         context = c
@@ -108,7 +102,7 @@ class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding)
         context.startActivity(intentRecipe)
     }
 
-    fun preload(context: Context,  url : String) {
+    fun preㅣoad(context: Context,  url : String) {
         Glide.with(context)
             .load(url)
             .centerCrop()

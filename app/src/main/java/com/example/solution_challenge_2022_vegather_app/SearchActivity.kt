@@ -164,12 +164,42 @@ class SearchActivity : AppCompatActivity(), SelectedSearchHistoryListener{
 
     // 2. 데이터 분류
 
+    // compRecipe이 recipe와 동일한 문자가 있는지 검사, 있다면 시작 인덱스를 반환
+    private fun getStartIndexSame( recipe : String, inputText: String) : Int {
+        if( recipe.length < inputText.length){
+            return -1
+        }
+
+        var position = -1
+        var cnt = 0
+        var i = 0
+        var j = 0
+        while (cnt<inputText.length && i < recipe.length){
+            if( recipe[i].lowercase() == inputText[j].lowercase() ){
+                if( cnt==0 ) { position=i }
+                cnt++
+                j++
+            }
+            else if( 0 < cnt && cnt < inputText.length ){
+                return -1
+            }
+            i++
+        }
+        return if ( cnt==inputText.length ){
+            Log.d("입력값에 해당되는 연관 레시피",recipe)
+            position
+        }
+        else -1
+    }
+
     private fun appendSimilarWord(food : String){
         relatedSearchWord.clear()
         startIndex.clear()
 
         for ( recipe in recipeInfo){
-            val startPosition = recipe.name.indexOf(food)
+//            val startPosition = recipe.name.indexOf(food)
+            val startPosition = getStartIndexSame(recipe.name,food)
+            getStartIndexSame(recipe.name,food)
             if( startPosition!=-1 ){
                 relatedSearchWord.add(recipe)
                 startIndex.add(startPosition)
