@@ -8,7 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class MyRecordViewPagerAdapter(fragmentActivity : FragmentActivity, category : String) : FragmentStateAdapter(fragmentActivity) {
 
-    private val fragmentList = listOf<Fragment>(MyRecordBasicFragment(category),MyRecordCommunityFragment())
+    private val fragmentList = listOf<Fragment>(MyRecordBasicFragment(category),MyRecordCommunityFragment(category))
 
     override fun getItemCount(): Int {
         return fragmentList.size

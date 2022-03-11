@@ -16,7 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SolutionChallenge2022VEGATHERApp"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:name=".MyApplication">
+        <activity
+            android:name=".MyPostRecordActivity"
+            android:exported="false" />
         <activity
             android:name=".CommunityCommentActivity"
             android:exported="false" />

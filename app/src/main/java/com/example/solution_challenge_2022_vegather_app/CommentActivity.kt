@@ -39,7 +39,10 @@ class CommentActivity : AppCompatActivity() {
         binding.inputDoneButton.setOnClickListener {
             val inputText : String = binding.commentInputText.text.toString()
 
-            if( isCorrectInput(inputText) ) addComment(inputText)
+            if( isCorrectInput(inputText) ){
+                addComment(inputText)
+                MyApplication.prefs.setPrefs("Comment", "Done")
+            }
             else showNotice("There's no comment.")
         }
 

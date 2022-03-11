@@ -21,8 +21,10 @@ import com.example.solution_challenge_2022_vegather_app.model.UserDTO
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import java.time.LocalDate
 import java.util.*
 import kotlin.concurrent.schedule
 import kotlin.concurrent.timer
@@ -33,6 +35,7 @@ class MypageActivity : AppCompatActivity() {
     private lateinit var auth : FirebaseAuth
     private lateinit var db : FirebaseFirestore
     private lateinit var user : FirebaseUser
+    private lateinit var currentUserRef : DocumentReference
     val userInfo = UserDTO()
 
     @RequiresApi(Build.VERSION_CODES.R)
@@ -43,12 +46,15 @@ class MypageActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance() //현재 로그인한 사용자 가져오기
         db = FirebaseFirestore.getInstance()
         user = auth.currentUser!!
+        currentUserRef = db.collection("Users").document(user.email.toString())
+        currentUserRef.get().addOnSuccessListener { binding.userNickname.text = it.data?.get("NickName").toString() }
 
         val customUiBar = UiBar(window)
         customUiBar.setStatusBarIconColor(isBlack = false)
         customUiBar.setNaviBarIconColor(isBlack = true)
         customUiBar.setStatusBarTransparent()
-
+        binding.attendanceNum.text = '+' + MyApplication.prefs.getAttend("now", 1).toString()
+        textHighlightingDailyMission(binding.checkAttendance, binding.attendanceNum)
 
         binding.btnBack.setOnClickListener(){
             finish()
@@ -79,50 +85,54 @@ class MypageActivity : AppCompatActivity() {
             intentMyRecordActivityFrom("Comment")
         }
         binding.btnPosting.setOnClickListener {
-            intentMyRecordActivityFrom("Posting")
+            val intentMyRecord = Intent(this,MyPostRecordActivity::class.java)
+            intentMyRecord.putExtra("category","Posting")
+            startActivity(intentMyRecord)
         }
 
-//        binding.radioButton1.setOnCheckedChangeListener { buttonView, isChecked ->
-//            textHighlightingDailyMission(isChecked,buttonView,binding.attendanceNum)
-//        }
-//        binding.radioButton2.setOnCheckedChangeListener { buttonView, isChecked ->
-//            textHighlightingDailyMission(isChecked,buttonView,binding.postingNum)
-//        }
-//        binding.radioButton3.setOnCheckedChangeListener { buttonView, isChecked ->
-//            textHighlightingDailyMission(isChecked,buttonView,binding.commentNum)
-//        }
-//        binding.radioButton4.setOnCheckedChangeListener { buttonView, isChecked ->
-//            textHighlightingDailyMission(isChecked,buttonView,binding.likeNum)
-//        }
-
+        //오늘안에 했으면 불들어오는 버튼 들
+        var checkList = mutableMapOf(
+            "postingCheck" to MyApplication.prefs.getPrefs("Posting","Yet"),
+            "CommentCheck" to MyApplication.prefs.getPrefs("Comment", "Yet"),
+            "LikeCheck" to MyApplication.prefs.getPrefs("Like", "Yet")
+        )
+        with(binding){
+            var list1 = mutableMapOf("postingCheck" to checkPosting,"CommentCheck" to checkComment,"LikeCheck" to checkLike)
+            var list2 = mutableMapOf("postingCheck" to postingNum,"CommentCheck" to commentNum,"LikeCheck" to likeNum)
+            checkList.forEach{key, value ->
+                if(value == "Done") {
+                    list1[key]?.setBackgroundResource(R.drawable.ingredient_background_green)
+                    list1[key]?.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mypage_circle_green, 0, 0, 0)
+                    list1[key]?.let { list2[key]?.let { it1 ->
+                        textHighlightingDailyMission(it, it1)
+                    } }
+                }else{
+                    list1[key]?.setBackgroundResource(R.drawable.comment_input_background)
+                    list1[key]?.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mypage_circle_gray, 0, 0, 0)
+                }
+            }
+        }
     }
-
+//User History DB에 저장된 데이터가 몇개인지 세서 binding 바꾸어주어야함.
     override fun onStart() {
         super.onStart()
-        user?.let{
-            val email = user.email
-            val userRef = db.collection("Users").document(email.toString())
-            userRef.get()
-                .addOnSuccessListener { document ->
-                    if(document != null) {
-                        //Log.d(TAG, "$document.data")
-                        userInfo.nickName =  document.data?.get("NickName").toString()
-                        userInfo.email = document.data?.get("Email").toString()
-                        userInfo.monthlyEat = document.data?.get("MonthlyEat") as Long?
-                        userInfo.point = document.data?.get("Point") as Long?
+        currentUserRef.collection("History")
+            .get()
+            .addOnSuccessListener {
 
-                        binding.userNickname.text = userInfo.nickName
+                for (document in it){
+                    Log.d("My  DOCUMENT ID History List ====>", document.data.toString())
+
+                    when(document.id){
+                        "Comment" -> {
+                            var brn = document.toObject(HistoryLikedRecipe::class.java).size()
+                            binding.commentNum.text = '+' + brn.toString()
+                            Log.d("My  COMMNENT ~~~ History List ====>",brn.toString())
+
+                        }
                     }
                 }
-                .addOnFailureListener{ exception ->
-                    Log.d(ContentValues.TAG, "get fail with", exception)
-                }
-        }
-        with(binding){
-            btnAttendance.setBackgroundResource(R.drawable.ingredient_background_green)
-            btnAttendance.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mypage_circle_green, 0, 0, 0)
-            textHighlightingDailyMission(btnAttendance, attendanceNum)
-        }
+            }
 
         var i : Int = 0
         timer(period = 2, initialDelay = 500){
@@ -130,13 +140,6 @@ class MypageActivity : AppCompatActivity() {
             binding.circleBar.setProgress(i.toFloat())
             if(i==290) {cancel()}
         }
-    }
-
-
-    //뒤로가기 막기
-    //뒤로가기 버튼 누르면 앱이 다운됨
-    override fun onBackPressed() {
-        //super.onBackPressed()
     }
 
     private fun intentMyRecordActivityFrom(text : String){

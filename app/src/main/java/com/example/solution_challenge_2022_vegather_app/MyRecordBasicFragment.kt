@@ -1,7 +1,5 @@
 package com.example.solution_challenge_2022_vegather_app
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -63,28 +61,28 @@ class MyRecordBasicFragment(category : String) : Fragment() {
             .document(ct) //내 좋아요 목록 가져오기
             .get()
             .addOnSuccessListener {
-                var likedList = when(ct){
+                var HistoryList = when(ct){
                     "Like" -> it.toObject(HistoryLikedRecipe::class.java)
                     "Comment" -> it.toObject(HistoryCommentRecipe::class.java)
                     else -> null //posting 관련 data class 넣기
                 }
-                Log.d("like List ====>", likedList.toString())
+                Log.d("My History List ====>", HistoryList.toString())
 
                 db.collection("Recipe") //레시피 목록 가져오기
                     .get()
                     .addOnSuccessListener { recipes->
                         var recipeList = recipes.documents
-                        var likedrecipe = recipes.documents
+                        var HistoryRecipe = recipes.documents
 
                         for(r in recipeList){
-                            when (likedList) {
-                                is HistoryLikedRecipe -> if(!likedList?.basicRecipe?.contains(r.id)) likedrecipe.remove(r)
-                                is HistoryCommentRecipe -> if(!likedList?.basicComment?.contains(r.id)) likedrecipe.remove(r)
+                            when (HistoryList) {
+                                is HistoryLikedRecipe -> if(!HistoryList?.basicRecipe?.contains(r.id)) HistoryRecipe.remove(r)
+                                is HistoryCommentRecipe -> if(!HistoryList?.basicComment?.contains(r.id)) HistoryRecipe.remove(r)
                                 else null //posting 관련 코드
                             }
                         }
                         binding!!.recyclerView.layoutManager = LinearLayoutManager(this.context)
-                        convertDocumentToRecipeInformation(likedrecipe)
+                        convertDocumentToRecipeInformation(HistoryRecipe)
                         adapter.setData(recipeInfo)
                         adapter.loadParentActivity(myRecordActivity)
                         binding!!.recyclerView.adapter = adapter

@@ -227,11 +227,11 @@
                             android:textColor="@color/sub_text_gray" />
 
                         <Button
-                            android:id="@+id/btnAttendance"
+                            android:id="@+id/checkAttendance"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
-                            android:background="@drawable/comment_input_background"
-                            android:drawableStart="@drawable/mypage_circle_gray"
+                            android:background="@drawable/ingredient_background_green"
+                            android:drawableStart="@drawable/mypage_circle_green"
                             android:drawablePadding="10dp"
                             android:duplicateParentState="false"
                             android:paddingLeft="20dp"
@@ -258,7 +258,7 @@
                             android:textColor="@color/sub_text_gray" />
 
                         <Button
-                            android:id="@+id/radioButton2"
+                            android:id="@+id/checkPosting"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
                             android:layout_weight="1"
@@ -290,7 +290,7 @@
                             android:textColor="@color/sub_text_gray" />
 
                         <Button
-                            android:id="@+id/radioButton3"
+                            android:id="@+id/checkComment"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
                             android:background="@drawable/comment_input_background"
@@ -319,7 +319,7 @@
                             android:textColor="@color/sub_text_gray" />
 
                         <Button
-                            android:id="@+id/radioButton4"
+                            android:id="@+id/checkLike"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:background="@drawable/comment_input_background"
