@@ -9,6 +9,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityRecipeMainBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.IngredientRecyclerBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.OrderRecyclerBinding
@@ -17,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,8 +31,9 @@ class RecipeMainActivity : AppCompatActivity() {
     val binding by lazy{ ActivityRecipeMainBinding.inflate(layoutInflater)}
     private var recipeInfo : RecipeInformation? = RecipeInformation()
     private var currentStatusOfLike = false
-    private lateinit var currentUserRef : DocumentReference
 
+    private lateinit var currentUserRef : DocumentReference
+    private lateinit var storageRef : StorageReference
     private lateinit var db: FirebaseFirestore
     private lateinit var auth : FirebaseAuth
     private lateinit var user : FirebaseUser
@@ -39,10 +44,13 @@ class RecipeMainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         db = FirebaseFirestore.getInstance()
+        storageRef = FirebaseStorage.getInstance().reference
         auth = FirebaseAuth.getInstance() //현재 로그인한 사용자 가져오기
         user = auth.currentUser!!
         currentUserRef = db.collection("Users").document(user.email.toString())
         recipeInfo = intent.getParcelableExtra<RecipeInformation>("recipeInfo")
+
+        changeUiBarColor()
 
         // 유저가 좋아요한 레시피면 좋아요 표시를 활성화
         currentUserRef.collection("History")
@@ -50,26 +58,24 @@ class RecipeMainActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener {
                 currentStatusOfLike = isRecipeLiked(it)
-                updateLikeButtonColor(isLiked = currentStatusOfLike)
+                updateLikeButtonColor(currentStatusOfLike)
             }
 
         // 좋아요와 댓글 수는 실시간으로 업데이트가 필요한 변수이므로 리스너를 추가
         db.collection("Recipe").document("${recipeInfo?.name}")
             .addSnapshotListener { value, error ->
                 val latestRecipeInfo = value?.toObject(RecipeInformation::class.java)
-                if (latestRecipeInfo != null) {
-                    updateLikeCount(latestRecipeInfo.like)
-                    updateCommentCount(latestRecipeInfo.comment)
-                }
+                recipeInfo?.like = latestRecipeInfo?.like!!
+                recipeInfo?.comment = latestRecipeInfo.comment
+
+                binding.recipeLike.text = latestRecipeInfo.like.toString()
+                binding.recipeComment.text = latestRecipeInfo.comment.toString()
             }
 
-        binding.imageButton2.setOnClickListener {
-            finish()
-        }
-
-        changeUiBarColor()
-
-        setFixedRecipeData(intent)
+        getImageLoadingEffect()
+        getRecipeData()
+        connectOrderAdapter()
+        connectIngredientsAdapterWithOrientation("horizontal")
 
         binding.likeButton.setOnClickListener {
             currentStatusOfLike = !currentStatusOfLike
@@ -77,7 +83,7 @@ class RecipeMainActivity : AppCompatActivity() {
             updateLikeButtonColor(currentStatusOfLike)
         }
 
-        binding.recipeComment.setOnClickListener {
+        binding.commentContainer.setOnClickListener {
             loadCommentActivity()
         }
 
@@ -87,23 +93,24 @@ class RecipeMainActivity : AppCompatActivity() {
                 R.id.radioButton3 -> connectIngredientsAdapterWithOrientation("vertical")
             }
         }
-    }
 
+        binding.imageButton2.setOnClickListener {
+            finish()
+        }
 
-
-    private fun changeUiBarColor(){
         val customUiBar = UiBar(window)
-        customUiBar.setStatusBarTransparent()
-        customUiBar.setStatusBarIconColor(isBlack = true)
-        customUiBar.setNaviBarIconColor(isBlack = true)
+        binding.nestedScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if( scrollY < binding.reipceImage.height ){
+                customUiBar.setStatusBarIconColor(isBlack = false)
+            }
+            else{
+                customUiBar.setStatusBarIconColor(isBlack = true)
+            }
+        }
     }
 
-    private fun loadCommentActivity(){
-        val commentIntent = Intent(this,CommentActivity::class.java)
-        commentIntent.putExtra("commentCount",recipeInfo?.comment)
-        commentIntent.putExtra("recipe",recipeInfo?.name)
-        startActivity(commentIntent)
-    }
+
+
 
     private fun connectIngredientsAdapterWithOrientation(layout : String){
         when(layout){
@@ -126,23 +133,38 @@ class RecipeMainActivity : AppCompatActivity() {
         binding.orderRecycler.adapter = adapter
     }
 
-    private fun setFixedRecipeData(intent : Intent){
+    private fun getImageLoadingEffect(){
+        Glide.with(this)
+            .load(R.drawable.loading_bigsize)
+            .centerInside()
+            .into(binding.reipceImage)
+    }
+
+    private fun getImage( url : String ){
+        val imgRef = storageRef.child(url)
+        imgRef.downloadUrl.addOnSuccessListener {
+            Glide.with(this)
+                .load(it)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(binding.reipceImage)
+        }
+    }
+
+    private fun getRecipeData(){
         binding.recipeName.text = recipeInfo?.name
         binding.recipeIntroduce.text = recipeInfo?.introduce
         binding.recipeLike.text = recipeInfo?.like.toString()
         binding.recipeComment.text = recipeInfo?.comment.toString()
+        getImage(recipeInfo?.imgUrl.toString())
         binding.recipeNutrition1.text = recipeInfo?.nutrition?.get(0)
         binding.recipeNutrition2.text = recipeInfo?.nutrition?.get(1)
         binding.recipeNutrition3.text = recipeInfo?.nutrition?.get(2)
         binding.recipeNutrition4.text = recipeInfo?.nutrition?.get(3)
-        connectOrderAdapter()
-        connectIngredientsAdapterWithOrientation("horizontal")
     }
 
     private fun isRecipeLiked(likedRecipe: DocumentSnapshot) : Boolean {
         val likedList = likedRecipe.toObject(HistoryLikedRecipe::class.java)
-        Log.d("isP",likedRecipe.get("basicRecipe").toString())
-        Log.d("isP",likedList?.basicRecipe?.contains(recipeInfo?.name).toString())
         return likedList?.basicRecipe?.contains(recipeInfo?.name) ?: false
     }
 
@@ -183,16 +205,6 @@ class RecipeMainActivity : AppCompatActivity() {
             }
     }
 
-    private fun updateLikeCount(number : Int){
-        recipeInfo?.like = number
-        binding.recipeLike.text = number.toString()
-    }
-
-    private fun updateCommentCount(number : Int){
-        recipeInfo?.comment = number
-        binding.recipeComment.text = number.toString()
-    }
-
     private fun updateLikeButtonColor(isLiked : Boolean){
         when(isLiked){
             true -> binding.likeButton
@@ -200,5 +212,19 @@ class RecipeMainActivity : AppCompatActivity() {
             false -> binding.likeButton
                 .setColorFilter(Color.parseColor("#BCBCBC"))
         }
+    }
+
+    // 부가적인 작업 ( 서브 )
+
+    private fun changeUiBarColor(){
+        val customUiBar = UiBar(window)
+        customUiBar.setStatusBarTransparent()
+        customUiBar.setNaviBarIconColor(isBlack = true)
+    }
+
+    private fun loadCommentActivity(){
+        val commentIntent = Intent(this,CommentActivity::class.java)
+        commentIntent.putExtra("recipe",recipeInfo?.name)
+        startActivity(commentIntent)
     }
 }

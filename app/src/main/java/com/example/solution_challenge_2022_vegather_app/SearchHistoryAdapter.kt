@@ -12,77 +12,86 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.solution_challenge_2022_vegather_app.databinding.SearchHistoryRecyclerBinding
 import com.facebook.gamingservices.cloudgaming.CloudGameLoginHandler.init
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.*
 
-class SearchHistoryAdapter(private val binding : SearchHistoryRecyclerBinding,private val listener : SelectedSearchHistoryListener) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+@SuppressLint("NotifyDataSetChanged")
+class SearchHistoryAdapter(private val binding : SearchHistoryRecyclerBinding,
+                           private val listener : SelectedSearchHistoryListener,
+                           private val context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
-    private val dataset = ArrayList<String>()
-    private lateinit var context : Context
 
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val user = FirebaseAuth.getInstance().currentUser!!
+    private val userRef: DocumentReference = db.collection("Users").document(user.email.toString())
+
+    private lateinit var searchHistoryHash : HashMap<String,String>
+    private val searchHistoryList = ArrayList<String>()
+    init {
+        userRef.collection("History").document("Search")
+            .addSnapshotListener { value, error ->
+                searchHistoryList.clear()
+                setCommentListAndHash(value)
+                notifyDataSetChanged()
+            }
+    }
 
     inner class SearchHistoryViewHolder(val binding : SearchHistoryRecyclerBinding) :
         RecyclerView.ViewHolder(binding.root){}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
-            RecyclerView.ViewHolder = SearchHistoryViewHolder(
-        SearchHistoryRecyclerBinding.inflate(
-        LayoutInflater.from(parent.context),parent,false))
+            RecyclerView.ViewHolder = SearchHistoryViewHolder(SearchHistoryRecyclerBinding
+        .inflate(LayoutInflater.from(parent.context),parent,false))
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as SearchHistoryAdapter.SearchHistoryViewHolder).binding
 
-        binding.searchHistoryText.text = dataset[position]
-        val currentText = binding.searchHistoryText.text.toString()
+        binding.searchHistoryText.text = searchHistoryList[position]
 
         binding.searchHistoryText.setOnClickListener {
             listener.onSearchHistorySelected(binding.searchHistoryText.text.toString())
         }
 
         binding.imageButton15.setOnClickListener {
-            deleteSearchHistory(position)
+            deleteOneSearchHistory(position)
         }
     }
 
     override fun getItemCount(): Int {
-        return dataset.size
+        return searchHistoryList.size
     }
 
-    fun settingData(){
-        for (i in 1..10){
-            val s = "Masala Pasta$i"
-            dataset.add(s)
+    data class SearchHistory(
+        val basicSearch : HashMap<String,String> = HashMap(),
+        val communitySearch : HashMap<String,String> = HashMap()
+    )
+
+    private fun setCommentListAndHash(snapshot: DocumentSnapshot?){
+        if( snapshot != null ){
+            searchHistoryHash = snapshot.toObject(SearchHistory::class.java)?.basicSearch!!
+            val sortedHistoryByTimestamp = searchHistoryHash.toList()
+                .sortedWith(compareByDescending { it.second })
+                .toMap()
+
+            for( element in sortedHistoryByTimestamp ) searchHistoryList.add(element.key)
         }
     }
 
-    fun addData(text : String){
-        dataset.add(0,text)
-        notifyItemInserted(0)
-        notifyItemRangeInserted(0,itemCount)
+    private fun updateSearchHistory( searchHistoryHash : HashMap<String,String>){
+        userRef.collection("History").document("Search")
+            .update("basicSearch",searchHistoryHash)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun deleteSearchHistory(position : Int){
-        dataset.removeAt(position)
-        notifyItemRemoved(position)
-        notifyItemRangeChanged(position,itemCount)
-    }
-
-    private fun sendFoodInfoToRecipeActivity(foodName : String){
-        val intentRecipe = Intent(context,RecipeMainActivity::class.java)
-        intentRecipe.putExtra("callNumberFromAdapter",2)
-        intentRecipe.putExtra("foodNameFromAdapter",foodName)
-        context.startActivity(intentRecipe)
+    private fun deleteOneSearchHistory(position : Int){
+        searchHistoryHash.remove(searchHistoryList[position])
+        updateSearchHistory(searchHistoryHash)
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun deleteAllSearchHistory(){
-        dataset.clear()
-        notifyDataSetChanged()
+        searchHistoryHash.clear()
+        updateSearchHistory(searchHistoryHash)
     }
-
-    fun loadParentActivity(c : Context){
-        context = c
-    }
-
 }

@@ -1,5 +1,7 @@
 package com.example.solution_challenge_2022_vegather_app
 
+import com.facebook.internal.Mutable
+
 data class Post(
     var title:Any?,
     var subtitle:Any?,
@@ -9,6 +11,7 @@ data class Post(
     var recipe  : MutableList<Any?> = mutableListOf(""),
     var timestamp:Any?,
     var like:Int? = 0,
-    var comment:Int? = 0
-
+    var comment:Int? = 0,
+    var havePhoto: MutableList<String> = mutableListOf("false"),
+    var uid:String? = ""
 )
