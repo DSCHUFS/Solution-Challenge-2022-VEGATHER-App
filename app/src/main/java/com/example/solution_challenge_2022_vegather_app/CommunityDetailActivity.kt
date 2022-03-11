@@ -182,6 +182,7 @@ class CommunityDetailActivity : AppCompatActivity() {
             Log.d("click like button -> now like state", currentStatusOfLike.toString())
             updateLike(isLiked = currentStatusOfLike, nowLike)
             updateLikeButtonColor(currentStatusOfLike)
+            if(currentStatusOfLike) MyApplication.prefs.setPrefs("Like", "Done")
         }
 
         db.collection("Post").document(documentName)

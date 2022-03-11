@@ -135,6 +135,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
@@ -143,12 +144,15 @@
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
                         android:layout_gravity="center">
 
                         <com.example.solution_challenge_2022_vegather_app.CustomCircleBar
                             android:id="@+id/circleBar"
                             android:layout_width="match_parent"
-                            android:layout_height="175dp" />
+                            android:layout_height="150dp"
+                            android:padding="30dp"
+                            />
 
                         <TextView
                             android:id="@+id/monthly_percent"
@@ -170,6 +174,7 @@
                             android:id="@+id/monthly_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:text="954"
                             android:textColor="@color/main_green"
                             android:textSize="18sp" />
@@ -178,6 +183,7 @@
                             android:id="@+id/textView60"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:layout_marginLeft="5dp"
                             android:layout_weight="1"
                             android:text="/ 1000"
@@ -220,14 +226,12 @@
                             android:text="+5"
                             android:textColor="@color/sub_text_gray" />
 
-                        <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/radioButton1"
+                        <Button
+                            android:id="@+id/checkAttendance"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/ingredient_background_selector"
-                            android:button="@null"
-                            android:checked="false"
-                            android:drawableLeft="@drawable/mypage_monthly_selector"
+                            android:layout_height="40dp"
+                            android:background="@drawable/ingredient_background_green"
+                            android:drawableStart="@drawable/mypage_circle_green"
                             android:drawablePadding="10dp"
                             android:duplicateParentState="false"
                             android:paddingLeft="20dp"
@@ -253,15 +257,13 @@
                             android:text="+20"
                             android:textColor="@color/sub_text_gray" />
 
-                        <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/radioButton2"
+                        <Button
+                            android:id="@+id/checkPosting"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="40dp"
                             android:layout_weight="1"
-                            android:background="@drawable/ingredient_background_selector"
-                            android:button="@null"
-                            android:checked="false"
-                            android:drawableLeft="@drawable/mypage_monthly_selector"
+                            android:background="@drawable/comment_input_background"
+                            android:drawableStart="@drawable/mypage_circle_gray"
                             android:drawablePadding="10dp"
                             android:duplicateParentState="false"
                             android:paddingLeft="20dp"
@@ -287,14 +289,12 @@
                             android:text="+10"
                             android:textColor="@color/sub_text_gray" />
 
-                        <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/radioButton3"
+                        <Button
+                            android:id="@+id/checkComment"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/ingredient_background_selector"
-                            android:button="@null"
-                            android:checked="false"
-                            android:drawableLeft="@drawable/mypage_monthly_selector"
+                            android:layout_height="40dp"
+                            android:background="@drawable/comment_input_background"
+                            android:drawableStart="@drawable/mypage_circle_gray"
                             android:drawablePadding="10dp"
                             android:duplicateParentState="false"
                             android:paddingLeft="20dp"
@@ -318,14 +318,12 @@
                             android:text="+7"
                             android:textColor="@color/sub_text_gray" />
 
-                        <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/radioButton4"
+                        <Button
+                            android:id="@+id/checkLike"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/ingredient_background_selector"
-                            android:button="@null"
-                            android:checked="false"
-                            android:drawableLeft="@drawable/mypage_monthly_selector"
+                            android:layout_height="40dp"
+                            android:background="@drawable/comment_input_background"
+                            android:drawableStart="@drawable/mypage_circle_gray"
                             android:drawablePadding="10dp"
                             android:duplicateParentState="false"
                             android:paddingLeft="20dp"

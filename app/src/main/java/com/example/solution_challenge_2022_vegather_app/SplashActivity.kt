@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import java.time.LocalDate
 
 class SplashActivity : AppCompatActivity() {
 
@@ -23,6 +24,25 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+
+        val today: LocalDate = LocalDate.now()
+
+        //하루가 바꼈을 때
+        if(today.toString() != MyApplication.prefs.getPrefs("today", "")){
+            MyApplication.prefs.setPrefs("today", today.toString())
+            MyApplication.prefs.setPrefs("Posting", "Yet")
+            MyApplication.prefs.setPrefs("Comment", "Yet")
+            MyApplication.prefs.setPrefs("Like", "Yet")
+
+            //출석 횟수 측정
+            var attendNum = MyApplication.prefs.getAttend("now",0)
+            if(attendNum == 0){
+                MyApplication.prefs.setAttend("now", 1)
+            }else{
+                MyApplication.prefs.setAttend("now", attendNum+1)
+            }
+        }
+
 
         // 화면의 상태바와 네비게이션 바를 모두 투명하게 해서 스플래쉬 화면만 보이게 한다.
         window.setFlags(
