@@ -21,7 +21,7 @@ class MyRecordActivity : AppCompatActivity() {
             finish()
         }
 
-        val viewPagerAdapter = MyRecordViewPagerAdapter(this)
+        val viewPagerAdapter = MyRecordViewPagerAdapter(this, title)
         viewPagerAdapter.notifyDataSetChanged()
 
         binding.vp.adapter = viewPagerAdapter
