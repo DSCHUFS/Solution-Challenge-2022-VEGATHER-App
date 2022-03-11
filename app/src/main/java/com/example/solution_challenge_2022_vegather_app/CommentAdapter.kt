@@ -62,7 +62,7 @@ class CommentAdapter(private val binding : CommentRecyclerBinding,
 
         binding.nickname.text = commentObj[position].nickname
         binding.commentText.text = commentObj[position].text
-        binding.timeStamp.text = commentObj[position].timestamp?.slice(0..10)
+        binding.timeStamp.text = commentObj[position].timestamp?.slice(0..9)
         binding.like.text = commentObj[position].like.size.toString()
         binding.reply.text = "Reply(${commentObj[position].reply})"
         binding.commentDeleteBtn.visibility = setUsersCommentVisibility(commentObj[position].useremail,position)
