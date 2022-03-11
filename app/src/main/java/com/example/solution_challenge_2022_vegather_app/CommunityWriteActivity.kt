@@ -139,7 +139,7 @@ class CommunityWriteActivity : PermissionActivity() {
         Log.d("uid", uid.toString()+formattedDate)
         val email = FirebaseAuth.getInstance().currentUser?.email
 
-        var newpost = Post(title = binding.editTextTitle.text.toString(), subtitle = binding.editTextSubtitle.text.toString(), like = 0, comment = 0,
+        val newpost = Post(title = binding.editTextTitle.text.toString(), subtitle = binding.editTextSubtitle.text.toString(), like = 0, comment = 0,
             timestamp = formattedDate, ingredientName = ingredientNameForDB, ingredientAmount = ingredientAmountForDB, recipe = recipeForDB,
             havePhoto = havePhotoList, uid = uid)
         var nickname : String
@@ -160,10 +160,12 @@ class CommunityWriteActivity : PermissionActivity() {
         db.collection("Post").document(path)
             .set(newpost)
             .addOnSuccessListener {
+                //Post에 newpost 등록 성공시
                 Log.d("newpost setting successfully", newpost.toString())
                 uploadPhoto(photoList, havePhotoList)
                 Log.d(TAG, "Upload new recipe successfully")
 
+                //User history posting 정보 update
                 db.collection("Users").document(email.toString())
                     .collection("History").document("Posting")
                     .update("posting", FieldValue.arrayUnion(path))
@@ -180,6 +182,18 @@ class CommunityWriteActivity : PermissionActivity() {
             .addOnFailureListener {
                 e -> Log.d(TAG, "Error writing new recipe", e)
             }
+
+        val sampleComment = CommentForm()
+        db.collection("Post").document(path)
+            .collection("Comment").add(sampleComment)
+            .addOnSuccessListener {
+                Log.d("Add Comment collection in Post", "success")
+            }
+            .addOnFailureListener {
+                Log.d("Add Comment collection in Post", "fail")
+            }
+
+
 
         ingredientNameForDB.clear()
         ingredientAmountForDB.clear()
