@@ -54,7 +54,7 @@ class CommunityMainActivity : AppCompatActivity() {
                     val like = document.get("like") as Long
                     val comment = document.get("comment") as Long
                     Log.d("load Post", title.toString() +" "+subtitle.toString() + " " + date.toString())
-                    val post = Post(title=title, subtitle=subtitle, timestamp = date, writer = nickname, uid = uid.toString(), like = like.toIntOrNull(), comment = comment.toIntOrNull())
+                    val post = Post(title=title, subtitle=subtitle, timestamp = date, writer = nickname.toString(), uid = uid.toString(), like = like.toIntOrNull(), comment = comment.toIntOrNull())
                     postList.add(post)
                     Log.d("add post to postList", postList[postList.size-1].title.toString() + postList[postList.size-1].subtitle.toString() + postList[postList.size-1].timestamp.toString())
                     Log.d("before iter end post list", postList.toString())

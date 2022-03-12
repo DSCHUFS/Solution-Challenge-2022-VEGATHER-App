@@ -139,10 +139,12 @@ class CommunityWriteActivity : PermissionActivity() {
         Log.d("uid", uid.toString()+formattedDate)
         val email = FirebaseAuth.getInstance().currentUser?.email
 
+
+        var nickname : String
+
         val newpost = Post(title = binding.editTextTitle.text.toString(), subtitle = binding.editTextSubtitle.text.toString(), like = 0, comment = 0,
             timestamp = formattedDate, ingredientName = ingredientNameForDB, ingredientAmount = ingredientAmountForDB, recipe = recipeForDB,
             havePhoto = havePhotoList, uid = uid)
-        var nickname : String
 
         db.collection("Users").document(email.toString()).get()
             .addOnSuccessListener { document ->
