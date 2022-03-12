@@ -175,9 +175,10 @@ class CommunityWriteActivity : PermissionActivity() {
                     .addOnFailureListener {
                         Log.d("add History posting", "fail")
                     }
-
+                MyApplication.prefs.setPrefs("Posting", "Done")
                 val intent = Intent(this, CommunityMainActivity::class.java)
                 startActivity(intent)
+                finish()
             }
             .addOnFailureListener {
                 e -> Log.d(TAG, "Error writing new recipe", e)
