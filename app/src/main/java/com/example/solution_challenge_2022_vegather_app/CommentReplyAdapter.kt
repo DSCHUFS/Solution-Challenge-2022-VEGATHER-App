@@ -1,6 +1,9 @@
 package com.example.solution_challenge_2022_vegather_app
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -28,6 +31,7 @@ class CommentReplyAdapter(private val binding : CommentReplyRecyclerBinding,
     private val userRef: DocumentReference = db.collection("Users").document(user.email.toString())
 
     private var replyCommentList = ArrayList<CommentForm>()
+    private lateinit var context : Context
 
     init {
         // 댓글은 작성 시간 순으로 나열한다.
@@ -72,7 +76,7 @@ class CommentReplyAdapter(private val binding : CommentReplyRecyclerBinding,
         }
 
         binding.replyDeleteBtn.setOnClickListener {
-            deleteReply(position)
+            showDeleteMessage(position)
         }
 
     }
@@ -106,6 +110,10 @@ class CommentReplyAdapter(private val binding : CommentReplyRecyclerBinding,
     private fun setUsersCommentVisibility( id : String?, position: Int ): Int {
         return if ( id != null && id == currentUserId) View.VISIBLE
         else View.GONE
+    }
+
+    fun setContext( c : Context){
+        context = c
     }
 
     // 2. 데이터베이스 작업
@@ -176,6 +184,20 @@ class CommentReplyAdapter(private val binding : CommentReplyRecyclerBinding,
 
     private fun isLikeThisComment( likedList : HashMap<String,Boolean>,position : Int) : Boolean{
         return likedList[currentUserId] == true
+    }
+
+    private fun showDeleteMessage(position: Int){
+        val eventHandler = DialogInterface.OnClickListener { dialog, which ->
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> deleteReply(position)
+                DialogInterface.BUTTON_NEGATIVE -> null
+            }
+        }
+        val builder = AlertDialog.Builder(context)
+        builder.setMessage("Do you want to delete the message?")
+        builder.setPositiveButton("YES",eventHandler)
+        builder.setNegativeButton("NO",eventHandler)
+        builder.show()
     }
 
 

@@ -80,6 +80,7 @@ class CommentReplyActivity : AppCompatActivity() {
             recipeName,
             user.email.toString(),
             commentInfo.documentId.toString())
+        commentAdapter.setContext(this)
 
         binding.replyRecycler.layoutManager = LinearLayoutManager(this)
         binding.replyRecycler.adapter = commentAdapter
