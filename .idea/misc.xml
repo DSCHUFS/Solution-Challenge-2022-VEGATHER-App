@@ -42,6 +42,8 @@
         <entry key="..\:/Users/JunWook Kim/AndroidStudioProjects/Solution-Challenge-2022-VEGATHER-App/app/src/main/res/layout/activity_comment_reply.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/JunWook Kim/AndroidStudioProjects/Solution-Challenge-2022-VEGATHER-App/app/src/main/res/layout/activity_community_detail.xml" value="0.33" />
         <entry key="..\:/Users/JunWook Kim/AndroidStudioProjects/Solution-Challenge-2022-VEGATHER-App/app/src/main/res/layout/activity_community_main.xml" value="0.33" />
+        <entry key="..\:/Users/JunWook Kim/AndroidStudioProjects/Solution-Challenge-2022-VEGATHER-App/app/src/main/res/layout/activity_community_search.xml" value="0.26458333333333334" />
+        <entry key="..\:/Users/JunWook Kim/AndroidStudioProjects/Solution-Challenge-2022-VEGATHER-App/app/src/main/res/layout/activity_community_search_result.xml" value="0.19479166666666667" />
         <entry key="..\:/Users/JunWook Kim/AndroidStudioProjects/Solution-Challenge-2022-VEGATHER-App/app/src/main/res/layout/activity_community_write.xml" value="0.33" />
         <entry key="..\:/Users/JunWook Kim/AndroidStudioProjects/Solution-Challenge-2022-VEGATHER-App/app/src/main/res/layout/activity_find_password.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/JunWook Kim/AndroidStudioProjects/Solution-Challenge-2022-VEGATHER-App/app/src/main/res/layout/activity_join.xml" value="0.33" />
@@ -55,6 +57,8 @@
         <entry key="..\:/Users/JunWook Kim/AndroidStudioProjects/Solution-Challenge-2022-VEGATHER-App/app/src/main/res/layout/comment_frame.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/JunWook Kim/AndroidStudioProjects/Solution-Challenge-2022-VEGATHER-App/app/src/main/res/layout/comment_recycler.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/JunWook Kim/AndroidStudioProjects/Solution-Challenge-2022-VEGATHER-App/app/src/main/res/layout/comment_reply.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/JunWook Kim/AndroidStudioProjects/Solution-Challenge-2022-VEGATHER-App/app/src/main/res/layout/community_ingredient_recycler.xml" value="0.2359375" />
+        <entry key="..\:/Users/JunWook Kim/AndroidStudioProjects/Solution-Challenge-2022-VEGATHER-App/app/src/main/res/layout/community_order_recycler.xml" value="0.2359375" />
         <entry key="..\:/Users/JunWook Kim/AndroidStudioProjects/Solution-Challenge-2022-VEGATHER-App/app/src/main/res/layout/community_recycler.xml" value="0.5" />
         <entry key="..\:/Users/JunWook Kim/AndroidStudioProjects/Solution-Challenge-2022-VEGATHER-App/app/src/main/res/layout/fragment_search_keyword.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/JunWook Kim/AndroidStudioProjects/Solution-Challenge-2022-VEGATHER-App/app/src/main/res/layout/fragment_search_ranking_and_history.xml" value="0.36614583333333334" />
