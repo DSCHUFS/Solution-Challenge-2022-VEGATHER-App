@@ -115,6 +115,11 @@ class JoinActivity : AppCompatActivity() {
             "posting" to ArrayList<String>()
         )
 
+        val newSearchData = hashMapOf(
+            "basicSearch" to HashMap<String,String>(),
+            "communitySearch" to HashMap<String,String>()
+        )
+
         //User DB에 초기 정보 저장
         db.collection("Users").document(binding.editTextJoinEmail.text.toString())
             .set(user)
@@ -155,6 +160,17 @@ class JoinActivity : AppCompatActivity() {
             }
             .addOnFailureListener {
                 Log.d("createHistoryPosting","fail")
+            }
+
+        db.collection("Users").document(binding.editTextJoinEmail.text.toString())
+            .collection("History")
+            .document("Search")
+            .set(newSearchData)
+            .addOnSuccessListener {
+                Log.d("createHistorySearch","success")
+            }
+            .addOnFailureListener {
+                Log.d("createHistorySearch","fail")
             }
     }
 }
