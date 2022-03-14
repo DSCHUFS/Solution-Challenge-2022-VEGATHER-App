@@ -33,6 +33,7 @@
                 android:gravity="center_horizontal"
                 android:text="1"
                 android:textColor="@color/main_green"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
@@ -40,7 +41,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
-                android:text="sample recipe"
+                android:text="null"
+                android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@+id/textOrderNum" />
 
         </LinearLayout>

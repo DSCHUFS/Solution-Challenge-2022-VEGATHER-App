@@ -187,9 +187,9 @@ class CommunityCommentAdapter(private val binding : CommentRecyclerBinding,
     // 3. 부가적인 작업 ( 서브 )
 
     private fun loadReply( commentInfo : CommentForm ) {
-        val replyIntent = Intent(context, CommentReplyActivity::class.java)
+        val replyIntent = Intent(context, CommunityCommentReplyActivity::class.java)
         replyIntent.putExtra("commentInfo",commentInfo)
-        replyIntent.putExtra("recipeName",documentName)
+        replyIntent.putExtra("documentName",documentName)
         context.startActivity(replyIntent)
     }
 
