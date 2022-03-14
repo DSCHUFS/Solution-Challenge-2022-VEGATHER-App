@@ -68,8 +68,6 @@ class CommunityDetailActivity : AppCompatActivity() {
         Log.d(TAG, postTimeStamp)
         Log.d(TAG, postTitle)
 
-
-
         val orderList = mutableListOf<Any?>()
         val havePhotoIndex = mutableListOf<Int?>()
         val uidForPhoto = mutableListOf<String?>()
@@ -268,13 +266,12 @@ class CommunityDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun deletePost(
-        uidForPhoto: MutableList<String?>, postTimeStamp: String, havePhotoIndex: MutableList<Int?>
-    ) {
+    private fun deletePost(uidForPhoto: MutableList<String?>, postTimeStamp: String, havePhotoIndex: MutableList<Int?>) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Delete post").setMessage("Do you want to delete post?")
         builder.setNegativeButton("Delete"){_, _ ->
             val deletePath = Firebase.auth.currentUser!!.uid.chunked(10)[0] + " " + postTimeStamp
+
             db.collection("Post").document(deletePath).delete()
                 .addOnSuccessListener {
                     Log.d("delete Post Successfully", deletePath)

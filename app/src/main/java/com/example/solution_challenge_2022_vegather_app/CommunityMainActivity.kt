@@ -8,12 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommunityMainBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.CommunityRecyclerBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -41,6 +43,7 @@ class CommunityMainActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
 
         val postList = mutableListOf<Post>()
+
         db.collection("Post")
             .orderBy("timestamp", Query.Direction.DESCENDING)
             .get()
@@ -53,8 +56,10 @@ class CommunityMainActivity : AppCompatActivity() {
                     val uid = document.get("uid")
                     val like = document.get("like") as Long
                     val comment = document.get("comment") as Long
+                    val havePhoto = document.get("havePhoto") as MutableList<String>
                     Log.d("load Post", title.toString() +" "+subtitle.toString() + " " + date.toString())
-                    val post = Post(title=title, subtitle=subtitle, timestamp = date, writer = nickname.toString(), uid = uid.toString(), like = like.toIntOrNull(), comment = comment.toIntOrNull())
+                    val post = Post(title=title, subtitle=subtitle, timestamp = date, writer = nickname.toString(), uid = uid.toString(),
+                        like = like.toIntOrNull(), comment = comment.toIntOrNull(), havePhoto = havePhoto)
                     postList.add(post)
                     Log.d("add post to postList", postList[postList.size-1].title.toString() + postList[postList.size-1].subtitle.toString() + postList[postList.size-1].timestamp.toString())
                     Log.d("before iter end post list", postList.toString())
@@ -65,6 +70,7 @@ class CommunityMainActivity : AppCompatActivity() {
             .addOnFailureListener { e->
                 Log.d(TAG, "Error getting documents: ", e)
             }
+
 
         recyclerAdapter = communityRecyclerAdapter(postList)
         recyclerAdapter.notifyDataSetChanged()
@@ -109,6 +115,21 @@ class communityRecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Ada
                 textView13.text = "${post.like}"
                 textView14.text = "${post.comment}"
 
+                //레시피 마지막에 넣은 사진을 메인 사진으로 한다
+                val lastPhoto = post.havePhoto.lastIndexOf("true")
+                if(lastPhoto > 0){
+                    val mainPhotoPath = "${post.uid!!.chunked(10)[0]} ${post.timestamp} $lastPhoto"
+                    val storagePath = Firebase.storage.reference.child(mainPhotoPath)
+                    storagePath.downloadUrl.addOnCompleteListener {
+                        if (it.isSuccessful){
+                            Glide.with(this.imageViewMainPhoto).load(it.result).into(binding.imageViewMainPhoto)
+                        }
+                        binding.imageViewMainPhoto.visibility = View.VISIBLE
+                    }
+                }
+                else{
+                    binding.imageViewMainPhoto.visibility = View.INVISIBLE
+                }
             }
         }
     }
