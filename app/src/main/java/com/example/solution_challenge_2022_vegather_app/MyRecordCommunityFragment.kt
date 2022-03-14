@@ -72,7 +72,7 @@ class MyRecordCommunityFragment(category : String) : Fragment() {
                                 val date = document.get("timestamp")
                                 val nickname = document.get("writer")
                                 val uid = document.get("uid")
-                                val post = Post(title=title, subtitle=subtitle, timestamp = date, writer = nickname, uid = uid.toString())
+                                val post = Post(title=title, subtitle=subtitle, timestamp = date, writer = nickname.toString(), uid = uid.toString())
                                 likedPostList.add(post)
                             }
                         val adapter = communityRecyclerAdapter(likedPostList)

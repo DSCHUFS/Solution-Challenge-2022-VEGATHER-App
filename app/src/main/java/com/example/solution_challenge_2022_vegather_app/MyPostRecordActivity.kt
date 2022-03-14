@@ -64,7 +64,7 @@ class MyPostRecordActivity : AppCompatActivity() {
                             val nickname = document.get("writer")
                             val uid = document.get("uid")
                             Log.d("load Post", title.toString() +" "+subtitle.toString() + " " + date.toString())
-                            val post = Post(title=title, subtitle=subtitle, timestamp = date, writer = nickname, uid = uid.toString())
+                            val post = Post(title=title, subtitle=subtitle, timestamp = date, writer = nickname.toString(), uid = uid.toString())
                             likedPostList.add(post)
                         }
                         recyclerAdapter.notifyDataSetChanged()

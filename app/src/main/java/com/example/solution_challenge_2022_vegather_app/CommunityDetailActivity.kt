@@ -306,8 +306,6 @@ class CommunityDetailActivity : AppCompatActivity() {
                         }
                     }
 
-
-
                     val deleteIntent = Intent(this, CommunityMainActivity::class.java)
                     startActivity(deleteIntent)
                 }
@@ -327,34 +325,30 @@ class OrderRecyclerAdapter(private val orderList:MutableList<Any?>, private val 
         fun set(order:Any?, position: Int, havePhotoIndex: MutableList<Int?>, uid:String?, timestamp: String?) {
             Log.d("i'm in holder.set", order.toString())
             val storageRef = Firebase.storage.reference
-            if(order != null){
-                with(binding){
-                    textOrderText.text = order.toString()
-                    textOrderNum.text = (position+1).toString()
-                    Log.d("set text in detail order", order.toString())
+            with(binding){
+                textOrderText.text = order.toString()
+                textOrderNum.text = (position+1).toString()
+                Log.d("set text in detail order", order.toString())
 
-                    if(havePhotoIndex.size != 0 ){
-                        for(photoIndex in havePhotoIndex){
-                            if((position+1) == photoIndex){
-                                Log.d("uid", uid!!)
-                                Log.d("timestamp", timestamp!!)
-                                val path = storageRef.child("$uid $timestamp $photoIndex")
-                                Log.d("storage path in detail activity", "$uid $timestamp $photoIndex")
-                                path.downloadUrl.addOnCompleteListener {
-                                    if (it.isSuccessful){
-                                        Glide.with(this.imageViewOrder).load(it.result).into(imageViewOrder)
-                                    }
+                if(havePhotoIndex.size != 0 ){
+                    for(photoIndex in havePhotoIndex){
+                        if((position+1) == photoIndex){
+                            Log.d("uid", uid!!)
+                            Log.d("timestamp", timestamp!!)
+                            val path = storageRef.child("$uid $timestamp $photoIndex")
+                            Log.d("storage path in detail activity", "$uid $timestamp $photoIndex")
+                            path.downloadUrl.addOnCompleteListener {
+                                if (it.isSuccessful){
+                                    Glide.with(this.imageViewOrder).load(it.result).into(imageViewOrder)
                                 }
-                                imageViewOrder.visibility = View.VISIBLE
-                                imageViewOrder.scaleType = ImageView.ScaleType.FIT_CENTER
-//                                havePhotoIndex.removeAt(0)
                             }
+                            imageViewOrder.visibility = View.VISIBLE
+                            imageViewOrder.scaleType = ImageView.ScaleType.FIT_CENTER
                         }
                     }
-
-
                 }
             }
+
         }
     }
 
