@@ -135,6 +135,9 @@ class CommunityDetailActivity : AppCompatActivity() {
                         }
 
                     }
+
+                    //메인 사진 등록
+                    addMainPhoto(havePhotoIndex, uidForPhoto, timestampForPhoto)
                 }
                 orderAdapter.notifyDataSetChanged()
                 ingredientAdapterEven.notifyDataSetChanged()
@@ -143,6 +146,8 @@ class CommunityDetailActivity : AppCompatActivity() {
             .addOnFailureListener {
                 Log.d(TAG,"error in get from db")
             }
+
+
 
         orderAdapter.notifyDataSetChanged()
         binding.orderRecycler.adapter = orderAdapter
@@ -203,6 +208,21 @@ class CommunityDetailActivity : AppCompatActivity() {
             startActivity(commentIntent)
         }
     }// end of onCreate
+
+    private fun addMainPhoto(havePhotoIndex: MutableList<Int?>, uidForPhoto: MutableList<String?>, timestampForPhoto: MutableList<String?>) {
+        Log.d("fun_addmainphoto", havePhotoIndex.toString())
+        if (havePhotoIndex.isNotEmpty()) {
+            val lastPhotoIndex = havePhotoIndex[havePhotoIndex.size - 1]
+            val mainPhotoPath = "${uidForPhoto[0]} ${timestampForPhoto[0]} $lastPhotoIndex"
+            val storagePath = Firebase.storage.reference.child(mainPhotoPath)
+            Log.d("detail_mainPhotoPath", mainPhotoPath)
+            storagePath.downloadUrl.addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Glide.with(this).load(it.result).into(binding.imageViewMain)
+                }
+            }
+        }
+    }
 
     //Long to Int type casting
     private fun Long.toIntOrNull(): Int? {
