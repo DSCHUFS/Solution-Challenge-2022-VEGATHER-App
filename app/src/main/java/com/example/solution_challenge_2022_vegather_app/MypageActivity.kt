@@ -25,7 +25,6 @@ class MypageActivity : AppCompatActivity() {
     private lateinit var db : FirebaseFirestore
     private lateinit var user : FirebaseUser
     private lateinit var currentUserRef : DocumentReference
-    val userInfo = UserDTO()
     var level = 1
     var monthlyNum = 0
 
@@ -52,24 +51,21 @@ class MypageActivity : AppCompatActivity() {
                     else -> "Master Vegan"
                 }
             }
-
         }
 
         val customUiBar = UiBar(window)
         customUiBar.setStatusBarIconColor(isBlack = false)
         customUiBar.setNaviBarIconColor(isBlack = true)
         customUiBar.setStatusBarTransparent()
+
         binding.attendanceNum.text = '+' + MyApplication.prefs.getIntPrefs("attend", 1).toString()
         textHighlightingDailyMission(binding.checkAttendance, binding.attendanceNum)
-
-
-
 
         binding.btnBack.setOnClickListener(){
             finish()
         }
 
-        //로그아웃 테스트 버튼
+        //로그아웃 버튼
         binding.btnLogout.setOnClickListener {
             auth.signOut()
             //페이스북 연동의 경우 아래 코드를 추가해주어야함.
@@ -79,12 +75,6 @@ class MypageActivity : AppCompatActivity() {
             startActivity(intentMain)
             // activity 종료
             finish()
-        }
-
-        //db 테스트 버튼
-        binding.button2.setOnClickListener {
-            val userRef = db.collection("Users").document(user.email.toString())
-            userRef.update("Point", FieldValue.increment(2))
         }
 
         binding.btnLike.setOnClickListener {
