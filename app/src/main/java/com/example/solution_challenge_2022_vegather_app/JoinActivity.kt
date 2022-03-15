@@ -99,7 +99,7 @@ class JoinActivity : AppCompatActivity() {
         user["NickName"] = binding.editTextJoinNick.text.toString()
         user["Email"] = binding.editTextJoinEmail.text.toString()
         user["Point"] = 0
-        user["MonthlyEat"] = 0
+        user["VeganLevel"] = 1
 
         val newLikeData = hashMapOf(
             "basicRecipe" to ArrayList<String>(),
