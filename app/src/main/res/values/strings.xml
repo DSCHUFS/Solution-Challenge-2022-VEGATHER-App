@@ -3,6 +3,13 @@
     <string name="facebook_app_id">1140529093417307</string>
     <string name="fb_login_protocol_scheme">fb1140529093417307</string>
     <string name="textLoading">Loading…</string>
+    <string name="topTitle1">Today\'s</string>
+    <string name="topTitle2">Recipe</string>
+    <string name="topSubtitle">How about this recipe today?</string>
+    <string name="underTitle1">More</string>
+    <string name="underTitle2">Recipe</string>
+    <string name="underSubtitle">Look at other recipes, too.</string>
+    <string name="seeMoreButton">See More</string>
     <!--    <string name="default_web_client_id">626426826491-f3itor1tqarsub2dcju6isnn7inj5kn4.apps.googleusercontent.com</string>-->
 
 </resources>

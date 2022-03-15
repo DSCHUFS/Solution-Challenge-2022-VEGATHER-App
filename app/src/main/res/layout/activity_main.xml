@@ -24,7 +24,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout5"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="55dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="15dp"
@@ -78,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
-                    android:text="Today's"
+                    android:text="@string/topTitle1"
                     android:textColor="@color/main_green"
                     android:textSize="28sp"
                     android:textStyle="bold" />
@@ -88,15 +88,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="5dp"
-                    android:text="Recipe"
+                    android:text="@string/topTitle2"
                     android:textSize="28sp"
                     android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    app:srcCompat="@drawable/check_circle_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:srcCompat="@drawable/check_green_btn"
                     app:tint="@color/main_green" />
             </LinearLayout>
 
@@ -105,8 +105,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginBottom="22dp"
-                android:text="recommend food everyday!"
+                android:layout_marginBottom="10dp"
+                android:text="@string/topSubtitle"
                 android:textColor="@color/sub_text_gray"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/imageView7"
@@ -118,7 +118,7 @@
             <ImageView
                 android:id="@+id/imageView7"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="220dp"
                 android:layout_marginBottom="10dp"
                 android:scaleType="centerInside"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
@@ -147,7 +147,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Vegetable skewers"
+                    android:hint="@string/textLoading"
+                    android:textColorHint="@color/sub_text_gray"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -156,14 +157,13 @@
                     android:layout_width="25dp"
                     android:layout_height="match_parent"
                     android:background="#FFFFFF"
-                    app:tint="#E16D64"
-                    app:srcCompat="@drawable/heart_icon" />
+                    app:srcCompat="@drawable/heart_icon"
+                    app:tint="@color/main_green" />
 
                 <TextView
                     android:id="@+id/todaysLike"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="999+"
                     android:textColor="@color/sub_text_gray"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -173,8 +173,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:text="287kcal"
+                android:hint="@string/textLoading"
                 android:textColor="@color/sub_text_gray"
+                android:textColorHint="@color/sub_text_gray"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@+id/todaysFoodIntroduce"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -212,7 +213,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="27dp"
                     android:drawableEnd="@drawable/arrow_right_gray"
-                    android:text="See More"
+                    android:text="@string/seeMoreButton"
                     android:textColor="@color/main_green"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -243,7 +244,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="5dp"
-                    android:text="More"
+                    android:text="@string/underTitle1"
                     android:textColor="@color/main_green"
                     android:textSize="28sp"
                     android:textStyle="bold"
@@ -258,7 +259,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:text="Recipe"
+                    android:text="@string/underTitle2"
                     android:textSize="28sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -268,7 +269,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:text="Look at other foods, too."
+                android:text="@string/underSubtitle"
                 android:textColor="@color/sub_text_gray"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/recyclerView"

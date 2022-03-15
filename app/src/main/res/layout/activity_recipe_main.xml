@@ -81,8 +81,8 @@
                     android:layout_marginStart="1dp"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="0"
-                    android:text="999+"
                     android:textColor="@color/sub_text_gray"
+                    android:textColorHint="@color/sub_text_gray"
                     android:textSize="16sp" />
 
                 <LinearLayout
@@ -107,8 +107,8 @@
                         android:layout_marginStart="6dp"
                         android:layout_weight="0"
                         android:gravity="center_vertical"
-                        android:text="999"
                         android:textColor="@color/main_green"
+                        android:textColorHint="@color/main_green"
                         android:textSize="16sp" />
 
                     <ImageView
@@ -130,7 +130,8 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="10dp"
-                android:text="Masala Pasta"
+                android:hint="@string/textLoading"
+                android:textColorHint="@color/sub_text_gray"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
@@ -141,8 +142,10 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="20dp"
+                android:hint="@string/textLoading"
                 android:lineSpacingExtra="3dp"
                 android:textAlignment="gravity"
+                android:textColorHint="@color/sub_text_gray"
                 android:textSize="18sp" />
 
             <TextView
@@ -195,9 +198,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="31.1g"
+                            android:hint="@string/textLoading"
                             android:textAlignment="textEnd"
                             android:textColor="@color/sub_text_gray"
+                            android:textColorHint="@color/sub_text_gray"
                             android:textSize="16sp"
                             android:textStyle="normal" />
                     </LinearLayout>
@@ -225,9 +229,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="1,121"
+                            android:hint="@string/textLoading"
                             android:textAlignment="textEnd"
                             android:textColor="@color/sub_text_gray"
+                            android:textColorHint="@color/sub_text_gray"
                             android:textSize="16sp"
                             android:textStyle="normal" />
                     </LinearLayout>
@@ -263,9 +268,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="9.5g"
+                            android:hint="@string/textLoading"
                             android:textAlignment="textEnd"
                             android:textColor="@color/sub_text_gray"
+                            android:textColorHint="@color/sub_text_gray"
                             android:textSize="16sp"
                             android:textStyle="normal" />
                     </LinearLayout>
@@ -293,9 +299,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="2.5g"
+                            android:hint="@string/textLoading"
                             android:textAlignment="textEnd"
                             android:textColor="@color/sub_text_gray"
+                            android:textColorHint="@color/sub_text_gray"
                             android:textSize="16sp"
                             android:textStyle="normal" />
                     </LinearLayout>

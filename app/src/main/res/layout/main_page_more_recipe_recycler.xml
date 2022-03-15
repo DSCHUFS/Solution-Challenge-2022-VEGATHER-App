@@ -48,7 +48,8 @@
                 android:id="@+id/foodName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Text"
+                android:hint="@string/textLoading"
+                android:textColorHint="@color/sub_text_gray"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -59,9 +60,10 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
                 android:ellipsize="end"
+                android:hint="@string/textLoading"
                 android:lineSpacingExtra="2dp"
                 android:maxLines="3"
-                android:text="article"
+                android:textColorHint="@color/sub_text_gray"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -79,15 +81,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="3dp"
-                app:tint="#E15C52"
-                app:srcCompat="@drawable/heart_icon" />
+                app:srcCompat="@drawable/heart_icon"
+                app:tint="@color/main_green" />
 
             <TextView
                 android:id="@+id/likeCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:text="like"
                 android:textColor="@color/sub_text_gray" />
         </LinearLayout>
     </LinearLayout>
