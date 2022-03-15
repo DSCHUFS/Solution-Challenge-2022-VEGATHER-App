@@ -1,21 +1,13 @@
 package com.example.solution_challenge_2022_vegather_app
 
-import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
-import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-import android.view.WindowManager
 import android.widget.*
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
-import androidx.core.view.WindowCompat
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityMypageBinding
 import com.example.solution_challenge_2022_vegather_app.model.UserDTO
 import com.facebook.login.LoginManager
@@ -24,9 +16,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import java.time.LocalDate
-import java.util.*
-import kotlin.concurrent.schedule
 import kotlin.concurrent.timer
 
 class MypageActivity : AppCompatActivity() {
@@ -37,6 +26,8 @@ class MypageActivity : AppCompatActivity() {
     private lateinit var user : FirebaseUser
     private lateinit var currentUserRef : DocumentReference
     val userInfo = UserDTO()
+    var level = 1
+    var monthlyNum = 0
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,14 +38,32 @@ class MypageActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         user = auth.currentUser!!
         currentUserRef = db.collection("Users").document(user.email.toString())
-        currentUserRef.get().addOnSuccessListener { binding.userNickname.text = it.data?.get("NickName").toString() }
+        currentUserRef.get().addOnSuccessListener {
+            binding.userNickname.text = it.data?.get("NickName").toString()
+            var l : Long = it.data?.get("VeganLevel") as Long
+            level = l.toInt()
+            calculateMonthlyVegan(level)
+            with(binding){
+                veganGrade.text = when(level){
+                    1 -> "Freshman Vegan"
+                    2 -> "Sophomore Vegan"
+                    3 -> "Junior Vegan"
+                    4 -> "Senior Vegan"
+                    else -> "Master Vegan"
+                }
+            }
+
+        }
 
         val customUiBar = UiBar(window)
         customUiBar.setStatusBarIconColor(isBlack = false)
         customUiBar.setNaviBarIconColor(isBlack = true)
         customUiBar.setStatusBarTransparent()
-        binding.attendanceNum.text = '+' + MyApplication.prefs.getAttend("now", 1).toString()
+        binding.attendanceNum.text = '+' + MyApplication.prefs.getIntPrefs("attend", 1).toString()
         textHighlightingDailyMission(binding.checkAttendance, binding.attendanceNum)
+
+
+
 
         binding.btnBack.setOnClickListener(){
             finish()
@@ -119,27 +128,23 @@ class MypageActivity : AppCompatActivity() {
         currentUserRef.collection("History")
             .get()
             .addOnSuccessListener {
-
                 for (document in it){
-                    Log.d("My  DOCUMENT ID History List ====>", document.data.toString())
-
-                    when(document.id){
+                    when(document.id){ //user의 History DB를 가져와서 갯수를 체크한다.
                         "Comment" -> {
-                            var brn = document.toObject(HistoryLikedRecipe::class.java).size()
-                            binding.commentNum.text = '+' + brn.toString()
-                            Log.d("My  COMMNENT ~~~ History List ====>",brn.toString())
-
+                            var userHDB = document.toObject(HistoryCommentRecipe::class.java)
+                            binding.commentNum.text = '+' + (userHDB.basicComment.size + userHDB.communityComment.size).toString()
+                        }
+                        "Like" -> {
+                            var userHDB = document.toObject(HistoryLikedRecipe::class.java)
+                            binding.likeNum.text = '+' + (userHDB.basicRecipe.size + userHDB.communityRecipe.size).toString()
+                        }
+                        "Posting" -> {
+                            var userHDB = document.toObject(HistoryPosting::class.java)
+                            binding.postingNum.text = '+' + (userHDB.posting.size).toString()
                         }
                     }
                 }
             }
-
-        var i : Int = 0
-        timer(period = 2, initialDelay = 500){
-            i++
-            binding.circleBar.setProgress(i.toFloat())
-            if(i==290) {cancel()}
-        }
     }
 
     private fun intentMyRecordActivityFrom(text : String){
@@ -151,5 +156,55 @@ class MypageActivity : AppCompatActivity() {
     private fun textHighlightingDailyMission(dailyButton : Button, pointNumber : TextView){
         dailyButton.setTextColor(Color.parseColor("#81E768"))
         pointNumber.setTextColor(Color.parseColor("#81E768"))
+    }
+
+    private fun calculateMonthlyVegan(level : Int) {
+        var baseG = when (level) {
+            1 -> 1000
+            2 -> 800
+            3 -> 640
+            else -> 512
+        }
+        val attendanceGrade = 0.1 * MyApplication.prefs.getIntPrefs("attendNum", 1)
+        val postingGrade = 0.4 * MyApplication.prefs.getIntPrefs("postingNum", 0)
+        val commentGrade = 0.25 * MyApplication.prefs.getIntPrefs("commentNum", 0)
+        val likeGrade = 0.25 * MyApplication.prefs.getIntPrefs("likeNum", 0)
+
+        val gradeLists = listOf(attendanceGrade, postingGrade, commentGrade, likeGrade)
+
+        for (grade in gradeLists) {
+            val nowG = grade * baseG
+
+            monthlyNum += nowG.toInt()
+            if (monthlyNum >= 1000) {
+                //Level upgrade 코드
+                currentUserRef.update("VeganLevel", FieldValue.increment(1))
+
+                monthlyNum -= 1000
+                baseG = (baseG * 0.8).toInt()
+                //lv up 했으니, 이전 기록들은 다 0으로 갱신
+                MyApplication.prefs.setIntPrefs("attendNum", 0)
+                MyApplication.prefs.setIntPrefs("postingNum", 0)
+                MyApplication.prefs.setIntPrefs("commentNum", 0)
+                MyApplication.prefs.setIntPrefs("likeNum", 0)
+            }
+        }
+        binding.monthlyNum.text = monthlyNum.toString()
+        binding.monthlyPercent.text = (monthlyNum / 10).toString() + '%'
+
+        //그래프 그리기
+        var i: Int = 0
+        timer(period = 2, initialDelay = 500) {
+            i++
+            binding.circleBar.setProgress(i.toFloat())
+            if (i == (monthlyNum * 360 / 1000)) {
+                cancel()
+            }
+        }
+        currentUserRef.get()
+            .addOnSuccessListener {
+                var l : Long = it.data?.get("VeganLevel") as Long
+                binding.btnLevel.text = "LV " +  l.toString()
+            }
     }
 }

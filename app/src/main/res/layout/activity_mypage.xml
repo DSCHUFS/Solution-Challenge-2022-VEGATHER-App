@@ -37,13 +37,13 @@
         android:id="@+id/imageView22"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView61"
-        app:layout_constraintStart_toEndOf="@+id/textView61"
+        app:layout_constraintBottom_toBottomOf="@+id/veganGrade"
+        app:layout_constraintStart_toEndOf="@+id/veganGrade"
         app:layout_constraintTop_toBottomOf="@+id/user_nickname"
         app:srcCompat="@drawable/leap_icon" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btnLevel"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="26dp"
@@ -52,10 +52,10 @@
         android:text="Lv 34"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView61" />
+        app:layout_constraintTop_toBottomOf="@+id/veganGrade" />
 
     <TextView
-        android:id="@+id/textView61"
+        android:id="@+id/veganGrade"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="26dp"
@@ -86,7 +86,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3">
+        app:layout_constraintTop_toBottomOf="@+id/btnLevel">
 
         <LinearLayout
             android:layout_width="match_parent"

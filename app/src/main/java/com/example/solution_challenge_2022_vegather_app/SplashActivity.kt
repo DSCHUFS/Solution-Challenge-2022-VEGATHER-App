@@ -1,17 +1,12 @@
 package com.example.solution_challenge_2022_vegather_app
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.view.View
 import android.view.WindowManager
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import java.time.LocalDate
 
 class SplashActivity : AppCompatActivity() {
@@ -35,11 +30,13 @@ class SplashActivity : AppCompatActivity() {
             MyApplication.prefs.setPrefs("Like", "Yet")
 
             //출석 횟수 측정
-            var attendNum = MyApplication.prefs.getAttend("now",0)
+            var attendNum = MyApplication.prefs.getIntPrefs("attend",0)
             if(attendNum == 0){
-                MyApplication.prefs.setAttend("now", 1)
+                MyApplication.prefs.setIntPrefs("attend", 1)
             }else{
-                MyApplication.prefs.setAttend("now", attendNum+1)
+                MyApplication.prefs.setIntPrefs("attend", attendNum+1)
+                MyApplication.prefs.setIntPrefs("attendNum",
+                    MyApplication.prefs.getIntPrefs("attendNum", 0) + 1)
             }
         }
 

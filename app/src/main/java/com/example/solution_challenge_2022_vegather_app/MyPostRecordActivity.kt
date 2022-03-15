@@ -43,7 +43,7 @@ class MyPostRecordActivity : AppCompatActivity() {
             .document(title) //내 좋아요 or Comment or Posting 목록 가져오기
             .get()
             .addOnSuccessListener {
-                var HistoryList = it.toObject(MyPost::class.java)
+                var HistoryList = it.toObject(HistoryPosting::class.java)
                 val likedPostList = mutableListOf<Post>()
                 Log.d("like List ====>", HistoryList.toString())
 
@@ -77,7 +77,3 @@ class MyPostRecordActivity : AppCompatActivity() {
 
     }
 }
-
-data class MyPost(
-    val posting: ArrayList<String> = ArrayList<String>()
-)
