@@ -81,7 +81,10 @@ class RecipeMainActivity : AppCompatActivity() {
             currentStatusOfLike = !currentStatusOfLike
             updateLike(isLiked = currentStatusOfLike)
             updateLikeButtonColor(currentStatusOfLike)
-            if(currentStatusOfLike) MyApplication.prefs.setPrefs("Like", "Done")
+            if(currentStatusOfLike){
+                MyApplication.prefs.setPrefs("Like", "Done")
+                MyApplication.prefs.setIntPrefs("likeNum", MyApplication.prefs.getIntPrefs("likeNum", 0)+1)
+            }
         }
 
         binding.commentContainer.setOnClickListener {

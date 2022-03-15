@@ -25,11 +25,11 @@ class PrefsManager(context: Context) {
         prefs.edit().putString(key, value).apply()
     }
 
-    fun getAttend(key: String, defValue : Int) : Int {
+    fun getIntPrefs(key: String, defValue : Int) : Int {
         return prefs.getInt(key, defValue)
     }
 
-    fun setAttend(key: String, value: Int){
+    fun setIntPrefs(key: String, value: Int){
         prefs.edit().putInt(key, value).apply()
     }
 }
