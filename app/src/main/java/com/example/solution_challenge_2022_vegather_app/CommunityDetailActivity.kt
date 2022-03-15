@@ -68,8 +68,6 @@ class CommunityDetailActivity : AppCompatActivity() {
         Log.d(TAG, postTimeStamp)
         Log.d(TAG, postTitle)
 
-
-
         val orderList = mutableListOf<Any?>()
         val havePhotoIndex = mutableListOf<Int?>()
         val uidForPhoto = mutableListOf<String?>()
@@ -137,6 +135,9 @@ class CommunityDetailActivity : AppCompatActivity() {
                         }
 
                     }
+
+                    //메인 사진 등록
+                    addMainPhoto(havePhotoIndex, uidForPhoto, timestampForPhoto)
                 }
                 orderAdapter.notifyDataSetChanged()
                 ingredientAdapterEven.notifyDataSetChanged()
@@ -145,6 +146,8 @@ class CommunityDetailActivity : AppCompatActivity() {
             .addOnFailureListener {
                 Log.d(TAG,"error in get from db")
             }
+
+
 
         orderAdapter.notifyDataSetChanged()
         binding.orderRecycler.adapter = orderAdapter
@@ -209,6 +212,21 @@ class CommunityDetailActivity : AppCompatActivity() {
         }
     }// end of onCreate
 
+    private fun addMainPhoto(havePhotoIndex: MutableList<Int?>, uidForPhoto: MutableList<String?>, timestampForPhoto: MutableList<String?>) {
+        Log.d("fun_addmainphoto", havePhotoIndex.toString())
+        if (havePhotoIndex.isNotEmpty()) {
+            val lastPhotoIndex = havePhotoIndex[havePhotoIndex.size - 1]
+            val mainPhotoPath = "${uidForPhoto[0]} ${timestampForPhoto[0]} $lastPhotoIndex"
+            val storagePath = Firebase.storage.reference.child(mainPhotoPath)
+            Log.d("detail_mainPhotoPath", mainPhotoPath)
+            storagePath.downloadUrl.addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Glide.with(this).load(it.result).into(binding.imageViewMain)
+                }
+            }
+        }
+    }
+
     //Long to Int type casting
     private fun Long.toIntOrNull(): Int? {
         val i = this.toInt()
@@ -271,13 +289,12 @@ class CommunityDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun deletePost(
-        uidForPhoto: MutableList<String?>, postTimeStamp: String, havePhotoIndex: MutableList<Int?>
-    ) {
+    private fun deletePost(uidForPhoto: MutableList<String?>, postTimeStamp: String, havePhotoIndex: MutableList<Int?>) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Delete post").setMessage("Do you want to delete post?")
         builder.setNegativeButton("Delete"){_, _ ->
             val deletePath = Firebase.auth.currentUser!!.uid.chunked(10)[0] + " " + postTimeStamp
+
             db.collection("Post").document(deletePath).delete()
                 .addOnSuccessListener {
                     Log.d("delete Post Successfully", deletePath)

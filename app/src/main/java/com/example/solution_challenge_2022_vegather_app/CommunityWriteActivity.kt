@@ -146,15 +146,6 @@ class CommunityWriteActivity : PermissionActivity() {
             timestamp = formattedDate, ingredientName = ingredientNameForDB, ingredientAmount = ingredientAmountForDB, recipe = recipeForDB,
             havePhoto = havePhotoList, uid = uid)
 
-        db.collection("Users").document(email.toString()).get()
-            .addOnSuccessListener { document ->
-                val nicknameFromDB = document.data?.get("NickName")
-                nickname = nicknameFromDB.toString()
-                Log.d("get nickname from db", "nickname = $nickname")
-                newpost.writer = nickname
-                Log.d("add nickname in newpost", newpost.writer.toString())
-            }
-
         Log.d("newpost", newpost.toString())
         val chunkedUid = uid?.chunked(10)
         val path = chunkedUid!![0]+" "+formattedDate
@@ -162,6 +153,7 @@ class CommunityWriteActivity : PermissionActivity() {
         db.collection("Post").document(path)
             .set(newpost)
             .addOnSuccessListener {
+
                 //Post에 newpost 등록 성공시
                 Log.d("newpost setting successfully", newpost.toString())
                 uploadPhoto(photoList, havePhotoList)
@@ -184,8 +176,21 @@ class CommunityWriteActivity : PermissionActivity() {
                 finish()
             }
             .addOnFailureListener {
-                e -> Log.d(TAG, "Error writing new recipe", e)
+                    e -> Log.d(TAG, "Error writing new recipe", e)
             }
+
+        db.collection("Users").document(email.toString()).get()
+            .addOnSuccessListener { document ->
+                val nicknameFromDB = document.data?.get("NickName")
+                nickname = nicknameFromDB.toString()
+                Log.d("get nickname from db", "nickname = $nickname")
+                newpost.writer = nickname
+                Log.d("add nickname in newpost", newpost.writer.toString())
+
+                db.collection("Post").document(path).update("writer", nickname)
+            }
+
+
 
         val sampleComment = CommentForm()
         db.collection("Post").document(path)
