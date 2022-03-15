@@ -48,7 +48,6 @@ class CommunityDetailActivity : AppCompatActivity() {
         uiBarCustom.setStatusBarIconColor(isBlack = true)
         uiBarCustom.setNaviBarIconColor(isBlack = true)
 
-
         binding.textNickname.text = intent.getStringExtra("nickname")
         var nowLike : Int? =  intent.getIntExtra("like", -1)
         var nowComment : Int? = intent.getIntExtra("comment", -1)
@@ -58,9 +57,6 @@ class CommunityDetailActivity : AppCompatActivity() {
         binding.textLike.text = nowLike.toString()
         binding.textComment.text = nowComment.toString()
 
-
-
-
         db = FirebaseFirestore.getInstance()
         val postInfo = intent.getStringExtra("post info").toString().split(" ")
         val testInfo = intent.getStringExtra("post info").toString()
@@ -69,17 +65,15 @@ class CommunityDetailActivity : AppCompatActivity() {
         val postTimeStamp = postInfo[0] + " " + postInfo[1]
         val postTitle = testInfo.substring(20)
 
-        Log.d(TAG, "$postTimeStamp")
-        Log.d(TAG, "$postTitle")
+        Log.d(TAG, postTimeStamp)
+        Log.d(TAG, postTitle)
 
-        binding.imageButtonDeletePost.setOnClickListener {
-            deletePost(postTimeStamp)
-        }
+
 
         val orderList = mutableListOf<Any?>()
-        var havePhotoIndex = mutableListOf<Int?>()
-        var uidForPhoto = mutableListOf<String?>()
-        var timestampForPhoto = mutableListOf<String?>()
+        val havePhotoIndex = mutableListOf<Int?>()
+        val uidForPhoto = mutableListOf<String?>()
+        val timestampForPhoto = mutableListOf<String?>()
         val orderAdapter = OrderRecyclerAdapter(orderList, havePhotoIndex, uidForPhoto, timestampForPhoto)
 
         //재료 리사이클러뷰 왼쪽
@@ -163,6 +157,11 @@ class CommunityDetailActivity : AppCompatActivity() {
         ingredientAdapterOdd.notifyDataSetChanged()
         binding.ingredientRecyclerOdd.adapter = ingredientAdapterOdd
         binding.ingredientRecyclerOdd.layoutManager = LinearLayoutManager(this)
+
+        //post 삭제 기능
+        binding.imageButtonDeletePost.setOnClickListener {
+            deletePost(uidForPhoto, postTimeStamp, havePhotoIndex)
+        }
 
         //좋아요 버튼 작업
         auth = FirebaseAuth.getInstance()
@@ -272,7 +271,9 @@ class CommunityDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun deletePost(postTimeStamp: String) {
+    private fun deletePost(
+        uidForPhoto: MutableList<String?>, postTimeStamp: String, havePhotoIndex: MutableList<Int?>
+    ) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Delete post").setMessage("Do you want to delete post?")
         builder.setNegativeButton("Delete"){_, _ ->
@@ -281,6 +282,7 @@ class CommunityDetailActivity : AppCompatActivity() {
                 .addOnSuccessListener {
                     Log.d("delete Post Successfully", deletePath)
 
+                    //User History에서 삭제
                     val email = FirebaseAuth.getInstance().currentUser?.email
                     db.collection("Users").document(email.toString())
                         .collection("History").document("Posting")
@@ -291,6 +293,21 @@ class CommunityDetailActivity : AppCompatActivity() {
                         .addOnFailureListener {
                             Log.d("delete History posting", "fail")
                         }
+
+                    //storage에 첨부된 사진이 있을시 삭제
+                    if(havePhotoIndex.size != 0){
+                        for(index in havePhotoIndex){
+                            val deletePath = "${uidForPhoto[0]} $postTimeStamp $index"
+                            val storageRef = Firebase.storage.reference
+                            storageRef.child(deletePath).delete()
+                                .addOnSuccessListener {
+                                    Log.d("delete storage success", deletePath)
+                                }
+                                .addOnFailureListener {
+                                    Log.d("delete storage fail", deletePath)
+                                }
+                        }
+                    }
 
                     val deleteIntent = Intent(this, CommunityMainActivity::class.java)
                     startActivity(deleteIntent)
@@ -311,27 +328,30 @@ class OrderRecyclerAdapter(private val orderList:MutableList<Any?>, private val 
         fun set(order:Any?, position: Int, havePhotoIndex: MutableList<Int?>, uid:String?, timestamp: String?) {
             Log.d("i'm in holder.set", order.toString())
             val storageRef = Firebase.storage.reference
-            if(order != null){
-                with(binding){
-                    textOrderText.text = order.toString()
-                    textOrderNum.text = (position+1).toString()
-                    Log.d("set text in detail order", order.toString())
-                    if(havePhotoIndex.size != 0 && (position+1) == havePhotoIndex[0]){
-                        Log.d("uid", uid!!)
-                        Log.d("timestamp", timestamp!!)
-                        val path = storageRef.child(uid + " " + timestamp + " " + havePhotoIndex[0].toString())
-                        Log.d("storage path in detail activity", uid + " " + timestamp + " " + havePhotoIndex[0].toString())
-                        path.downloadUrl.addOnCompleteListener {
-                            if (it.isSuccessful){
-                                Glide.with(this.imageViewOrder).load(it.result).into(imageViewOrder)
+            with(binding){
+                textOrderText.text = order.toString()
+                textOrderNum.text = (position+1).toString()
+                Log.d("set text in detail order", order.toString())
+
+                if(havePhotoIndex.size != 0 ){
+                    for(photoIndex in havePhotoIndex){
+                        if((position+1) == photoIndex){
+                            Log.d("uid", uid!!)
+                            Log.d("timestamp", timestamp!!)
+                            val path = storageRef.child("$uid $timestamp $photoIndex")
+                            Log.d("storage path in detail activity", "$uid $timestamp $photoIndex")
+                            path.downloadUrl.addOnCompleteListener {
+                                if (it.isSuccessful){
+                                    Glide.with(this.imageViewOrder).load(it.result).into(imageViewOrder)
+                                }
                             }
+                            imageViewOrder.visibility = View.VISIBLE
+                            imageViewOrder.scaleType = ImageView.ScaleType.FIT_CENTER
                         }
-                        imageViewOrder.visibility = View.VISIBLE
-                        imageViewOrder.scaleType = ImageView.ScaleType.FIT_CENTER
-                        havePhotoIndex.removeAt(0)
                     }
                 }
             }
+
         }
     }
 

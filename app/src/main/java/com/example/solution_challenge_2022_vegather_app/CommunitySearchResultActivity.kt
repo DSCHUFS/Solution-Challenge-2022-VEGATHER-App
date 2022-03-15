@@ -1,34 +1,25 @@
 package com.example.solution_challenge_2022_vegather_app
 
-import android.content.ContentValues.TAG
 import android.content.Intent
-import android.icu.text.SimpleDateFormat
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommunityMainBinding
+import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommunitySearchResultBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.CommunityRecyclerBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.ktx.initialize
-import com.google.firebase.storage.ktx.storage
-import java.util.ArrayList
 
-class CommunityMainActivity : AppCompatActivity() {
-
-    val binding by lazy{ActivityCommunityMainBinding.inflate(layoutInflater)}
+class CommunitySearchResultActivity : AppCompatActivity() {
+    val binding by lazy{ActivityCommunitySearchResultBinding.inflate(layoutInflater)}
     private lateinit var db: FirebaseFirestore
-    private lateinit var recyclerAdapter: communityRecyclerAdapter
-
+    private lateinit var recyclerAdapter: communitySearchResultRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,14 +29,20 @@ class CommunityMainActivity : AppCompatActivity() {
         uiBarCustom.setStatusBarIconColor(isBlack = true)
         uiBarCustom.setNaviBarIconColor(isBlack = true)
 
+        binding.searchBar.setOnClickListener {
+            finish()
+        }
+
+        val search = intent.getStringExtra("search")
+        binding.searchBar.text = search
+
         db = FirebaseFirestore.getInstance()
 
         val postList = mutableListOf<Post>()
-        db.collection("Post")
-            .orderBy("timestamp", Query.Direction.DESCENDING)
-            .get()
+        db.collection("Post").whereIn("title", listOf(search)).get()
             .addOnSuccessListener { result ->
-                for(document in result){
+                Log.d("find in db", result.toString())
+                for (document in result) {
                     val title = document.get("title")
                     val subtitle = document.get("subtitle")
                     val date = document.get("timestamp")
@@ -53,41 +50,33 @@ class CommunityMainActivity : AppCompatActivity() {
                     val uid = document.get("uid")
                     val like = document.get("like") as Long
                     val comment = document.get("comment") as Long
-                    Log.d("load Post", title.toString() +" "+subtitle.toString() + " " + date.toString())
-                    val post = Post(title=title, subtitle=subtitle, timestamp = date, writer = nickname.toString(), uid = uid.toString(), like = like.toIntOrNull(), comment = comment.toIntOrNull())
+                    Log.d("load Post", title.toString() + " " + subtitle.toString() + " " + date.toString())
+                    val post = Post(
+                        title = title,
+                        subtitle = subtitle,
+                        timestamp = date,
+                        writer = nickname.toString(),
+                        uid = uid.toString(),
+                        like = like.toIntOrNull(),
+                        comment = comment.toIntOrNull()
+                    )
                     postList.add(post)
-                    Log.d("add post to postList", postList[postList.size-1].title.toString() + postList[postList.size-1].subtitle.toString() + postList[postList.size-1].timestamp.toString())
-                    Log.d("before iter end post list", postList.toString())
                 }
-//                recyclerAdapter = RecyclerAdapter(postList)
                 recyclerAdapter.notifyDataSetChanged()
             }
-            .addOnFailureListener { e->
-                Log.d(TAG, "Error getting documents: ", e)
+            .addOnFailureListener {
+                Toast.makeText(this, "No result found", Toast.LENGTH_SHORT).show()
             }
 
-        recyclerAdapter = communityRecyclerAdapter(postList)
-        recyclerAdapter.notifyDataSetChanged()
-        binding.communityRecyclerView.adapter = recyclerAdapter
-        binding.communityRecyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerAdapter = communitySearchResultRecyclerAdapter(postList)
+        binding.resultRecycler.adapter = recyclerAdapter
+        binding.resultRecycler.layoutManager = LinearLayoutManager(this)
 
 
-        binding.btnWrite.setOnClickListener{
-            val intent = Intent(this, CommunityWriteActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
 
-        binding.btnGoMain.setOnClickListener{
-            finish()
-//            val intent = Intent(this, MainActivity::class.java)
-//            startActivity(intent)
-        }
 
-        binding.searchBar.setOnClickListener {
-            val searchIntent = Intent(this, CommunitySearchActivity::class.java)
-            startActivity(searchIntent)
-        }
+
+
     }
 
     private fun Long.toIntOrNull(): Int? {
@@ -96,9 +85,9 @@ class CommunityMainActivity : AppCompatActivity() {
     }
 }
 
-class communityRecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Adapter<communityRecyclerAdapter.Holder>() {
+class communitySearchResultRecyclerAdapter(val postData:MutableList<Post>) : RecyclerView.Adapter<communitySearchResultRecyclerAdapter.Holder>() {
 
-    class Holder(val binding:CommunityRecyclerBinding):RecyclerView.ViewHolder(binding.root){
+    class Holder(val binding: CommunityRecyclerBinding): RecyclerView.ViewHolder(binding.root){
 
         @RequiresApi(Build.VERSION_CODES.N)
         fun set(post:Post) {
@@ -130,7 +119,7 @@ class communityRecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Ada
             intent.putExtra("comment", post.comment)
             intent.putExtra("nickname", post.writer.toString())
             intent.putExtra("document name", "${post.uid!!.chunked(10)[0]} ${post.timestamp}")
-            startActivity(holder.itemView?.context, intent, null)
+            ContextCompat.startActivity(holder.itemView?.context, intent, null)
         }
     }
 
@@ -138,4 +127,3 @@ class communityRecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Ada
         return postData.size
     }
 }
-
