@@ -212,7 +212,7 @@ class RecipeMainActivity : AppCompatActivity() {
     private fun updateLikeButtonColor(isLiked : Boolean){
         when(isLiked){
             true -> binding.likeButton
-                .setColorFilter(Color.parseColor("#E16D64"))
+                .setColorFilter(Color.parseColor("#81E678"))
             false -> binding.likeButton
                 .setColorFilter(Color.parseColor("#BCBCBC"))
         }

@@ -2,6 +2,7 @@ package com.example.solution_challenge_2022_vegather_app
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -79,7 +80,7 @@ class CommentAdapter(private val binding : CommentRecyclerBinding,
         }
 
         binding.commentDeleteBtn.setOnClickListener {
-           deleteComment(position)
+            showDeleteMessage(position)
         }
 
         binding.reply.setOnClickListener {
@@ -203,5 +204,17 @@ class CommentAdapter(private val binding : CommentRecyclerBinding,
         context.startActivity(replyIntent)
     }
 
-
+    private fun showDeleteMessage(position: Int){
+        val eventHandler = DialogInterface.OnClickListener { dialog, which ->
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> deleteComment(position)
+                DialogInterface.BUTTON_NEGATIVE -> null
+            }
+        }
+        val builder = AlertDialog.Builder(context)
+        builder.setMessage("Do you want to delete the message?")
+        builder.setPositiveButton("YES",eventHandler)
+        builder.setNegativeButton("NO",eventHandler)
+        builder.show()
+    }
 }

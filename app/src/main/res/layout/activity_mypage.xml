@@ -49,6 +49,7 @@
         android:layout_marginStart="26dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/mypage_level_btn_background"
+        android:stateListAnimator="@null"
         android:text="Lv 34"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
@@ -237,6 +238,7 @@
                             android:paddingTop="10dp"
                             android:paddingRight="15dp"
                             android:paddingBottom="10dp"
+                            android:stateListAnimator="@null"
                             android:text="Attendance"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             android:textColor="@color/sub_text_gray" />
@@ -269,6 +271,7 @@
                             android:paddingTop="10dp"
                             android:paddingRight="15dp"
                             android:paddingBottom="10dp"
+                            android:stateListAnimator="@null"
                             android:text="Posting"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             android:textColor="@color/sub_text_gray" />
@@ -300,6 +303,7 @@
                             android:paddingTop="10dp"
                             android:paddingRight="15dp"
                             android:paddingBottom="10dp"
+                            android:stateListAnimator="@null"
                             android:text="Comment"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             android:textColor="@color/sub_text_gray" />
@@ -329,6 +333,7 @@
                             android:paddingTop="10dp"
                             android:paddingRight="15dp"
                             android:paddingBottom="10dp"
+                            android:stateListAnimator="@null"
                             android:text="Like"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             android:textColor="@color/sub_text_gray" />
@@ -390,8 +395,7 @@
                 android:text="Comment"
                 android:textAllCaps="false"
                 android:textColor="#757575"
-                android:textSize="16sp"
-                android:textStyle="normal" />
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/btn_posting"
@@ -414,8 +418,7 @@
                 android:text="Posting"
                 android:textAllCaps="false"
                 android:textColor="#757575"
-                android:textSize="16sp"
-                android:textStyle="normal" />
+                android:textSize="16sp" />
 
         </LinearLayout>
     </ScrollView>

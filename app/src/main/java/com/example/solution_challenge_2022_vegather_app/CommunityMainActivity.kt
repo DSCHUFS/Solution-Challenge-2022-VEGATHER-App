@@ -115,6 +115,7 @@ class communityRecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Ada
                 textView13.text = "${post.like}"
                 textView14.text = "${post.comment}"
 
+                binding.imageViewMainPhoto.clipToOutline = true
                 //레시피 마지막에 넣은 사진을 메인 사진으로 한다
                 val lastPhoto = post.havePhoto.lastIndexOf("true")
                 if(lastPhoto > 0){

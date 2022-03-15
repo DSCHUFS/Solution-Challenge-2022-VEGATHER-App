@@ -34,9 +34,9 @@ class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as MoreRecipeViewHolder).binding
 
-//        Glide.with(context)
-//            .load(R.drawable.loading_bigsize)
-//            .into(binding.imageView3)
+        Glide.with(context)
+            .load(R.drawable.loading_bigsize)
+            .into(binding.imageView3)
 
         binding.foodName.text = dataset[position].name
         binding.foodInfo.text = dataset[position].introduce
@@ -58,7 +58,7 @@ class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding)
                 position + 3
             }
             dataset.subList(position, endPosition ).map { it.imgUrl }.forEach {
-                preㅣoad(context, it.toString())
+                preload(context, it.toString())
             }
         }
 
@@ -102,7 +102,7 @@ class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding)
         context.startActivity(intentRecipe)
     }
 
-    fun preㅣoad(context: Context,  url : String) {
+    fun preload(context: Context,  url : String) {
         Glide.with(context)
             .load(url)
             .centerCrop()
