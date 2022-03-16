@@ -37,12 +37,6 @@
             android:name=".MyRecordActivity"
             android:exported="false" />
         <activity
-            android:name=".FacebookLoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".GoogleLoginActivity"
-            android:exported="false" />
-        <activity
             android:name=".CommentReplyActivity"
             android:exported="false" />
         <activity

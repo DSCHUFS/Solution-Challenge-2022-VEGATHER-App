@@ -1,6 +1,7 @@
 package com.example.solution_challenge_2022_vegather_app
 
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +28,7 @@ class MypageActivity : AppCompatActivity() {
     private lateinit var currentUserRef : DocumentReference
     var level = 1
     var monthlyNum = 0
+    lateinit var loginWith : String
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +53,7 @@ class MypageActivity : AppCompatActivity() {
                     else -> "Master Vegan"
                 }
             }
+            loginWith = it.data?.get("LoginWith").toString()
         }
 
         val customUiBar = UiBar(window)
@@ -68,9 +71,9 @@ class MypageActivity : AppCompatActivity() {
         //로그아웃 버튼
         binding.btnLogout.setOnClickListener {
             auth.signOut()
-            //페이스북 연동의 경우 아래 코드를 추가해주어야함.
-            //그러려면, User가 로그인한게 이메일인지, 구글인지, 페북인지 DB에 따로 저장해야할듯.
-            LoginManager.getInstance().logOut()
+            when(loginWith){
+                "facebook" -> LoginManager.getInstance().logOut()
+            }
             val intentMain = Intent(this, LoginActivity::class.java) //메인으로 바로이동
             startActivity(intentMain)
             // activity 종료
@@ -136,6 +139,7 @@ class MypageActivity : AppCompatActivity() {
                 }
             }
     }
+
 
     private fun intentMyRecordActivityFrom(text : String){
         val intentMyRecord = Intent(this,MyRecordActivity::class.java)
