@@ -1,6 +1,7 @@
 package com.example.solution_challenge_2022_vegather_app
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -32,7 +33,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var db : FirebaseFirestore
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var callbackManager: CallbackManager
-    val userInfo = UserDTO()
     companion object {
         private const val RC_SIGN_IN = 9001
     }
@@ -43,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance() //현재 로그인한 사용자 가져오기
         db = FirebaseFirestore.getInstance()
-
+        auth.signOut()
         // goole login을 위한 사전처리. gogole signin option 개체 생성
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -53,10 +53,6 @@ class LoginActivity : AppCompatActivity() {
 
         //facebook 로그인
         callbackManager = CallbackManager.Factory.create()
-
-
-        userInfo.uid = auth?.uid.toString() // 로그인한 사용자 id 받아오기
-        Log.d("auth", auth.toString())
 
 
         //비번 찾기
@@ -85,7 +81,6 @@ class LoginActivity : AppCompatActivity() {
         //구글 계정으로 로그인
         binding.btnGoogleLogin.setOnClickListener {
             Log.d("Google Login Test", "1")
-
             googleLogin()
         }
         //페이스북 로그인
@@ -103,6 +98,10 @@ class LoginActivity : AppCompatActivity() {
             // activity 종료
             finish()
         }
+    }
+
+    override fun onBackPressed() {
+//        super.onBackPressed()
     }
 
     //이메일 로그인
@@ -125,19 +124,10 @@ class LoginActivity : AppCompatActivity() {
     val user: MutableMap<String, Any> = HashMap()
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d("Google Login Test", "2")
-
         if (requestCode == RC_SIGN_IN) { //구글로그인 콜백
-            Log.d("Google Login Test", "3")
-
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            Log.d("Google Login Test", "4")
-
             try {
                 val account = task.getResult(ApiException::class.java)!!
-                //Log.d(GoogleLoginActivity.TAG, "firebaseAuthWithGoogle:" + account.id)
-                user["NickName"] = account.displayName.toString()
-                Log.d("Google Login Test", "5")
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
                 Log.w("Google Login Test", "Google sign in failed", e)
@@ -152,10 +142,7 @@ class LoginActivity : AppCompatActivity() {
     private fun googleLogin() {
         Log.d("Google Login Test", "6")
         val signInIntent = googleSignInClient.signInIntent
-        Log.d("Google Login Test", "7")
-
         startActivityForResult(signInIntent, RC_SIGN_IN)
-        Log.d("Google Login Test", "8")
     }
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
@@ -164,26 +151,9 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    Log.d("Google Login Test", "10")
-
-                    // 처음 가입하는 사람
-                    Log.d(GoogleLoginActivity.TAG, "signInWithCredential:success")
-                    user["Email"] = auth.currentUser?.email.toString()
-                    user["Point"] = 0
-                    user["MonthlyEat"] = 0
-
-                    db.collection("Users").document(auth.currentUser?.email.toString())
-                        .set(user)
-                        .addOnSuccessListener {
-                            Log.d("Google Login Test", "11")
-
-                            val intent = Intent(this, MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        }
-                        .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
+                    checkUserData(auth.currentUser?.email.toString(), auth.currentUser?.displayName.toString(), "google" )
                 } else {
-                    Log.w(GoogleLoginActivity.TAG, "signInWithCredential:failure", task.exception)
+                    Log.w(TAG, "signInWithCredential:failure", task.exception)
                 }
             }
     }
@@ -213,27 +183,13 @@ class LoginActivity : AppCompatActivity() {
         // AccessToken 으로 Facebook 인증
         val credential = FacebookAuthProvider.getCredential(accessToken?.token!!)
 
-        // 성공 시 Firebase 에 유저 정보 보내기 (로그인)
+        // 성공 시 Firebase (로그인)
         auth?.signInWithCredential(credential)
             ?.addOnCompleteListener{
                     task ->
                 if(task.isSuccessful){ // 정상적으로 email, password 가 전달된 경우
-                    // 로그인 처리
-                    // 처음 가입하는 사람
-                    user["Email"] = auth.currentUser?.email.toString()
-                    user["NickName"] = auth.currentUser?.displayName.toString()
-                    user["Point"] = 0
-                    user["MonthlyEat"] = 0
-
-                    //User DB에 저장
-                    db.collection("Users").document(auth.currentUser?.email.toString())
-                        .set(user)
-                        .addOnSuccessListener {
-                            val intent = Intent(this, MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        }
-                        .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
+                    //최초 로그인인지 확인
+                    checkUserData(auth.currentUser?.email.toString(), auth.currentUser?.displayName.toString(), "facebook")
                 } else {
                     // 예외 발생 시 메시지 출력
                     Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
@@ -241,7 +197,101 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
+    //SNS 로그인 시, 최초 로그인인지 구분
+    private fun checkUserData(email : String, nickname : String, login : String){
+        db.collection("Users").document(email).get()
+            .addOnSuccessListener {
+                if(it.exists()){
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }else{
+                    //처음 로그인이면 db 생성
+                    makeUserData(nickname, email, login)
+                }
+            }
+    }
 
+    //DB 처리
+    private fun makeUserData(nickname : String, email : String, login : String){
+        val user: MutableMap<String, Any> = HashMap()
+        user["NickName"] = nickname
+        user["Email"] = email
+        user["Point"] = 0
+        user["VeganLevel"] = 1
+        user["LoginWith"] = login
 
+        val newLikeData = hashMapOf(
+            "basicRecipe" to ArrayList<String>(),
+            "communityRecipe" to ArrayList<String>()
+        )
+
+        val newCommentData = hashMapOf(
+            "basicComment" to HashMap<String,Int>(),
+            "communityComment" to HashMap<String,Int>()
+        )
+
+        val newPostingData = hashMapOf(
+            "posting" to ArrayList<String>()
+        )
+
+        val newSearchData = hashMapOf(
+            "basicSearch" to HashMap<String,String>(),
+            "communitySearch" to HashMap<String,String>()
+        )
+
+        //User DB에 초기 정보 저장
+        db.collection("Users").document(email)
+            .set(user)
+            .addOnSuccessListener {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
+            .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
+
+        db.collection("Users").document(email)
+            .collection("History")
+            .document("Like")
+            .set(newLikeData)
+            .addOnSuccessListener {
+                Log.d("createHistoryLike","success")
+            }
+            .addOnFailureListener {
+                Log.d("createHistoryLike","fail")
+            }
+
+        db.collection("Users").document(email)
+            .collection("History")
+            .document("Comment")
+            .set(newCommentData)
+            .addOnSuccessListener {
+                Log.d("createHistoryComment","success")
+            }
+            .addOnFailureListener {
+                Log.d("createHistoryComment","fail")
+            }
+
+        db.collection("Users").document(email)
+            .collection("History")
+            .document("Posting")
+            .set(newPostingData)
+            .addOnSuccessListener {
+                Log.d("createHistoryPosting","success")
+            }
+            .addOnFailureListener {
+                Log.d("createHistoryPosting","fail")
+            }
+
+        db.collection("Users").document(email)
+            .collection("History")
+            .document("Search")
+            .set(newSearchData)
+            .addOnSuccessListener {
+                Log.d("createHistorySearch","success")
+            }
+            .addOnFailureListener {
+                Log.d("createHistorySearch","fail")
+            }
+    }
 
 }
