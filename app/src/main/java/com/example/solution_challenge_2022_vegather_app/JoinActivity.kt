@@ -100,6 +100,7 @@ class JoinActivity : AppCompatActivity() {
         user["Email"] = binding.editTextJoinEmail.text.toString()
         user["Point"] = 0
         user["VeganLevel"] = 1
+        user["LoginWith"] = "email"
 
         val newLikeData = hashMapOf(
             "basicRecipe" to ArrayList<String>(),
