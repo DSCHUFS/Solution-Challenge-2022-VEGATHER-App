@@ -43,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance() //현재 로그인한 사용자 가져오기
         db = FirebaseFirestore.getInstance()
-        auth.signOut()
+//        auth.signOut()
         // goole login을 위한 사전처리. gogole signin option 개체 생성
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
