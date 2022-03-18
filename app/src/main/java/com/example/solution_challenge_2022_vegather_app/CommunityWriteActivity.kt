@@ -109,8 +109,6 @@ class CommunityWriteActivity : PermissionActivity() {
     }
 
 
-
-
     @RequiresApi(Build.VERSION_CODES.N)
     private fun uploadRecipe() {
 
@@ -120,20 +118,6 @@ class CommunityWriteActivity : PermissionActivity() {
         val date = System.currentTimeMillis()
         val sdf = SimpleDateFormat("yyyy.MM.dd HH:mm:ss")
         formattedDate = sdf.format(date)
-//        val newpost: MutableMap<String, Any> = HashMap()
-//        newpost["title"] = binding.editTextTitle.text.toString()
-//        newpost["subtitle"] = binding.editTextSubtitle.text.toString()
-//        newpost["like"] = 0
-//        newpost["comment"] = 0
-//        newpost["timestamp"] = formattedDate
-//
-//        newpost["ingredientName"] = ingredientNameForDB
-//        newpost["ingredientAmount"] = ingredientAmountForDB
-//        newpost["recipe"] = recipeForDB
-
-//        ingredientNameForDB = ingredientNameForDB.chunked(countIngredients)[0] as MutableList<Any?>
-//        ingredientAmountForDB = ingredientAmountForDB.chunked(countIngredients)[0] as MutableList<Any?>
-//        recipeForDB = recipeForDB.chunked(countOrder)[0] as MutableList<Any?>
 
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         Log.d("uid", uid.toString()+formattedDate)
@@ -158,6 +142,17 @@ class CommunityWriteActivity : PermissionActivity() {
                 Log.d("newpost setting successfully", newpost.toString())
                 uploadPhoto(photoList, havePhotoList)
                 Log.d(TAG, "Upload new recipe successfully")
+                //writer 정보 update
+                db.collection("Users").document(email.toString()).get()
+                    .addOnSuccessListener { document ->
+                        val nicknameFromDB = document.data?.get("NickName")
+                        nickname = nicknameFromDB.toString()
+                        Log.d("get nickname from db", "nickname = $nickname")
+                        newpost.writer = nickname
+                        Log.d("add nickname in newpost", newpost.writer.toString())
+
+                        db.collection("Post").document(path).update("writer", nickname)
+                    }
 
                 //User history posting 정보 update
                 db.collection("Users").document(email.toString())
@@ -179,16 +174,7 @@ class CommunityWriteActivity : PermissionActivity() {
                     e -> Log.d(TAG, "Error writing new recipe", e)
             }
 
-        db.collection("Users").document(email.toString()).get()
-            .addOnSuccessListener { document ->
-                val nicknameFromDB = document.data?.get("NickName")
-                nickname = nicknameFromDB.toString()
-                Log.d("get nickname from db", "nickname = $nickname")
-                newpost.writer = nickname
-                Log.d("add nickname in newpost", newpost.writer.toString())
 
-                db.collection("Post").document(path).update("writer", nickname)
-            }
 
 
 
