@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "626426826491-f3itor1tqarsub2dcju6isnn7inj5kn4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.solution_challenge_2022_vegather_app",
+            "certificate_hash": "27391a83517f4b897544d326edfd49f1a60d99aa"
+          }
+        },
+        {
           "client_id": "626426826491-35pmd57k45pvudmepndb6lch11uj07kt.apps.googleusercontent.com",
           "client_type": 3
         }
