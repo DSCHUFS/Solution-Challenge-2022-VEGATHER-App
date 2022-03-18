@@ -22,7 +22,7 @@
         android:paddingBottom="5dp"
         android:textAlignment="textStart"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
@@ -30,10 +30,9 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center"
-            android:layout_marginEnd="15dp"
             android:backgroundTint="#00FFFFFF"
             android:focusable="false"
-            app:srcCompat="@drawable/arrow_left_gray"/>
+            app:srcCompat="@drawable/arrow_left_gray" />
 
         <EditText
             android:id="@+id/searchBar"

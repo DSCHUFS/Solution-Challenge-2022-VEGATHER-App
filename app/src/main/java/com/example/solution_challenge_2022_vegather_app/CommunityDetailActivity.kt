@@ -48,6 +48,10 @@ class CommunityDetailActivity : AppCompatActivity() {
         uiBarCustom.setStatusBarIconColor(isBlack = true)
         uiBarCustom.setNaviBarIconColor(isBlack = true)
 
+        binding.imageButtonBack.setOnClickListener {
+            finish()
+        }
+
         binding.textNickname.text = intent.getStringExtra("nickname")
         var nowLike : Int? =  intent.getIntExtra("like", -1)
         var nowComment : Int? = intent.getIntExtra("comment", -1)
