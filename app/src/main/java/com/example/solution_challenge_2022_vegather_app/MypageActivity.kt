@@ -74,9 +74,8 @@ class MypageActivity : AppCompatActivity() {
             when(loginWith){
                 "facebook" -> LoginManager.getInstance().logOut()
             }
-            val intentMain = Intent(this, LoginActivity::class.java) //메인으로 바로이동
-            intentMain.setFlags(FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(intentMain)
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
             // activity 종료
             finish()
         }

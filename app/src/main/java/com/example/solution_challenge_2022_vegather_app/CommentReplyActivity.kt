@@ -45,7 +45,11 @@ class CommentReplyActivity : AppCompatActivity() {
 
         binding.replyInputDoneBtn.setOnClickListener {
             val inputText : String = binding.replyCommentInputText.text.toString()
-            if( isCorrectInput(inputText) ) addComment(inputText)
+            if( isCorrectInput(inputText) ){
+                addComment(inputText)
+                MyApplication.prefs.setPrefs("Comment", "Done")
+                MyApplication.prefs.setIntPrefs("commentNum", MyApplication.prefs.getIntPrefs("commentNum", 0)+1)
+            }
             else showNotice("There's no comment.")
         }
 
