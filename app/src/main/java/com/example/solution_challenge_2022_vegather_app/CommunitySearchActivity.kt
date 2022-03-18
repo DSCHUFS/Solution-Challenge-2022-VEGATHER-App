@@ -29,6 +29,15 @@ class CommunitySearchActivity : AppCompatActivity() {
         val imm : InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 	    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
 
+        //Back button 클릭시 커뮤니티 메인 페이지로 이동
+        binding.backMainButton.setOnClickListener {
+            //자동으로 올라왔던 키보드 내리기
+            imm.hideSoftInputFromWindow(binding.searchBar.windowToken, 0)
+
+            val intent = Intent(this, CommunityMainActivity::class.java)
+            startActivity(intent)
+        }
+
         //Search 버튼이 눌리면 결과 액티비티로 이동
         binding.searchBar.setOnKeyListener { v, keyCode, event ->
             if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KEYCODE_ENTER)){

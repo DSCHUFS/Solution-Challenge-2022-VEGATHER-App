@@ -90,9 +90,8 @@ class CommunityMainActivity : AppCompatActivity() {
         }
 
         binding.btnGoMain.setOnClickListener{
-            finish()
-//            val intent = Intent(this, MainActivity::class.java)
-//            startActivity(intent)
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
 
         binding.searchBar.setOnClickListener {
@@ -128,6 +127,7 @@ class communityRecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Ada
                     val storagePath = Firebase.storage.reference.child(mainPhotoPath)
                     storagePath.downloadUrl.addOnCompleteListener{
                         if (it.isSuccessful){
+
                             Glide.with(this.imageViewMainPhoto).load(it.result)
                                 .into(binding.imageViewMainPhoto)
                         }
