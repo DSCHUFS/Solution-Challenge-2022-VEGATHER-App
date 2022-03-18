@@ -30,6 +30,10 @@ class MyPostRecordActivity : AppCompatActivity() {
         val title = intent.getStringExtra("category").toString()
         binding.textView59.text = title
 
+        val uiBarCustom = UiBar(window)
+        uiBarCustom.setStatusBarIconColor(isBlack = true)
+        uiBarCustom.setNaviBarIconColor(isBlack = true)
+
         binding.imageButton9.setOnClickListener {
             finish()
         }

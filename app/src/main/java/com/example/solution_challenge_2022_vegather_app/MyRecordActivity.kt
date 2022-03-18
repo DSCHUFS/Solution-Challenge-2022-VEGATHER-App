@@ -13,6 +13,10 @@ class MyRecordActivity : AppCompatActivity() {
         val binding = ActivityMyRecordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val uiBarCustom = UiBar(window)
+        uiBarCustom.setStatusBarIconColor(isBlack = true)
+        uiBarCustom.setNaviBarIconColor(isBlack = true)
+
         val intent = intent
         val title = intent.getStringExtra("category").toString()
         binding.textView59.text = title
