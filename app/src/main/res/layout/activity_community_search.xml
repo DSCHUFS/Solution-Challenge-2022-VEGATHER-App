@@ -6,52 +6,61 @@
     android:layout_height="match_parent"
     tools:context=".CommunitySearchActivity">
 
+
+
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/search_bar_background"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
+        android:id="@+id/linearLayout13"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:orientation="horizontal"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="5dp"
-        android:textAlignment="textStart"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentContainer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.9">
 
         <ImageButton
             android:id="@+id/backMainButton"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center"
+            android:layout_marginEnd="15dp"
             android:backgroundTint="#00FFFFFF"
             android:focusable="false"
             app:srcCompat="@drawable/arrow_left_gray" />
 
-        <EditText
-            android:id="@+id/searchBar"
+        <LinearLayout
+            android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:background="@null"
-            android:drawableLeft="@drawable/search_icon_gray"
-            android:drawablePadding="10dp"
-            android:drawableTint="@color/sub_text_gray"
-            android:gravity="center_vertical"
-            android:hint="Search"
-            android:hyphenationFrequency="none"
-            android:maxLines="1"
-            android:inputType="text"
-            android:imeOptions="actionSearch"
-            android:paddingLeft="10dp"
-            android:textSize="18sp" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_bar_background"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp">
 
+            <com.example.solution_challenge_2022_vegather_app.CustomEditText
+                android:id="@+id/searchTextBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="2"
+                android:backgroundTint="#00FFFFFF"
+                android:ems="10"
+                android:focusable="true"
+                android:hint="Search for various recipes"
+                android:imeOptions="actionSearch"
+                android:inputType="textPersonName"
+                android:textColor="@color/black"
+                android:textColorHint="@color/sub_text_gray"
+                android:textSize="16sp" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

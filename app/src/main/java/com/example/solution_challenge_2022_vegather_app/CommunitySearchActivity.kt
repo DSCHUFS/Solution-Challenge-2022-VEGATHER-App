@@ -25,25 +25,25 @@ class CommunitySearchActivity : AppCompatActivity() {
         uiBarCustom.setNaviBarIconColor(isBlack = true)
 
         //키보드 자동으로 올리기
-        binding.searchBar.requestFocus()
+        binding.searchTextBar.requestFocus()
         val imm : InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 	    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
 
         //Back button 클릭시 커뮤니티 메인 페이지로 이동
         binding.backMainButton.setOnClickListener {
             //자동으로 올라왔던 키보드 내리기
-            imm.hideSoftInputFromWindow(binding.searchBar.windowToken, 0)
+            imm.hideSoftInputFromWindow(binding.searchTextBar.windowToken, 0)
 
             val intent = Intent(this, CommunityMainActivity::class.java)
             startActivity(intent)
         }
 
         //Search 버튼이 눌리면 결과 액티비티로 이동
-        binding.searchBar.setOnKeyListener { v, keyCode, event ->
+        binding.searchTextBar.setOnKeyListener { v, keyCode, event ->
             if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KEYCODE_ENTER)){
-                Log.d("Enter key pressed", binding.searchBar.text.toString())
+                Log.d("Enter key pressed", binding.searchTextBar.text.toString())
                 val resultIntent = Intent(this, CommunitySearchResultActivity::class.java)
-                resultIntent.putExtra("search", binding.searchBar.text.toString())
+                resultIntent.putExtra("search", binding.searchTextBar.text.toString())
                 startActivity(resultIntent)
                 true
             }else{
