@@ -63,8 +63,12 @@ class MyPostRecordActivity : AppCompatActivity() {
                             val date = document.get("timestamp")
                             val nickname = document.get("writer")
                             val uid = document.get("uid")
+                            val like = document.get("like") as Long
+                            val comment = document.get("comment") as Long
+                            val havePhoto = document.get("havePhoto") as MutableList<String>
                             Log.d("load Post", title.toString() +" "+subtitle.toString() + " " + date.toString())
-                            val post = Post(title=title, subtitle=subtitle, timestamp = date, writer = nickname.toString(), uid = uid.toString())
+                            val post = Post(title=title, subtitle=subtitle, timestamp = date, writer = nickname.toString(),
+                                uid = uid.toString(), like = like.toIntOrNull(), comment = comment.toIntOrNull(), havePhoto = havePhoto)
                             likedPostList.add(post)
                         }
                         recyclerAdapter.notifyDataSetChanged()
@@ -75,5 +79,11 @@ class MyPostRecordActivity : AppCompatActivity() {
                 binding.mypostRecycler.layoutManager = LinearLayoutManager(this)
             }
 
+
+
     }
+}
+private fun Long.toIntOrNull(): Int? {
+    val i = this.toInt()
+    return if (i.toLong() == this) i else null
 }

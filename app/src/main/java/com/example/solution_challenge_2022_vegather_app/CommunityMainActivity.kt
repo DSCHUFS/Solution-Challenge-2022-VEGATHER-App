@@ -1,6 +1,8 @@
 package com.example.solution_challenge_2022_vegather_app
 
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import android.os.Build
@@ -11,11 +13,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatDrawableManager.preload
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommunityMainBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.CommunityRecyclerBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -23,6 +27,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.initialize
 import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.withContext
 import java.util.ArrayList
 
 class CommunityMainActivity : AppCompatActivity() {
@@ -121,9 +126,10 @@ class communityRecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Ada
                 if(lastPhoto > 0){
                     val mainPhotoPath = "${post.uid!!.chunked(10)[0]} ${post.timestamp} $lastPhoto"
                     val storagePath = Firebase.storage.reference.child(mainPhotoPath)
-                    storagePath.downloadUrl.addOnCompleteListener {
+                    storagePath.downloadUrl.addOnCompleteListener{
                         if (it.isSuccessful){
-                            Glide.with(this.imageViewMainPhoto).load(it.result).into(binding.imageViewMainPhoto)
+                            Glide.with(this.imageViewMainPhoto).load(it.result)
+                                .into(binding.imageViewMainPhoto)
                         }
                         binding.imageViewMainPhoto.visibility = View.VISIBLE
                     }
@@ -140,10 +146,39 @@ class communityRecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Ada
         return Holder(binding)
     }
 
+    @SuppressLint("RestrictedApi")
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: Holder, position: Int) {
+
         val post = postData[position]
         holder.set(post)
+
+//        val lastPhoto = post.havePhoto.lastIndexOf("true")
+//        if(lastPhoto > 0){
+//            val mainPhotoPath = "${post.uid!!.chunked(10)[0]} ${post.timestamp} $lastPhoto"
+//            val storagePath = Firebase.storage.reference.child(mainPhotoPath)
+//            storagePath.downloadUrl.addOnCompleteListener{
+//                if (it.isSuccessful){
+//                    Glide.with(holder.binding.imageViewMainPhoto).load(it.result)
+//                        .into(holder.binding.imageViewMainPhoto)
+//                }
+//                holder.binding.imageViewMainPhoto.visibility = View.VISIBLE
+//            }
+//        }
+//        else{
+//            holder.binding.imageViewMainPhoto.visibility = View.INVISIBLE
+//        }
+//
+//        if (position <= postData.size) {
+//            val endPosition = if (position + 6 > postData.size) {
+//                postData.size
+//            } else {
+//                position + 6
+//            }
+//            postData.subList(position, endPosition ).map { "${it.uid!!.chunked(10)[0]} ${it.timestamp} $lastPhoto"}.forEach {
+//                preload()
+//            }
+//        }
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, CommunityDetailActivity::class.java)

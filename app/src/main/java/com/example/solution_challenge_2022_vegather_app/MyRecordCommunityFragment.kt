@@ -72,7 +72,11 @@ class MyRecordCommunityFragment(category : String) : Fragment() {
                                 val date = document.get("timestamp")
                                 val nickname = document.get("writer")
                                 val uid = document.get("uid")
-                                val post = Post(title=title, subtitle=subtitle, timestamp = date, writer = nickname.toString(), uid = uid.toString())
+                                val like = document.get("like") as Long
+                                val comment = document.get("comment") as Long
+                                val havePhoto = document.get("havePhoto") as MutableList<String>
+                                val post = Post(title=title, subtitle=subtitle, timestamp = date, writer = nickname.toString(),
+                                    uid = uid.toString(), like = like.toIntOrNull(), comment = comment.toIntOrNull(), havePhoto = havePhoto)
                                 likedPostList.add(post)
                             }
                         val adapter = communityRecyclerAdapter(likedPostList)
@@ -82,4 +86,9 @@ class MyRecordCommunityFragment(category : String) : Fragment() {
             }
         return binding!!.root
     }
+}
+
+private fun Long.toIntOrNull(): Int? {
+    val i = this.toInt()
+    return if (i.toLong() == this) i else null
 }
