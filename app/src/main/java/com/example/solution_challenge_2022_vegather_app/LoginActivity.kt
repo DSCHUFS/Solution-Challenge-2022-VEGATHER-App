@@ -47,6 +47,7 @@ class LoginActivity : AppCompatActivity() {
         // goole login을 위한 사전처리. gogole signin option 개체 생성
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
+//            .requestIdToken(getString("626426826491-35pmd57k45pvudmepndb6lch11uj07kt.apps.googleusercontent.com"))
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, gso)

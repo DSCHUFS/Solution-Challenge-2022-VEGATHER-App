@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".CommunityDetailActivity"
-        android:padding="10dp"
         >
 
         <ImageView
@@ -18,15 +17,28 @@
             android:layout_width="match_parent"
             android:layout_height="280dp"
             android:gravity="center"
-            android:scaleType="centerInside"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/imageButtonBack"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#00883939"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/arrow_left_gray"
+            />
 
         <ImageView
             android:id="@+id/imageView7"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageViewMain"
@@ -95,6 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:layout_marginStart="10dp"
             android:text=" "
             android:textColor="@color/main_green"
             android:textSize="30sp"
@@ -106,6 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:layout_marginStart="10dp"
             android:text=" "
             android:textColor="#C4C4C4"
             android:textSize="18sp"
@@ -116,6 +130,7 @@
             android:id="@+id/textView33"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
             android:text="Ingredients"
             android:textSize="20sp"
@@ -127,10 +142,11 @@
             android:id="@+id/textView46"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
             android:text="Recipe"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout16" />
 
@@ -138,7 +154,9 @@
             android:id="@+id/orderRecycler"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView46" />
@@ -149,6 +167,9 @@
             android:layout_height="40dp"
             android:background="@android:color/transparent"
             android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
             app:layout_constraintEnd_toEndOf="@+id/imageViewMain"
             app:layout_constraintTop_toTopOf="@+id/imageViewMain"
             app:srcCompat="@drawable/x_btn_gray" />
@@ -157,7 +178,9 @@
             android:id="@+id/linearLayout16"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
