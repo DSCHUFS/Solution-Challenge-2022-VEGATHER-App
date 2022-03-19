@@ -4,148 +4,160 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".LoginActivity">
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Vegans gather"
-        android:textColor="@color/main_green"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="60dp"
+        android:layout_width="230dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.43"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo2" />
 
-    <ScrollView
+    <com.example.solution_challenge_2022_vegather_app.CustomEditText
+        android:id="@+id/editText_email"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/sub_text_gray"
+        android:ems="10"
+        android:hint="E-mail"
+        android:imeOptions="actionNext"
+        android:inputType="textEmailAddress"
+        android:textColorHint="@color/sub_text_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintWidth_percent="0.9" />
+
+    <com.example.solution_challenge_2022_vegather_app.CustomEditText
+        android:id="@+id/eidtText_pw"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/sub_text_gray"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textColorHint="@color/sub_text_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/editText_email"
+        app:layout_constraintWidth_percent="0.9" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btn_email_login"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/login_btn_shpe"
+        android:backgroundTint="@color/main_green"
+        android:text="Log in"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:typeface="sans"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_find_pw"
+        app:layout_constraintWidth_percent="0.9"
+        tools:text="Log in" />
+
+    <TextView
+        android:id="@+id/btn_signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Sign up"
+        android:textAlignment="center"
+        android:textColor="@color/main_green"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_email_login" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout19"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/search_history_background_border"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_signup"
+        app:layout_constraintWidth_percent="0.9"></LinearLayout>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Login with"
+        android:textColor="@color/sub_text_gray"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout19" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout18"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+        <Button
+            android:id="@+id/btn_google_login"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            android:orientation="vertical" >
+            android:layout_marginEnd="10dp"
+            android:background="#00FFFFFF"
+            android:text="Google"
+            android:textAllCaps="false"
+            android:textColor="@color/main_green"
+            android:textSize="18sp"
+            android:typeface="sans" />
 
-            <com.example.solution_challenge_2022_vegather_app.CustomEditText
-                android:id="@+id/editText_email"
-                android:layout_width="230dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="15dp"
-                android:ems="10"
-                android:hint="E-mail"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress" />
+        <Button
+            android:id="@+id/btn_facebook_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00FFFFFF"
+            android:backgroundTint="#00FFFFFF"
+            android:text="Facebook"
+            android:textAllCaps="false"
+            android:textColor="@color/main_green"
+            android:textSize="18sp"
+            android:typeface="sans" />
+    </LinearLayout>
 
-            <com.example.solution_challenge_2022_vegather_app.CustomEditText
-                android:id="@+id/eidtText_pw"
-                android:layout_width="230dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="8dp"
-                android:ems="10"
-                android:hint="Password"
-                android:inputType="textPassword" />
-
-            <TextView
-                android:id="@+id/btn_find_pw"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="60dp"
-                android:text="Forget password?" />
-
-            <Button
-                android:id="@+id/btn_email_login"
-                android:layout_width="250dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/login_btn_shpe"
-                android:backgroundTint="@color/main_green"
-                android:text="Log in"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
-                android:typeface="sans"
-                tools:text="Log in" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="First time here?"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/btn_signup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:text="Sign up"
-                    android:textColor="@color/main_green"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="40dp"
-                android:text="Login with"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/btn_google_login"
-                android:layout_width="250dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/login_btn_shpe"
-                android:backgroundTint="@color/main_green"
-                android:text="Google"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
-                android:typeface="sans" />
-
-
-            <Button
-                android:id="@+id/btn_facebook_login"
-                android:layout_width="250dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/login_btn_shpe"
-                android:backgroundTint="@color/main_green"
-                android:text="Facebook"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
-                android:typeface="sans" />
-
-        </LinearLayout>
-    </ScrollView>
+    <TextView
+        android:id="@+id/btn_find_pw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="4dp"
+        android:layout_weight="0.5"
+        android:text="Forget password?"
+        android:textAlignment="viewStart"
+        android:textColor="@color/main_green"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eidtText_pw" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

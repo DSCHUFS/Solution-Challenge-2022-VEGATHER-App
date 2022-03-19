@@ -4,29 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".JoinActivity">
 
     <TextView
         android:id="@+id/textView6"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:text="Share your daily life"
-        android:textColor="@color/black"
+        android:textColor="@color/main_green"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.9" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="116dp"
         android:text="with"
-        android:textColor="@color/black"
+        android:textColor="@color/main_green"
         android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView8"
@@ -36,205 +40,209 @@
         android:text="vegans!"
         android:textColor="@color/main_green"
         android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView7"
         app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toTopOf="@+id/textView7" />
 
     <TextView
         android:id="@+id/textView9"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="You can get information about\n vegetarian food."
+        android:lineSpacingExtra="2dp"
+        android:text="You can get information about\nvegetarian food."
+        android:textColor="@color/sub_text_gray"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7"
+        app:layout_constraintWidth_percent="0.9" />
+
+    <com.example.solution_challenge_2022_vegather_app.CustomEditText
+        android:id="@+id/editText_join_email"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/sub_text_gray"
+        android:ems="10"
+        android:hapticFeedbackEnabled="false"
+        android:hint="E-mail"
+        android:imeOptions="actionNext"
+        android:inputType="textEmailAddress"
+        android:textColorHint="@color/sub_text_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.256"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <ImageView
+        android:id="@+id/email_ch_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_join_email"
+        app:layout_constraintStart_toEndOf="@+id/editText_join_email"
+        app:layout_constraintTop_toTopOf="@+id/editText_join_email"
+        app:srcCompat="@drawable/login_address_check" />
+
+    <TextView
+        android:id="@+id/email_ch_comment"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Please use a valid email address."
+        android:textColor="#F56B6B"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.139"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_join_email" />
+
+    <com.example.solution_challenge_2022_vegather_app.CustomEditText
+        android:id="@+id/editText_join_pw"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/sub_text_gray"
+        android:ems="10"
+        android:hint="Password"
+        android:imeOptions="actionNext"
+        android:inputType="textPassword"
+        android:textColorHint="@color/sub_text_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.256"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_ch_comment"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <TextView
+        android:id="@+id/pw_ch_comment"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Password must be at least 6 digits."
+        android:textColor="#F56B6B"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.139"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_join_pw" />
+
+    <ImageView
+        android:id="@+id/pw_ch_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_join_pw"
+        app:layout_constraintStart_toEndOf="@+id/editText_join_pw"
+        app:layout_constraintTop_toTopOf="@+id/editText_join_pw"
+        app:srcCompat="@drawable/login_address_check" />
+
+    <com.example.solution_challenge_2022_vegather_app.CustomEditText
+        android:id="@+id/editText_join_pw_ch"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/sub_text_gray"
+        android:ems="10"
+        android:hint="Password check"
+        android:imeOptions="actionNext"
+        android:inputType="textPassword"
+        android:textColorHint="@color/sub_text_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.256"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pw_ch_comment"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <ImageView
+        android:id="@+id/pw_cha_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_join_pw_ch"
+        app:layout_constraintStart_toEndOf="@+id/editText_join_pw_ch"
+        app:layout_constraintTop_toTopOf="@+id/editText_join_pw_ch"
+        app:srcCompat="@drawable/login_address_check" />
+
+    <TextView
+        android:id="@+id/pw_ch_comment2"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Please fill this blank."
+        android:textColor="#F56B6B"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.139"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_join_pw_ch" />
+
+    <com.example.solution_challenge_2022_vegather_app.CustomEditText
+        android:id="@+id/editText_join_nick"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/sub_text_gray"
+        android:ems="10"
+        android:hint="Nickname"
+        android:inputType="textPersonName"
+        android:textColorHint="@color/sub_text_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.256"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pw_ch_comment2"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <ImageView
+        android:id="@+id/nick_ch_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_join_nick"
+        app:layout_constraintStart_toEndOf="@+id/editText_join_nick"
+        app:layout_constraintTop_toTopOf="@+id/editText_join_nick"
+        app:srcCompat="@drawable/login_address_check" />
+
+    <TextView
+        android:id="@+id/nick_ch_comment"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Please fill this blank."
+        android:textColor="#F56B6B"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.139"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_join_nick" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="3dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView8"
         app:layout_constraintStart_toEndOf="@+id/textView8"
         app:layout_constraintTop_toTopOf="@+id/textView8"
-        app:srcCompat="@drawable/check_circle_green" />
+        app:srcCompat="@drawable/check_green_btn" />
 
-    <ScrollView
+    <Button
+        android:id="@+id/btn_join"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/login_btn_shpe"
+        android:backgroundTint="@color/main_green"
+        android:text="Let's get started!"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9"
-        tools:ignore="SpeakableTextPresentCheck">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <com.example.solution_challenge_2022_vegather_app.CustomEditText
-                    android:id="@+id/editText_join_email"
-                    android:layout_width="250dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="50dp"
-                    android:ems="10"
-                    android:hint="E-mail"
-                    android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress" />
-
-                <ImageView
-                    android:id="@+id/email_ch_icon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="57dp"
-                    android:visibility="invisible"
-                    app:srcCompat="@drawable/login_address_check" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/email_ch_comment"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:text="Please use a valid email address."
-                android:textColor="#F56B6B"
-                android:visibility="invisible"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <com.example.solution_challenge_2022_vegather_app.CustomEditText
-                    android:id="@+id/editText_join_pw"
-                    android:layout_width="250dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
-                    android:ems="10"
-                    android:hint="Password"
-                    android:imeOptions="actionNext"
-                    android:inputType="textPassword" />
-
-                <ImageView
-                    android:id="@+id/pw_ch_icon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="27dp"
-                    android:visibility="invisible"
-                    app:srcCompat="@drawable/login_address_check" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/pw_ch_comment"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:text="Password must be at least 6 digits."
-                android:textColor="#F56B6B"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <com.example.solution_challenge_2022_vegather_app.CustomEditText
-                    android:id="@+id/editText_join_pw_ch"
-                    android:layout_width="250dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
-                    android:ems="10"
-                    android:hint="Password check"
-                    android:imeOptions="actionNext"
-                    android:inputType="textPassword" />
-
-                <ImageView
-                    android:id="@+id/pw_cha_icon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="27dp"
-                    android:visibility="invisible"
-                    app:srcCompat="@drawable/login_address_check" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/pw_ch_comment2"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:text="Please fill this blank."
-                android:textColor="#F56B6B"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <com.example.solution_challenge_2022_vegather_app.CustomEditText
-                    android:id="@+id/editText_join_nick"
-                    android:layout_width="250dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
-                    android:ems="10"
-                    android:hint="Nickname"
-                    android:inputType="textPersonName" />
-
-                <ImageView
-                    android:id="@+id/nick_ch_icon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="27dp"
-                    android:visibility="invisible"
-                    app:srcCompat="@drawable/login_address_check" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/nick_ch_comment"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:text="Please fill this blank."
-                android:textColor="#F56B6B"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <Button
-                android:id="@+id/btn_join"
-                android:layout_width="250dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/login_btn_shpe"
-                android:backgroundTint="@color/main_green"
-                android:text="Let's get started!"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/nick_ch_comment"
+        app:layout_constraintWidth_percent="0.9" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
