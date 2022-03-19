@@ -189,7 +189,6 @@ class JoinActivity : AppCompatActivity() {
                 Log.d("createHistorySearch","success")
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
-                finish()
             }
             .addOnFailureListener {
                 Log.d("createHistorySearch","fail")

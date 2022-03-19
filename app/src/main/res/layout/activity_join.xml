@@ -11,8 +11,8 @@
         android:id="@+id/btn_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="28dp"
+        android:layout_marginStart="15dp"
         android:background="#00FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,14 +22,14 @@
         android:id="@+id/textView6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="8dp"
         android:text="@string/joinMainTitleText1"
         android:textColor="@color/main_green"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_back"
         app:layout_constraintWidth_percent="0.9" />
 
     <TextView
@@ -37,12 +37,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="6dp"
         android:text="@string/joinMainTitleText2"
         android:textColor="@color/main_green"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/textView6" />
 
     <TextView
         android:id="@+id/textView"

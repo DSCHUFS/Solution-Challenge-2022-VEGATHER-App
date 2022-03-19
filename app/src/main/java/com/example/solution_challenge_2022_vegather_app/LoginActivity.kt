@@ -3,6 +3,7 @@ package com.example.solution_challenge_2022_vegather_app
 import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NO_HISTORY
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -66,6 +67,7 @@ class LoginActivity : AppCompatActivity() {
         //이메일로 회원가입
         binding.btnSignup.setOnClickListener {
             val intent = Intent(this, JoinActivity::class.java)
+            intent.addFlags(FLAG_ACTIVITY_NO_HISTORY)
             startActivity(intent)
         }
 
