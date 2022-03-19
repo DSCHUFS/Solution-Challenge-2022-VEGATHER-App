@@ -20,13 +20,11 @@
             android:id="@+id/imageButtonBack"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:backgroundTint="#00883939"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/arrow_left_gray"
-            />
+            app:srcCompat="@drawable/arrow_left_gray" />
 
         <ImageButton
             android:id="@+id/btnAddOrder"
@@ -46,12 +44,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             android:text="Title"
             android:textColor="@color/main_green"
             android:textSize="28sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageButtonBack"/>
+            app:layout_constraintTop_toBottomOf="@id/imageButtonBack" />
 
         <EditText
             android:id="@+id/editTextTitle"
