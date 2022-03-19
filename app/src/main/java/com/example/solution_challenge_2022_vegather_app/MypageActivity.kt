@@ -4,13 +4,12 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.graphics.Color
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.*
+import android.widget.Button
+import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityMypageBinding
-import com.example.solution_challenge_2022_vegather_app.model.UserDTO
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -75,6 +74,8 @@ class MypageActivity : AppCompatActivity() {
                 "facebook" -> LoginManager.getInstance().logOut()
             }
             val intent = Intent(this, LoginActivity::class.java)
+            intent.flags =
+                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
             // activity 종료
             finish()
@@ -187,18 +188,20 @@ class MypageActivity : AppCompatActivity() {
         binding.monthlyPercent.text = (monthlyNum / 10).toString() + '%'
 
         //그래프 그리기
-        var i: Int = 0
-        timer(period = 2, initialDelay = 500) {
-            i++
-            binding.circleBar.setProgress(i.toFloat())
-            if (i == (monthlyNum * 360 / 1000)) {
-                cancel()
+        if(monthlyNum != 0) {
+            var i: Int = 0
+            timer(period = 2, initialDelay = 500) {
+                i++
+                binding.circleBar.setProgress(i.toFloat())
+                if (i == (monthlyNum * 360 / 1000)) {
+                    cancel()
+                }
             }
+            currentUserRef.get()
+                .addOnSuccessListener {
+                    var l: Long = it.data?.get("VeganLevel") as Long
+                    binding.btnLevel.text = "LV " + l.toString()
+                }
         }
-        currentUserRef.get()
-            .addOnSuccessListener {
-                var l : Long = it.data?.get("VeganLevel") as Long
-                binding.btnLevel.text = "LV " +  l.toString()
-            }
     }
 }

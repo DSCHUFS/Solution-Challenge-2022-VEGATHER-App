@@ -7,6 +7,17 @@
     android:background="#FFFFFF"
     tools:context=".JoinActivity">
 
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:background="#00FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/arrow_left_gray" />
+
     <TextView
         android:id="@+id/textView6"
         android:layout_width="0dp"
@@ -121,7 +132,7 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="Password must be at least 6 digits."
+        android:text="Password must be at least 7 digits."
         android:textColor="#F56B6B"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
