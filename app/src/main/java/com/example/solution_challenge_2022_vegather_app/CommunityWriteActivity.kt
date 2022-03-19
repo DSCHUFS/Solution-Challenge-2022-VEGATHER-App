@@ -74,6 +74,9 @@ class CommunityWriteActivity : PermissionActivity() {
         uiBarCustom.setNaviBarIconColor(isBlack = true)
 
         requirePermission(PERM_STORAGE, REQ_STORAGE)
+        binding.imageButtonBack.setOnClickListener {
+            finish()
+        }
         binding.btnAddIngredient.setOnClickListener {
             addIngredient()
         }
