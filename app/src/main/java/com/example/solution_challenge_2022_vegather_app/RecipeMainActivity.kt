@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.core.view.marginTop
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -222,8 +223,13 @@ class RecipeMainActivity : AppCompatActivity() {
 
     private fun changeUiBarColor(){
         val customUiBar = UiBar(window)
-        customUiBar.setStatusBarTransparent()
-        customUiBar.setNaviBarIconColor(isBlack = true)
+        if( Build.VERSION.SDK_INT >= 30){
+            customUiBar.setStatusBarTransparent()
+        }
+        else if( Build.VERSION.SDK_INT >= 23){
+            customUiBar.setStatusBarIconColor(isBlack = false)
+        }
+
     }
 
     private fun loadCommentActivity(){

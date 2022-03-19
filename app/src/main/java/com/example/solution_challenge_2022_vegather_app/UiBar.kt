@@ -42,10 +42,17 @@ class UiBar( w : Window) {
 
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // minSdk 6.0부터 사용 가능
-            window.decorView.systemUiVisibility = if (isBlack) {
+            window.decorView.systemUiVisibility =
+            if (isBlack) {
                 View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            } else {
+            }
+            else {
                 // 기존 uiVisibility 유지
+                window.statusBarColor = Color.TRANSPARENT
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                window.decorView.systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 window.decorView.systemUiVisibility
             }
         }

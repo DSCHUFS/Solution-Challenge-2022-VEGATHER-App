@@ -1,11 +1,13 @@
 package com.example.solution_challenge_2022_vegather_app
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Build
@@ -15,11 +17,13 @@ import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
+import androidx.core.view.marginLeft
 import androidx.gridlayout.widget.GridLayout
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommunityWriteBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -71,7 +75,6 @@ class CommunityWriteActivity : PermissionActivity() {
 
         val uiBarCustom = UiBar(window)
         uiBarCustom.setStatusBarIconColor(isBlack = true)
-        uiBarCustom.setNaviBarIconColor(isBlack = true)
 
         requirePermission(PERM_STORAGE, REQ_STORAGE)
         binding.imageButtonBack.setOnClickListener {
@@ -216,18 +219,23 @@ class CommunityWriteActivity : PermissionActivity() {
             height = 48.dp
             textSize = 6.dp.toFloat()
             setTextColor(ContextCompat.getColor(context!!, R.color.main_green))
+            setPadding(10.dp,10.dp,0,0)
         }
         val ingredientName = EditText(this).apply{
             id = countIngredients+1
-            hint = "Food name"
-            width = 150.dp
+            hint = "Name"
+            width = 100.dp
             height = 48.dp
-
+            setHintTextColor(Color.parseColor("#BCBCBC"))
+            setBackgroundColor(Color.TRANSPARENT)
+            setPadding(0,10.dp,10.dp,0)
         }
         val ingredientAmount = EditText(this).apply{
             hint = "Amount"
             width = 150.dp
             height = 48.dp
+            setHintTextColor(Color.parseColor("#BCBCBC"))
+            setBackgroundColor(Color.TRANSPARENT)
         }
 //        val ingredientRemove = ImageButton(this).apply{
 //            setImageResource(R.drawable.minus)
@@ -277,6 +285,7 @@ class CommunityWriteActivity : PermissionActivity() {
             height = 48.dp
             textSize = 6.dp.toFloat()
             setTextColor(ContextCompat.getColor(context!!, R.color.main_green))
+            setPadding(10.dp,10.dp,0,0)
         }
         val orderComment = EditText(this).apply {
             id = countOrder+1
@@ -285,11 +294,13 @@ class CommunityWriteActivity : PermissionActivity() {
             height = 48.dp
             maxLines = 1
             ellipsize = TextUtils.TruncateAt.END
-
+            setHintTextColor(Color.parseColor(("#BCBCBC")))
+            setBackgroundColor(Color.TRANSPARENT)
+            setPadding(0,10.dp,10.dp,0)
         }
         val orderPhoto = ImageButton(this).apply {
             id = countOrder
-            setImageResource(R.drawable.camera_icon)
+            setImageResource(R.drawable.ic_camera_icon)
             scaleType = ImageView.ScaleType.FIT_CENTER
             background = Color.TRANSPARENT.toDrawable()
         }
@@ -323,6 +334,14 @@ class CommunityWriteActivity : PermissionActivity() {
         countOrder++
     }
 
+    private fun setMargins(v: View, l: Int, t: Int, r: Int, b: Int) {
+        if (v.layoutParams is MarginLayoutParams) {
+            val p = v.layoutParams as MarginLayoutParams
+            p.setMargins(l, t, r, b)
+            v.requestLayout()
+        }
+    }
+
     //사진 추가가 눌리면 실행되는 함수
     private fun setPhotoOrder(orderNumber : Int) {
 
@@ -334,6 +353,7 @@ class CommunityWriteActivity : PermissionActivity() {
 
     }
 
+    @SuppressLint("InflateParams")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == RESULT_OK){
@@ -389,9 +409,12 @@ class CommunityWriteActivity : PermissionActivity() {
 
                         val photo = relativeLayout.findViewById<View>(R.id.photo) as ImageView
                         photo.setImageBitmap(bitmap)
-                        photo.scaleType = ImageView.ScaleType.FIT_XY
+                        photo.clipToOutline = true
+                        photo.scaleType = ImageView.ScaleType.CENTER_CROP
+//                        photo.setColorFilter(Color.parseColor("#ffff0000"), PorterDuff.Mode.SRC_IN);
+//                        photo.scaleType = ImageView.ScaleType.FIT_XY
 
-                        val layoutParams = RelativeLayout.LayoutParams(130.dp, 130.dp)
+                        val layoutParams = RelativeLayout.LayoutParams(150.dp, 150.dp)
                         layoutParams.setMargins(0, 0, 5.dp, 5)
                         relativeLayout.layoutParams = layoutParams
                         binding.photoOrder.addView(relativeLayout)

@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommunityDetailBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.CommunityIngredientRecyclerBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.CommunityOrderRecyclerBinding
@@ -45,9 +46,7 @@ class CommunityDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val uiBarCustom = UiBar(window)
-        uiBarCustom.setStatusBarIconColor(isBlack = true)
-        uiBarCustom.setNaviBarIconColor(isBlack = true)
+        setUiBarColor()
 
         binding.imageButtonBack.setOnClickListener {
             finish()
@@ -215,7 +214,28 @@ class CommunityDetailActivity : AppCompatActivity() {
             commentIntent.putExtra("document name", documentName)
             startActivity(commentIntent)
         }
+
+        val customUiBar = UiBar(window)
+        binding.communityScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if( scrollY < binding.imageViewMain.height ){
+                customUiBar.setStatusBarIconColor(isBlack = false)
+            }
+            else{
+                customUiBar.setStatusBarIconColor(isBlack = true)
+            }
+        }
+        binding.imageButtonDeletePost.setColorFilter(Color.WHITE)
     }// end of onCreate
+
+    private fun setUiBarColor(){
+        val customUiBar = UiBar(window)
+        if( Build.VERSION.SDK_INT >= 30){
+            customUiBar.setStatusBarTransparent()
+        }
+        else if( Build.VERSION.SDK_INT >= 23){
+            customUiBar.setStatusBarIconColor(isBlack = false)
+        }
+    }
 
     private fun addMainPhoto(havePhotoIndex: MutableList<Int?>, uidForPhoto: MutableList<String?>, timestampForPhoto: MutableList<String?>) {
         Log.d("fun_addmainphoto", havePhotoIndex.toString())
@@ -224,11 +244,24 @@ class CommunityDetailActivity : AppCompatActivity() {
             val mainPhotoPath = "${uidForPhoto[0]} ${timestampForPhoto[0]} $lastPhotoIndex"
             val storagePath = Firebase.storage.reference.child(mainPhotoPath)
             Log.d("detail_mainPhotoPath", mainPhotoPath)
+
+            Glide.with(this)
+                .load(R.drawable.loading_bigsize_dark)
+                .centerInside()
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .into(binding.imageViewMain)
             storagePath.downloadUrl.addOnCompleteListener {
                 if (it.isSuccessful) {
-                    Glide.with(this).load(it.result).into(binding.imageViewMain)
+
+                    Glide.with(this)
+                        .load(it.result)
+                        .centerCrop()
+                        .into(binding.imageViewMain)
                 }
             }
+                .addOnFailureListener {
+                    binding.imageViewMain.setBackgroundColor(Color.parseColor("#80000000"))
+                }
         }
     }
 
@@ -369,6 +402,7 @@ class OrderRecyclerAdapter(private val orderList:MutableList<Any?>, private val 
                             }
                             imageViewOrder.visibility = View.VISIBLE
                             imageViewOrder.scaleType = ImageView.ScaleType.FIT_CENTER
+                            imageViewOrder.clipToOutline = true
                         }
                     }
                 }
@@ -428,4 +462,5 @@ class IngredientRecyclerAdapter(private val ingredientNameList: MutableList<Stri
     override fun getItemCount(): Int {
         return ingredientNameList.size
     }
+
 }
