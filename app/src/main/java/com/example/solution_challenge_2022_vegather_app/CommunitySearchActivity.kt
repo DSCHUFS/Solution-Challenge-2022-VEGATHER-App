@@ -32,9 +32,7 @@ class CommunitySearchActivity : AppCompatActivity() {
         binding.backMainButton.setOnClickListener {
             //자동으로 올라왔던 키보드 내리기
             imm.hideSoftInputFromWindow(binding.searchTextBar.windowToken, 0)
-
-            val intent = Intent(this, CommunityMainActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
         //Search 버튼이 눌리면 결과 액티비티로 이동
