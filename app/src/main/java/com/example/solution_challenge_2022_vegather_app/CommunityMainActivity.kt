@@ -85,7 +85,6 @@ class CommunityMainActivity : AppCompatActivity() {
         binding.btnWrite.setOnClickListener{
             val intent = Intent(this, CommunityWriteActivity::class.java)
             startActivity(intent)
-            finish()
         }
 
         binding.btnGoMain.setOnClickListener{

@@ -56,13 +56,15 @@
 
     <Button
         android:id="@+id/btnWrite"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_width="170dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/login_btn_shpe"
         android:backgroundTint="@color/main_green"
         android:text="Write"
+        android:textAllCaps="false"
         android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
