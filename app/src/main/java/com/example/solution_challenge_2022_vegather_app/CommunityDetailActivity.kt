@@ -44,9 +44,7 @@ class CommunityDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val uiBarCustom = UiBar(window)
-        uiBarCustom.setStatusBarIconColor(isBlack = true)
-        uiBarCustom.setNaviBarIconColor(isBlack = true)
+        setUiBarColor()
 
         binding.imageButtonBack.setOnClickListener {
             finish()
@@ -214,7 +212,27 @@ class CommunityDetailActivity : AppCompatActivity() {
             commentIntent.putExtra("document name", documentName)
             startActivity(commentIntent)
         }
+
+        val customUiBar = UiBar(window)
+        binding.communityScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if( scrollY < binding.imageViewMain.height ){
+                customUiBar.setStatusBarIconColor(isBlack = false)
+            }
+            else{
+                customUiBar.setStatusBarIconColor(isBlack = true)
+            }
+        }
     }// end of onCreate
+
+    private fun setUiBarColor(){
+        val customUiBar = UiBar(window)
+        if( Build.VERSION.SDK_INT >= 30){
+            customUiBar.setStatusBarTransparent()
+        }
+        else if( Build.VERSION.SDK_INT >= 23){
+            customUiBar.setStatusBarIconColor(isBlack = false)
+        }
+    }
 
     private fun addMainPhoto(havePhotoIndex: MutableList<Int?>, uidForPhoto: MutableList<String?>, timestampForPhoto: MutableList<String?>) {
         Log.d("fun_addmainphoto", havePhotoIndex.toString())
@@ -427,4 +445,5 @@ class IngredientRecyclerAdapter(private val ingredientNameList: MutableList<Stri
     override fun getItemCount(): Int {
         return ingredientNameList.size
     }
+
 }

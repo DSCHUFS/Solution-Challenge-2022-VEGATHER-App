@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/communityScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".CommunityDetailActivity"
-        >
+        tools:context=".CommunityDetailActivity">
 
         <ImageView
             android:id="@+id/imageViewMain"
@@ -27,12 +26,11 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="#00883939"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="#00FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/arrow_left_gray"
-            />
+            app:srcCompat="@drawable/arrow_left_white" />
 
         <ImageView
             android:id="@+id/imageView7"
@@ -106,8 +104,8 @@
             android:id="@+id/textTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
             android:text=" "
             android:textColor="@color/main_green"
             android:textSize="30sp"
@@ -118,8 +116,8 @@
             android:id="@+id/textSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
             android:text=" "
             android:textColor="#C4C4C4"
             android:textSize="18sp"
@@ -165,14 +163,14 @@
             android:id="@+id/imageButtonDeletePost"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@android:color/transparent"
-            android:visibility="gone"
-            tools:visibility="visible"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
+            android:background="@android:color/transparent"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/imageViewMain"
             app:layout_constraintTop_toTopOf="@+id/imageViewMain"
-            app:srcCompat="@drawable/x_btn_gray" />
+            app:srcCompat="@drawable/x_btn_gray"
+            tools:visibility="visible" />
 
         <LinearLayout
             android:id="@+id/linearLayout16"

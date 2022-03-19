@@ -43,7 +43,6 @@ class CommunityMainActivity : AppCompatActivity() {
 
         val uiBarCustom = UiBar(window)
         uiBarCustom.setStatusBarIconColor(isBlack = true)
-        uiBarCustom.setNaviBarIconColor(isBlack = true)
 
         db = FirebaseFirestore.getInstance()
 

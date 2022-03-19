@@ -164,7 +164,6 @@ class CommentActivity : AppCompatActivity() {
 
     private fun setUiBarColor(isBlack : Boolean) {
         val customUiBar = UiBar(window)
-        customUiBar.setNaviBarIconColor(isBlack)
         customUiBar.setStatusBarIconColor(isBlack)
     }
 }

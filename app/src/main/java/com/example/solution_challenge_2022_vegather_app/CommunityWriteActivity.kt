@@ -71,7 +71,6 @@ class CommunityWriteActivity : PermissionActivity() {
 
         val uiBarCustom = UiBar(window)
         uiBarCustom.setStatusBarIconColor(isBlack = true)
-        uiBarCustom.setNaviBarIconColor(isBlack = true)
 
         requirePermission(PERM_STORAGE, REQ_STORAGE)
         binding.btnAddIngredient.setOnClickListener {
