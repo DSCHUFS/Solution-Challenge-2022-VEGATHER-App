@@ -50,7 +50,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/mypage_level_btn_background"
         android:stateListAnimator="@null"
-        android:text="Lv 34"
+        android:text="Lv "
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/veganGrade" />
@@ -60,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="26dp"
-        android:text="Senior Vegan"
+        android:text="Freshman Vegan"
         android:textColor="#81E768"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -159,7 +159,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="91%"
+                            android:text="0%"
                             android:textColor="@color/main_green"
                             android:textSize="18sp" />
                     </FrameLayout>
@@ -175,7 +175,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="954"
+                            android:text="0"
                             android:textColor="@color/main_green"
                             android:textSize="18sp" />
 

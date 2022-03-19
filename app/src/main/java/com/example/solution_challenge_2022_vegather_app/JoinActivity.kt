@@ -10,6 +10,7 @@ import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityJoinBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -24,6 +25,8 @@ class JoinActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        showProgress(false)
 
         val uiBar = UiBar(window)
         uiBar.setStatusBarIconColor(isBlack = true)
@@ -54,6 +57,11 @@ class JoinActivity : AppCompatActivity() {
         }
     }
 
+    private fun showProgress(isShow : Boolean){
+        if (isShow) binding.progress.visibility = View.VISIBLE
+        else binding.progress.visibility = View.GONE
+    }
+
     private fun checkBlank(): Boolean {
         with(binding){
             val email = editTextJoinEmail.text.toString()
@@ -65,6 +73,7 @@ class JoinActivity : AppCompatActivity() {
     }
 
     private fun checkEmail(){
+        showProgress(true)
         val currentUser : FirebaseUser? = auth.currentUser //현재 로그인한 사용자 가져오기
 
         if(currentUser != null) { //이메일 유효성 검사 ok
@@ -79,6 +88,7 @@ class JoinActivity : AppCompatActivity() {
                         binding.emailChComment.visibility = View.VISIBLE
                         binding.emailChIcon.visibility = View.INVISIBLE
                         binding.emailChComment.text = "This email is already registered."
+                        showProgress(false)
                     }
                 }
         }
@@ -101,6 +111,7 @@ class JoinActivity : AppCompatActivity() {
                             binding.nickChComment.visibility = View.VISIBLE
                             binding.nickChIcon.visibility = View.INVISIBLE
                             binding.nickChComment.text = "This nickname is already registered."
+                            showProgress(false)
                             break
                         }
                     }
@@ -195,6 +206,8 @@ class JoinActivity : AppCompatActivity() {
             }
     }
 }
+
+
 
 
 class EmailEditWatcher(val binding: ActivityJoinBinding) : TextWatcher {

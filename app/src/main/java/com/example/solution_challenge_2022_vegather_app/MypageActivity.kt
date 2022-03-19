@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityMypageBinding
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
@@ -140,7 +141,6 @@ class MypageActivity : AppCompatActivity() {
                 }
             }
     }
-
 
     private fun intentMyRecordActivityFrom(text : String){
         val intentMyRecord = Intent(this,MyRecordActivity::class.java)
