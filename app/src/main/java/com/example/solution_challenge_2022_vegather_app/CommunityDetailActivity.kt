@@ -4,8 +4,8 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -28,7 +29,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import java.lang.Exception
+
 
 class CommunityDetailActivity : AppCompatActivity() {
 
@@ -198,10 +199,10 @@ class CommunityDetailActivity : AppCompatActivity() {
             .addSnapshotListener { value, error ->
                 val getLike = value!!.get("like")
                 if (getLike != null){
-                    Log.d("type of getLike", getLike!!.javaClass.name)
+                    Log.d("type of getLike", getLike.javaClass.name)
                     Log.d("type of getLike", (getLike as Long).toIntOrNull()!!.javaClass.name)
-                    nowLike = (getLike as Long).toIntOrNull()
-                    nowComment = (value!!.get("comment") as Long).toIntOrNull()
+                    nowLike = getLike.toIntOrNull()
+                    nowComment = (value.get("comment") as Long).toIntOrNull()
 
                     binding.textLike.text = nowLike.toString()
                     binding.textComment.text = nowComment.toString()
@@ -403,8 +404,8 @@ class IngredientRecyclerAdapter(private val ingredientNameList: MutableList<Stri
     : RecyclerView.Adapter<IngredientRecyclerAdapter.Holder>(){
     class Holder(val binding: CommunityIngredientRecyclerBinding):RecyclerView.ViewHolder(binding.root){
         fun set(ingredientName: String?, ingredientAmount: String?) {
-                binding.textViewIngredientName.text = ingredientName.toString()
-                binding.textViewIngredientAmount.text = ingredientAmount.toString()
+            binding.textViewIngredientName.text = ingredientName.toString()
+            binding.textViewIngredientAmount.text = ingredientAmount.toString()
         }
     }
 

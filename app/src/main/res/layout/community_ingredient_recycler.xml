@@ -2,44 +2,87 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="4dp">
 
+    <LinearLayout
 
-    <View
-        android:id="@+id/view7"
-        android:layout_width="0dp"
-        android:layout_height="2dp"
-        android:layout_weight="1"
-        android:background="#cccccc"
-        android:backgroundTint="@color/main_green"
-        app:layout_constraintEnd_toEndOf="@+id/textViewIngredientAmount"
-        app:layout_constraintStart_toStartOf="@+id/textViewIngredientName"
-        app:layout_constraintTop_toBottomOf="@+id/textViewIngredientName">
-
-    </View>
-
-    <TextView
-        android:id="@+id/textViewIngredientName"
-        android:layout_width="wrap_content"
+        android:id="@+id/outerLinerLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:maxLines="1"
-        android:textSize="18sp"
+        android:orientation="vertical"
+
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textViewIngredientAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_weight="1"
-        android:maxLines="1"
-        android:textColor="#009688"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textViewIngredientName"
-        app:layout_constraintTop_toTopOf="@+id/textViewIngredientName" />
+        <LinearLayout
+            android:id="@+id/innerLinearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:orientation="horizontal"
+
+            app:layout_constraintBottom_toBottomOf="@+id/outerLinerLayout"
+            app:layout_constraintEnd_toEndOf="@+id/outerLinerLayout"
+            app:layout_constraintStart_toStartOf="@+id/outerLinerLayout"
+            app:layout_constraintTop_toTopOf="@+id/outerLinerLayout">
+
+            <TextView
+                android:id="@+id/textViewIngredientName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:scrollbars="vertical"
+
+
+                android:maxLines="1"
+
+
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/innerLinearLayout"
+                app:layout_constraintTop_toTopOf="@id/innerLinearLayout"
+                tools:text="example" />
+
+            <TextView
+                android:id="@+id/textViewIngredientAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+
+                android:maxLines="1"
+
+
+                android:textColor="#009688"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewIngredientName"
+
+                app:layout_constraintStart_toEndOf="@+id/textViewIngredientName"
+                tools:text="Example" />
+
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view7"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_weight="1"
+            android:background="#cccccc"
+            android:backgroundTint="@color/main_green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textViewIngredientAmount"
+            app:layout_constraintStart_toStartOf="@+id/textViewIngredientName"
+            app:layout_constraintTop_toBottomOf="@+id/textViewIngredientName"
+            >
+
+        </View>
+
+    </LinearLayout>
+
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
