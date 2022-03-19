@@ -3,28 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/photoOrderLayout"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/photo"
+    <LinearLayout
+        android:id="@+id/photoContainer"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/x_icon_white" />
+        android:background="@drawable/image_radius"
+        android:foregroundTint="#80000000"
+        android:foregroundTintMode="src_atop"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/image_radius"
+            android:contentDescription="TODO"
+            android:scaleType="centerCrop"
+            android:tintMode="src_atop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#80000000" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/photoNumber"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignTop="@+id/photo"
+        android:layout_alignTop="@id/photoContainer"
         android:layout_marginStart="-14dp"
         android:layout_marginTop="-5dp"
-        android:layout_toEndOf="@+id/photo"
+        android:layout_toEndOf="@id/photoContainer"
         android:background="@drawable/circle_textview"
         android:gravity="center"
         android:text="1"
@@ -34,11 +47,11 @@
         android:id="@+id/removePhoto"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignBottom="@id/photo"
+        android:layout_alignBottom="@id/photoContainer"
         android:layout_marginStart="-14dp"
         android:layout_marginBottom="-5dp"
-        android:layout_toEndOf="@+id/photo"
-        android:background="@drawable/remove_photo"
+        android:layout_toEndOf="@id/photoContainer"
+        android:background="@drawable/ic_ingredient_sub_btn"
         android:gravity="center"
         android:text="ㅡ"
         android:textColor="@color/white"

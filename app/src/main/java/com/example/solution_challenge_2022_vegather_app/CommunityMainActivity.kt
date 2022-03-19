@@ -97,6 +97,7 @@ class CommunityMainActivity : AppCompatActivity() {
             val searchIntent = Intent(this, CommunitySearchActivity::class.java)
             startActivity(searchIntent)
         }
+
     }
 
     private fun Long.toIntOrNull(): Int? {
