@@ -10,6 +10,11 @@
     <string name="underTitle2">Recipe</string>
     <string name="underSubtitle">Look at other recipes, too.</string>
     <string name="seeMoreButton">See More</string>
+    <string name="joinMainTitleText1">Share your daily life</string>
+    <string name="joinMainTitleText2">with</string>
+    <string name="joinMainTitleText3">vegans!</string>
+    <string name="joinSubTitleText1">You can get information about\nvegetarian food.</string>
+    <string name="joinSubTitleText2">Experience a variety of recipes\nwith simple membership registration.</string>
     <!--    <string name="default_web_client_id">626426826491-f3itor1tqarsub2dcju6isnn7inj5kn4.apps.googleusercontent.com</string>-->
 
 </resources>

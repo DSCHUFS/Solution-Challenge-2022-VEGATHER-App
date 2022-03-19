@@ -25,6 +25,9 @@ class JoinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val uiBar = UiBar(window)
+        uiBar.setStatusBarIconColor(isBlack = true)
+
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 

@@ -40,6 +40,9 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val uiBar = UiBar(window)
+        uiBar.setStatusBarIconColor(isBlack = true)
+
         auth = FirebaseAuth.getInstance() //현재 로그인한 사용자 가져오기
         db = FirebaseFirestore.getInstance()
 //        auth.signOut()

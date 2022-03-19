@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
+            android:layout_marginBottom="20dp"
             android:gravity="start"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent">
@@ -33,15 +34,16 @@
                 android:gravity="center_horizontal"
                 android:text="1"
                 android:textColor="@color/main_green"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/textOrderText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
+                android:layout_marginLeft="10dp"
                 android:text="null"
+                android:textColor="#757575"
                 android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@+id/textOrderNum" />
 
@@ -51,10 +53,12 @@
             android:id="@+id/imageViewOrder"
             android:layout_width="wrap_content"
             android:layout_height="200dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/image_radius"
             android:scaleType="centerInside"
             android:visibility="gone"
-            tools:visibility="visible"
-            tools:srcCompat="@drawable/food_sampe2" />
+            tools:srcCompat="@drawable/food_sampe2"
+            tools:visibility="visible" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

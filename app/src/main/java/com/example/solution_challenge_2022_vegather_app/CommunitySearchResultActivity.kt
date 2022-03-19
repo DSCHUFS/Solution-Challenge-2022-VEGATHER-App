@@ -31,7 +31,6 @@ class CommunitySearchResultActivity : AppCompatActivity() {
 
         val uiBarCustom = UiBar(window)
         uiBarCustom.setStatusBarIconColor(isBlack = true)
-        uiBarCustom.setNaviBarIconColor(isBlack = true)
 
         binding.searchBar.setOnClickListener {
             finish()
