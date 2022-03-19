@@ -2,18 +2,20 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="4dp">
 
 
     <View
         android:id="@+id/view7"
-        android:layout_width="0dp"
-        android:layout_height="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
         android:layout_weight="1"
-        android:background="#cccccc"
-        android:backgroundTint="@color/main_green"
+        android:background="#EAE8E8"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textViewIngredientAmount"
         app:layout_constraintStart_toStartOf="@+id/textViewIngredientName"
         app:layout_constraintTop_toBottomOf="@+id/textViewIngredientName">
@@ -24,8 +26,10 @@
         android:id="@+id/textViewIngredientName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:layout_weight="1"
         android:maxLines="1"
+        android:textColor="@color/main_green"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,12 +38,11 @@
         android:id="@+id/textViewIngredientAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="5dp"
         android:layout_weight="1"
         android:maxLines="1"
-        android:textColor="#009688"
+        android:textColor="@color/sub_text_gray"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textViewIngredientName"
         app:layout_constraintTop_toTopOf="@+id/textViewIngredientName" />
 </androidx.constraintlayout.widget.ConstraintLayout>

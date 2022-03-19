@@ -158,7 +158,6 @@ class CommunityCommentReplyActivity : AppCompatActivity() {
 
     private fun setNavIconColor(isBlack : Boolean) {
         val customUiBar = UiBar(window)
-        customUiBar.setNaviBarIconColor(isBlack)
         customUiBar.setStatusBarIconColor(isBlack)
     }
 

@@ -22,7 +22,6 @@ class CommunitySearchActivity : AppCompatActivity() {
 
         val uiBarCustom = UiBar(window)
         uiBarCustom.setStatusBarIconColor(isBlack = true)
-        uiBarCustom.setNaviBarIconColor(isBlack = true)
 
         //키보드 자동으로 올리기
         binding.searchTextBar.requestFocus()

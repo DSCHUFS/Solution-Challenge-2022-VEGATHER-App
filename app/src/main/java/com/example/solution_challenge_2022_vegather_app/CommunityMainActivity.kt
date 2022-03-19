@@ -43,7 +43,6 @@ class CommunityMainActivity : AppCompatActivity() {
 
         val uiBarCustom = UiBar(window)
         uiBarCustom.setStatusBarIconColor(isBlack = true)
-        uiBarCustom.setNaviBarIconColor(isBlack = true)
 
         db = FirebaseFirestore.getInstance()
 
@@ -98,6 +97,7 @@ class CommunityMainActivity : AppCompatActivity() {
             val searchIntent = Intent(this, CommunitySearchActivity::class.java)
             startActivity(searchIntent)
         }
+
     }
 
     private fun Long.toIntOrNull(): Int? {

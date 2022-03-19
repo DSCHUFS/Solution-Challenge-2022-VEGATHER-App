@@ -39,7 +39,6 @@ class CommentReplyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        setNavIconColor(isBlack = true)
         getData()
         getReplyComments()
 

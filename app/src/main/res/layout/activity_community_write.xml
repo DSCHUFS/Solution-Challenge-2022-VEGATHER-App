@@ -3,63 +3,65 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/parentOfWrite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:background="#FFFFFF"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:padding="10dp"
         tools:context=".CommunityWriteActivity">
 
         <ImageButton
             android:id="@+id/imageButtonBack"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:backgroundTint="#00883939"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/arrow_left_gray"
-            />
+            app:srcCompat="@drawable/arrow_left_gray" />
 
         <ImageButton
             android:id="@+id/btnAddOrder"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="10dp"
             android:background="@android:color/transparent"
             android:contentDescription="Add ingredient"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="@+id/textView20"
-            app:layout_constraintStart_toEndOf="@+id/textView21"
-            app:srcCompat="@drawable/plus" />
+            app:layout_constraintStart_toEndOf="@+id/textView20"
+            app:layout_constraintTop_toTopOf="@+id/textView20"
+            app:srcCompat="@drawable/ingredient_add_btn" />
 
         <TextView
             android:id="@+id/textView15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             android:text="Title"
-            android:textSize="30sp"
+            android:textColor="@color/main_green"
+            android:textSize="28sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageButtonBack"/>
+            app:layout_constraintTop_toBottomOf="@id/imageButtonBack" />
 
         <EditText
             android:id="@+id/editTextTitle"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:backgroundTint="#C4C4C4"
+            android:backgroundTint="@color/sub_text_gray"
             android:ems="10"
             android:hint="Food name"
             android:inputType="textPersonName"
+            android:textColorHint="@color/sub_text_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView15" />
@@ -69,23 +71,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="25dp"
             android:text="Subtitle"
-            android:textSize="30sp"
+            android:textColor="@color/main_green"
+            android:textSize="28sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextTitle" />
 
         <EditText
             android:id="@+id/editTextSubtitle"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:backgroundTint="#C4C4C4"
+            android:backgroundTint="@color/sub_text_gray"
             android:ems="10"
             android:hint="Introduce 1 line!"
             android:inputType="textPersonName"
+            android:textColorHint="@color/sub_text_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView16" />
@@ -93,10 +96,11 @@
         <TextView
             android:id="@+id/textView17"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="25dp"
             android:text="Ingredients"
+            android:textColor="@color/main_green"
             android:textSize="30sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextSubtitle" />
@@ -105,89 +109,45 @@
             android:id="@+id/btnAddIngredient"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginStart="10dp"
             android:background="@android:color/transparent"
             android:contentDescription="Add ingredient"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="@+id/textView17"
             app:layout_constraintStart_toEndOf="@+id/textView17"
-            app:layout_constraintTop_toBottomOf="@+id/editTextSubtitle"
-            app:srcCompat="@drawable/plus" />
+            app:layout_constraintTop_toTopOf="@+id/textView17"
+            app:srcCompat="@drawable/ingredient_add_btn" />
 
         <TextView
             android:id="@+id/textView20"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="25dp"
             android:gravity="center_vertical"
             android:text="Recipe"
+            android:textColor="@color/main_green"
             android:textSize="30sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ingredientLayout" />
-
-        <TextView
-            android:id="@+id/textView21"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="Add your Comment"
-            app:layout_constraintBottom_toBottomOf="@+id/textView20"
-            app:layout_constraintStart_toEndOf="@+id/textView20" />
-
-        <TextView
-            android:id="@+id/textView29"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Set your photo!"
-            android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/orderLayout" />
-
-        <ImageView
-            android:id="@+id/imageView15"
-            android:layout_width="380dp"
-            android:layout_height="3dp"
-            android:layout_marginTop="16dp"
-            android:scaleType="fitXY"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
-            app:srcCompat="@drawable/line" />
-
-        <Button
-            android:id="@+id/btnDone"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/login_btn_shpe"
-            android:backgroundTint="@color/main_green"
-            android:text="Done"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageView15" />
 
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="40dp"
             android:contentDescription="@null"
             android:scrollbars="none"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView29">
+            app:layout_constraintTop_toBottomOf="@+id/orderLayout">
 
             <LinearLayout
                 android:id="@+id/photoOrder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:orientation="horizontal"/>
+                android:orientation="horizontal" />
         </HorizontalScrollView>
 
         <androidx.gridlayout.widget.GridLayout
@@ -218,25 +178,39 @@
             android:id="@+id/btnRemoveIngredient"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="10dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="@+id/btnAddIngredient"
             app:layout_constraintStart_toEndOf="@+id/btnAddIngredient"
             app:layout_constraintTop_toTopOf="@+id/btnAddIngredient"
-            app:srcCompat="@drawable/minus" />
+            app:srcCompat="@drawable/ic_ingredient_sub_btn" />
 
         <ImageButton
             android:id="@+id/btnRemoveOrder"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="10dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="@+id/btnAddOrder"
             app:layout_constraintStart_toEndOf="@+id/btnAddOrder"
             app:layout_constraintTop_toTopOf="@+id/btnAddOrder"
-            app:srcCompat="@drawable/minus" />
+            app:srcCompat="@drawable/ic_ingredient_sub_btn" />
+
+        <Button
+            android:id="@+id/btnDone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/login_btn_shpe"
+            android:backgroundTint="@color/main_green"
+            android:text="Done"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
