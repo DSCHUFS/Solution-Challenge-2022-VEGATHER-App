@@ -210,7 +210,7 @@ class CommunityDetailActivity : AppCompatActivity() {
             }
 
         //댓글 작업
-        binding.textComment.setOnClickListener {
+        binding.commentContainer.setOnClickListener {
             val commentIntent = Intent(this,CommunityCommentActivity::class.java)
             commentIntent.putExtra("document name", documentName)
             startActivity(commentIntent)
@@ -280,7 +280,7 @@ class CommunityDetailActivity : AppCompatActivity() {
     private fun updateLikeButtonColor(isLiked: Boolean) {
         when(isLiked){
             true -> binding.imageViewLike
-                .setColorFilter(Color.parseColor("#E16D64"))
+                .setColorFilter(Color.parseColor("#81E678"))
             false -> binding.imageViewLike
                 .setColorFilter(Color.parseColor("#BCBCBC"))
         }
