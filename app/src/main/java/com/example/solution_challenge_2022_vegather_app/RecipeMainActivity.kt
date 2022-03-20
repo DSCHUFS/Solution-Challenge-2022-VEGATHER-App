@@ -62,15 +62,18 @@ class RecipeMainActivity : AppCompatActivity() {
                 updateLikeButtonColor(currentStatusOfLike)
             }
 
-        // 좋아요와 댓글 수는 실시간으로 업데이트가 필요한 변수이므로 리스너를 추가
+        // 좋아요와 댓글 수는 실시간으로 업데이트가 필요한 변수이므로 리스너를 가
         db.collection("Recipe").document("${recipeInfo?.name}")
             .addSnapshotListener { value, error ->
+                Log.d("하..",value.toString())
                 val latestRecipeInfo = value?.toObject(RecipeInformation::class.java)
-                recipeInfo?.like = latestRecipeInfo?.like!!
-                recipeInfo?.comment = latestRecipeInfo.comment
+                if( latestRecipeInfo!=null ){
+                    recipeInfo?.like = latestRecipeInfo.like
+                    recipeInfo?.comment = latestRecipeInfo.comment
 
-                binding.recipeLike.text = latestRecipeInfo.like.toString()
-                binding.recipeComment.text = latestRecipeInfo.comment.toString()
+                    binding.recipeLike.text = latestRecipeInfo.like.toString()
+                    binding.recipeComment.text = latestRecipeInfo.comment.toString()
+                }
             }
 
         getImageLoadingEffect()
@@ -113,9 +116,6 @@ class RecipeMainActivity : AppCompatActivity() {
             }
         }
     }
-
-
-
 
     private fun connectIngredientsAdapterWithOrientation(layout : String){
         when(layout){
@@ -204,10 +204,11 @@ class RecipeMainActivity : AppCompatActivity() {
 
         db.collection("Recipe")
             .document("${recipeInfo?.name}")
-            .update("like", recipeInfo?.like?.plus(addedNum))
+            .update("like", FieldValue.increment(addedNum.toLong()))
             .addOnSuccessListener {
                 updateLikedRecipeInDataBase(isLiked)
             }
+//        recipeInfo?.like?.plus(addedNum)
     }
 
     private fun updateLikeButtonColor(isLiked : Boolean){
@@ -229,7 +230,6 @@ class RecipeMainActivity : AppCompatActivity() {
         else if( Build.VERSION.SDK_INT >= 23){
             customUiBar.setStatusBarIconColor(isBlack = false)
         }
-
     }
 
     private fun loadCommentActivity(){

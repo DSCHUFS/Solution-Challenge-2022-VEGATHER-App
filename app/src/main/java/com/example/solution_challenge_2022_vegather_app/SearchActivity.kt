@@ -281,6 +281,5 @@ class SearchActivity : AppCompatActivity(), SelectedSearchHistoryListener{
     private fun setUiBarColor(isBlack : Boolean){
         val uiBarCustom = UiBar(window)
         uiBarCustom.setStatusBarIconColor(isBlack)
-        uiBarCustom.setNaviBarIconColor(isBlack)
     }
 }
