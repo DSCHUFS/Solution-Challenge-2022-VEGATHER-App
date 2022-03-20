@@ -16,33 +16,47 @@
         android:layout_weight="1"
         android:background="#EAE8E8"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textViewIngredientAmount"
-        app:layout_constraintStart_toStartOf="@+id/textViewIngredientName"
-        app:layout_constraintTop_toBottomOf="@+id/textViewIngredientName">
-
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
     </View>
 
-    <TextView
-        android:id="@+id/textViewIngredientName"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_weight="1"
-        android:maxLines="1"
-        android:textColor="@color/main_green"
-        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center_horizontal">
 
-    <TextView
-        android:id="@+id/textViewIngredientAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:layout_weight="1"
-        android:maxLines="1"
-        android:textColor="@color/sub_text_gray"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewIngredientName" />
+        <TextView
+            android:id="@+id/textViewIngredientName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:textColor="@color/main_green"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="hi i am minsu and here is my friend haha so long name"
+            />
+
+        <TextView
+            android:id="@+id/textViewIngredientAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+
+            android:textColor="@color/sub_text_gray"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textViewIngredientName"
+            tools:text="example text for long amount name"
+            />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
