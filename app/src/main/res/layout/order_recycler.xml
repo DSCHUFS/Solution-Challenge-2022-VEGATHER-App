@@ -14,6 +14,7 @@
         android:button="@null"
         android:drawableRight="@drawable/ingrediant_image_selector"
         android:drawablePadding="10dp"
+        android:lineSpacingExtra="5dp"
         android:paddingStart="55dp"
         android:paddingTop="20dp"
         android:paddingRight="10dp"
