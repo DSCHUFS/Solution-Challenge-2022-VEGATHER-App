@@ -129,7 +129,7 @@
         <entry key="app/src/main/res/layout/activity_comment.xml" value="0.37661404369676654" />
         <entry key="app/src/main/res/layout/activity_comment_reply.xml" value="0.6" />
         <entry key="app/src/main/res/layout/activity_community_comment.xml" value="0.21603260869565216" />
-        <entry key="app/src/main/res/layout/activity_community_detail.xml" value="0.6107554417413572" />
+        <entry key="app/src/main/res/layout/activity_community_detail.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_community_main.xml" value="0.35534407202449436" />
         <entry key="app/src/main/res/layout/activity_community_search.xml" value="0.21603260869565216" />
         <entry key="app/src/main/res/layout/activity_community_search_result.xml" value="0.5573824011761209" />
