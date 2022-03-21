@@ -26,6 +26,7 @@
             android:drawableRight="@drawable/ingrediant_image_selector"
             android:drawablePadding="10dp"
             android:duplicateParentState="false"
+            android:lineSpacingExtra="5dp"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
             android:paddingRight="5dp"

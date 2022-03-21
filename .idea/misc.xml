@@ -128,6 +128,7 @@
         <entry key="app/src/main/res/drawable/x_btn_gray.xml" value="0.2515" />
         <entry key="app/src/main/res/layout/activity_comment.xml" value="0.37661404369676654" />
         <entry key="app/src/main/res/layout/activity_comment_reply.xml" value="0.6" />
+        <entry key="app/src/main/res/layout/activity_community_comment.xml" value="0.21603260869565216" />
         <entry key="app/src/main/res/layout/activity_community_detail.xml" value="0.6107554417413572" />
         <entry key="app/src/main/res/layout/activity_community_main.xml" value="0.35534407202449436" />
         <entry key="app/src/main/res/layout/activity_community_search.xml" value="0.21603260869565216" />
@@ -140,7 +141,7 @@
         <entry key="app/src/main/res/layout/activity_my_post_record.xml" value="0.21603260869565216" />
         <entry key="app/src/main/res/layout/activity_my_record.xml" value="0.7522948406700912" />
         <entry key="app/src/main/res/layout/activity_mypage.xml" value="0.3899668375651042" />
-        <entry key="app/src/main/res/layout/activity_recipe_main.xml" value="0.5185840707964602" />
+        <entry key="app/src/main/res/layout/activity_recipe_main.xml" value="0.34554334554334554" />
         <entry key="app/src/main/res/layout/activity_search.xml" value="0.43506447612375454" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.22932586669921878" />
         <entry key="app/src/main/res/layout/comment.xml" value="0.335" />

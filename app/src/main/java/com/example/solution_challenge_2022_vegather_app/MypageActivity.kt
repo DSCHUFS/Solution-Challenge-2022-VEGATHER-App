@@ -58,7 +58,6 @@ class MypageActivity : AppCompatActivity() {
 
         val customUiBar = UiBar(window)
         customUiBar.setStatusBarIconColor(isBlack = false)
-        customUiBar.setNaviBarIconColor(isBlack = true)
         customUiBar.setStatusBarTransparent()
 
         binding.attendanceNum.text = '+' + MyApplication.prefs.getIntPrefs("attend", 1).toString()

@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity() {
 
         changeUiBarColor()
 
-
         binding.searchBar.setOnClickListener(){
             switchActivity("Search")
         }

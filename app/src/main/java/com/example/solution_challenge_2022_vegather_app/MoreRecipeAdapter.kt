@@ -70,7 +70,9 @@ class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding)
         db.collection("Recipe").document(dataset[position].name)
             .addSnapshotListener { value, error ->
                 val recipeInfo = value?.toObject(RecipeInformation::class.java)
-                binding.likeCount.text = recipeInfo?.like.toString()
+                if( recipeInfo!=null ){
+                    binding.likeCount.text = recipeInfo.like.toString()
+                }
             }
     }
 
