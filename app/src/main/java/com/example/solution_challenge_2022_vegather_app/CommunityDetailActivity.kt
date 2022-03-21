@@ -246,21 +246,18 @@ class CommunityDetailActivity : AppCompatActivity() {
 
             Glide.with(this)
                 .load(R.drawable.loading_bigsize_dark)
-                .centerInside()
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .centerInside()
                 .into(binding.imageViewMain)
+
             storagePath.downloadUrl.addOnCompleteListener {
                 if (it.isSuccessful) {
-
                     Glide.with(this)
                         .load(it.result)
                         .centerCrop()
                         .into(binding.imageViewMain)
                 }
             }
-                .addOnFailureListener {
-                    binding.imageViewMain.setBackgroundColor(Color.parseColor("#80000000"))
-                }
         }
     }
 

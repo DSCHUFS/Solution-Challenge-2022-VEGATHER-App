@@ -32,7 +32,6 @@ class MyPostRecordActivity : AppCompatActivity() {
 
         val uiBarCustom = UiBar(window)
         uiBarCustom.setStatusBarIconColor(isBlack = true)
-        uiBarCustom.setNaviBarIconColor(isBlack = true)
 
         binding.imageButton9.setOnClickListener {
             finish()
