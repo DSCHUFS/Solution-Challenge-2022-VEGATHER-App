@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "626426826491-vpgpbdf0k4prijdf2cb142hhbf35s6d3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.solution_challenge_2022_vegather_app",
+            "certificate_hash": "5caf83cddb3f3ff29a1d585815173e505517c4ae"
+          }
+        },
+        {
           "client_id": "626426826491-35pmd57k45pvudmepndb6lch11uj07kt.apps.googleusercontent.com",
           "client_type": 3
         }

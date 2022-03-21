@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 7.1.0" type="baseline" client="gradle" dependencies="false" name="AGP (7.1.0)" variant="fatal" version="7.1.0">
+
+    <issue
+        id="NotSibling"
+        message="`@+id/fragmentContainer` is not a sibling in the same `ConstraintLayout`"
+        errorLine1="        app:layout_constraintBottom_toTopOf=&quot;@+id/fragmentContainer&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_community_search.xml"
+            line="19"
+            column="9"/>
+    </issue>
+
+</issues>

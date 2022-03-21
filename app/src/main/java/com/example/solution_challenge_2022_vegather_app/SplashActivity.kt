@@ -50,8 +50,9 @@ class SplashActivity : AppCompatActivity() {
         uiBarCustom.setStatusBarIconColor(isBlack = false)
         Handler().postDelayed({
             // 이 함수는 타이머가 끝난 후 한번만 실행됨
-            startActivity(Intent(this, LoginActivity::class.java))
-
+            val intent = Intent(this, LoginActivity::class.java)
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+            startActivity(intent)
             // activity 종료
             finish()
         }, timeout)

@@ -103,5 +103,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/food_sampe2" />
+        app:srcCompat="@drawable/food_sampe2"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
