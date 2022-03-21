@@ -51,7 +51,7 @@ class SplashActivity : AppCompatActivity() {
         Handler().postDelayed({
             // 이 함수는 타이머가 끝난 후 한번만 실행됨
             val intent = Intent(this, LoginActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
             startActivity(intent)
             // activity 종료
             finish()

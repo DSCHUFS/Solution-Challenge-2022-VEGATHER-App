@@ -9,14 +9,17 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityMypageBinding
 import com.facebook.login.LoginManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import kotlin.concurrent.timer
 
 class MypageActivity : AppCompatActivity() {
@@ -25,6 +28,7 @@ class MypageActivity : AppCompatActivity() {
     private lateinit var auth : FirebaseAuth
     private lateinit var db : FirebaseFirestore
     private lateinit var user : FirebaseUser
+    private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var currentUserRef : DocumentReference
     var level = 1
     var monthlyNum = 0
@@ -38,6 +42,13 @@ class MypageActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance() //현재 로그인한 사용자 가져오기
         db = FirebaseFirestore.getInstance()
         user = auth.currentUser!!
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+
         currentUserRef = db.collection("Users").document(user.email.toString())
         currentUserRef.get().addOnSuccessListener {
             binding.userNickname.text = it.data?.get("NickName").toString()
@@ -72,13 +83,13 @@ class MypageActivity : AppCompatActivity() {
             auth.signOut()
             when(loginWith){
                 "facebook" -> LoginManager.getInstance().logOut()
+                "google" -> googleSignInClient.signOut()
             }
             val intent = Intent(this, LoginActivity::class.java)
             intent.flags =
                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
-            // activity 종료
-            finish()
+
         }
 
         binding.btnLike.setOnClickListener {
@@ -172,9 +183,10 @@ class MypageActivity : AppCompatActivity() {
             monthlyNum += nowG.toInt()
             if (monthlyNum >= 1000) {
                 //Level upgrade 코드
-                currentUserRef.update("VeganLevel", FieldValue.increment(1))
+                val levelUp : Int = monthlyNum / 1000
+                currentUserRef.update("VeganLevel", FieldValue.increment(levelUp.toLong()))
 
-                monthlyNum -= 1000
+                monthlyNum %= 1000
                 baseG = (baseG * 0.8).toInt()
                 //lv up 했으니, 이전 기록들은 다 0으로 갱신
                 MyApplication.prefs.setIntPrefs("attendNum", 0)
