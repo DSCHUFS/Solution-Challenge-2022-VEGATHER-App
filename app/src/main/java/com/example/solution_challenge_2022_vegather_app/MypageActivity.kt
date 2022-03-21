@@ -194,9 +194,14 @@ class MypageActivity : AppCompatActivity() {
                 MyApplication.prefs.setIntPrefs("commentNum", 0)
                 MyApplication.prefs.setIntPrefs("likeNum", 0)
             }
+            binding.monthlyNum.text = monthlyNum.toString()
+            binding.monthlyPercent.text = (monthlyNum / 10).toString() + '%'
         }
-        binding.monthlyNum.text = monthlyNum.toString()
-        binding.monthlyPercent.text = (monthlyNum / 10).toString() + '%'
+        currentUserRef.get()
+            .addOnSuccessListener {
+                var l: Long = it.data?.get("VeganLevel") as Long
+                binding.btnLevel.text = "LV " + l.toString()
+            }
 
         //그래프 그리기
         if(monthlyNum != 0) {
@@ -208,11 +213,6 @@ class MypageActivity : AppCompatActivity() {
                     cancel()
                 }
             }
-            currentUserRef.get()
-                .addOnSuccessListener {
-                    var l: Long = it.data?.get("VeganLevel") as Long
-                    binding.btnLevel.text = "LV " + l.toString()
-                }
         }
     }
 }
