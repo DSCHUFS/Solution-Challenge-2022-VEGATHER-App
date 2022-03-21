@@ -15,7 +15,6 @@ class MyRecordActivity : AppCompatActivity() {
 
         val uiBarCustom = UiBar(window)
         uiBarCustom.setStatusBarIconColor(isBlack = true)
-        uiBarCustom.setNaviBarIconColor(isBlack = true)
 
         val intent = intent
         val title = intent.getStringExtra("category").toString()
