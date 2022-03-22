@@ -88,8 +88,7 @@ class CommunityMainActivity : AppCompatActivity() {
         }
 
         binding.btnGoMain.setOnClickListener{
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
         binding.searchBar.setOnClickListener {

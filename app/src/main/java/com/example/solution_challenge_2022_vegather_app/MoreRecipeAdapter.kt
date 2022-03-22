@@ -1,5 +1,6 @@
 package com.example.solution_challenge_2022_vegather_app
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -33,7 +34,8 @@ class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as MoreRecipeViewHolder).binding
-
+        val activity : Activity = context as Activity
+        if(activity.isFinishing) return;
         Glide.with(context)
             .load(R.drawable.loading_bigsize)
             .into(binding.imageView3)
@@ -44,11 +46,13 @@ class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding)
         val imgRef = storageRef.child(dataset[position].imgUrl.toString())
 
         imgRef.downloadUrl.addOnSuccessListener {
-            Glide.with(context)
-                .load(it)
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(binding.imageView3)
+            if(!activity.isFinishing){
+                Glide.with(context)
+                    .load(it)
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(binding.imageView3)
+            }
         }
 
         if (position <= dataset.size) {
@@ -70,7 +74,9 @@ class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding)
         db.collection("Recipe").document(dataset[position].name)
             .addSnapshotListener { value, error ->
                 val recipeInfo = value?.toObject(RecipeInformation::class.java)
-                binding.likeCount.text = recipeInfo?.like.toString()
+                if( recipeInfo!=null ){
+                    binding.likeCount.text = recipeInfo.like.toString()
+                }
             }
     }
 

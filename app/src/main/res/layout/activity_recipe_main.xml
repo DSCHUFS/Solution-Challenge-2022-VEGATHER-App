@@ -131,6 +131,8 @@
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="10dp"
                 android:hint="@string/textLoading"
+                android:includeFontPadding="false"
+                android:lineSpacingExtra="2dp"
                 android:textColorHint="@color/sub_text_gray"
                 android:textSize="28sp"
                 android:textStyle="bold" />
@@ -143,8 +145,8 @@
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="20dp"
                 android:hint="@string/textLoading"
-                android:lineSpacingExtra="3dp"
-                android:textAlignment="gravity"
+                android:lineSpacingExtra="5dp"
+                android:singleLine="false"
                 android:textColorHint="@color/sub_text_gray"
                 android:textSize="18sp" />
 

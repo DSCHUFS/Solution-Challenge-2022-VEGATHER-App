@@ -7,28 +7,32 @@
 
     <TextView
         android:id="@+id/textView10"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="15dp"
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
         android:text="Title"
         android:textSize="17sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewMainPhoto"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView11"
-        android:layout_width="275dp"
+        android:layout_width="0dp"
         android:layout_height="30dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
         android:ellipsize="end"
         android:maxLines="2"
         android:text="Subtitle"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewMainPhoto"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
@@ -103,5 +107,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/food_sampe2" />
+        app:srcCompat="@drawable/food_sampe2"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

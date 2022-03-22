@@ -25,15 +25,11 @@ import org.w3c.dom.Text
 
 class SearchRankingAndHistoryFragment(private val listener: SelectedSearchHistoryListener) : Fragment() {
 
-//    private var _binding : FragmentSearchRankingAndHistoryBinding? = null
-//    private val binding get() = _binding!!
-
     private val db : FirebaseFirestore = FirebaseFirestore.getInstance()
     private val topSearchedRecipeList = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -62,11 +58,6 @@ class SearchRankingAndHistoryFragment(private val listener: SelectedSearchHistor
 
         return binding.root
     }
-
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        _binding = null
-//    }
 
     private fun setTopSearchedRecipe( topFiveTextViewList : MutableList<TextView>){
         val index = topSearchedRecipeList.size-1

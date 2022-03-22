@@ -12,13 +12,17 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.View.OnTouchListener
+import android.widget.EditText
+import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
+import com.example.solution_challenge_2022_vegather_app.databinding.ActivityJoinBinding
 
 //clear 버튼이 있는 EditText 위젯
 class CustomEditText : AppCompatEditText, OnTouchListener, OnFocusChangeListener, TextWatcher {
     private var clearDrawable: Drawable? = null
     @get:JvmName("getOnFocusChangeListener()") private var onFocusChangeListener: OnFocusChangeListener? = null
     private var onTouchListener: OnTouchListener? = null
+    var email = findViewById<TextView>(R.id.email_ch_comment)
 
 
     constructor(context: Context) : super(context) { init() }
