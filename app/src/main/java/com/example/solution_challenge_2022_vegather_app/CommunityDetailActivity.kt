@@ -370,6 +370,7 @@ class CommunityDetailActivity : AppCompatActivity() {
                     }
 
                     val deleteIntent = Intent(this, CommunityMainActivity::class.java)
+                    deleteIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     startActivity(deleteIntent)
                 }
 

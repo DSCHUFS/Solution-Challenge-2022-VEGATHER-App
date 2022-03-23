@@ -121,6 +121,7 @@ class CommunityWriteActivity : PermissionActivity() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun uploadRecipe() {
+        binding.progressCom.visibility = View.VISIBLE
 
         currentFocus?.clearFocus()
         binding.parentOfWrite.requestFocus()
@@ -177,9 +178,10 @@ class CommunityWriteActivity : PermissionActivity() {
                 MyApplication.prefs.setPrefs("Posting", "Done")
                 MyApplication.prefs.setIntPrefs("postingNum", MyApplication.prefs.getIntPrefs("postingNum", 0)+1)
                 val intent = Intent(this, CommunityMainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 sleep(2000)
                 startActivity(intent)
-                finish()
+//                finish()
             }
             .addOnFailureListener {
                     e -> Log.d(TAG, "Error writing new recipe", e)
