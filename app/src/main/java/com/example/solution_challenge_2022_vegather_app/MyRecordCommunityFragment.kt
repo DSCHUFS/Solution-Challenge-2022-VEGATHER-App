@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.solution_challenge_2022_vegather_app.databinding.FragmentMyRecordBasicBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -79,7 +80,9 @@ class MyRecordCommunityFragment(category : String) : Fragment() {
                                     uid = uid.toString(), like = like.toIntOrNull(), comment = comment.toIntOrNull(), havePhoto = havePhoto)
                                 likedPostList.add(post)
                             }
-                        val adapter = communityRecyclerAdapter(likedPostList)
+                        val adapter = communityRecyclerAdapter(likedPostList,
+                            requireActivity() as AppCompatActivity
+                        )
                         binding!!.recyclerView.layoutManager = LinearLayoutManager(this.context)
                         binding!!.recyclerView.adapter = adapter
                     }
