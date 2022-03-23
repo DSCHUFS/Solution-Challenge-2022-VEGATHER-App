@@ -84,7 +84,6 @@ class CommunityMainActivity : AppCompatActivity() {
 
         binding.btnWrite.setOnClickListener{
             val intent = Intent(this, CommunityWriteActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
             startActivity(intent)
         }
 
