@@ -177,7 +177,7 @@ class CommunityWriteActivity : PermissionActivity() {
                 MyApplication.prefs.setIntPrefs("postingNum", MyApplication.prefs.getIntPrefs("postingNum", 0)+1)
                 val intent = Intent(this, CommunityMainActivity::class.java)
                 startActivity(intent)
-                finish()
+//                finish()
             }
             .addOnFailureListener {
                     e -> Log.d(TAG, "Error writing new recipe", e)
