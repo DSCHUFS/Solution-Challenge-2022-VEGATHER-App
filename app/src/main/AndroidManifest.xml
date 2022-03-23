@@ -21,42 +21,55 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".CommunitySearchResultActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".CommunitySearchActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".MyPostRecordActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".CommunityCommentReplyActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".CommunityCommentActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".MyRecordActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".CommentReplyActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".CommentActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".RecipeMainActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".SearchActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".FindPasswordActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".MypageActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -66,21 +79,27 @@
         </activity>
         <activity
             android:name=".CommunityDetailActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".CommunityWriteActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".CommunityMainActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".JoinActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
 
         <meta-data
@@ -91,10 +110,12 @@
 
         <activity
             android:name="com.facebook.FacebookActivity"
+            android:screenOrientation="portrait"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
         <activity
             android:name="com.facebook.CustomTabActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

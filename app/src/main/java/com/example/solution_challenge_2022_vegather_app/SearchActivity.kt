@@ -15,6 +15,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommentBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivitySearchBinding
 import com.google.android.material.snackbar.Snackbar
@@ -235,6 +236,7 @@ class SearchActivity : AppCompatActivity(), SelectedSearchHistoryListener{
                 }
             }
     }
+
 
     // 4. 부가적인 작업 ( 서브 )
 

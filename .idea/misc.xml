@@ -129,7 +129,7 @@
         <entry key="app/src/main/res/layout/activity_comment.xml" value="0.37661404369676654" />
         <entry key="app/src/main/res/layout/activity_comment_reply.xml" value="0.6" />
         <entry key="app/src/main/res/layout/activity_community_comment.xml" value="0.21603260869565216" />
-        <entry key="app/src/main/res/layout/activity_community_detail.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_community_detail.xml" value="0.32358856201171876" />
         <entry key="app/src/main/res/layout/activity_community_main.xml" value="0.35534407202449436" />
         <entry key="app/src/main/res/layout/activity_community_search.xml" value="0.21603260869565216" />
         <entry key="app/src/main/res/layout/activity_community_search_result.xml" value="0.5573824011761209" />
@@ -150,7 +150,7 @@
         <entry key="app/src/main/res/layout/comment_reply.xml" value="0.6893063583815029" />
         <entry key="app/src/main/res/layout/comment_reply_recycler.xml" value="0.4185175577799479" />
         <entry key="app/src/main/res/layout/community_ingredient_recycler.xml" value="0.5276548672566371" />
-        <entry key="app/src/main/res/layout/community_order_recycler.xml" value="0.5318697058636209" />
+        <entry key="app/src/main/res/layout/community_order_recycler.xml" value="0.2926970244340294" />
         <entry key="app/src/main/res/layout/community_recycler.xml" value="0.4907895737800045" />
         <entry key="app/src/main/res/layout/fragment_my_record_basic.xml" value="0.21603260869565216" />
         <entry key="app/src/main/res/layout/fragment_my_record_community.xml" value="0.21603260869565216" />
@@ -181,7 +181,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.2754831099858457" />
+        <option name="scale" value="0.165" />
       </ProjectState>
     </option>
   </component>

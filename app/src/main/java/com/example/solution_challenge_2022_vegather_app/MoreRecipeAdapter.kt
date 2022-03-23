@@ -5,16 +5,19 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.solution_challenge_2022_vegather_app.databinding.MainPageMoreRecipeRecyclerBinding
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.google.protobuf.NullValue
 
 class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -36,30 +39,32 @@ class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding)
         val binding = (holder as MoreRecipeViewHolder).binding
         val activity : Activity = context as Activity
         if(activity.isFinishing) return;
-        Glide.with(context)
-            .load(R.drawable.loading_bigsize)
-            .into(binding.imageView3)
+        binding.imageView3.visibility = View.INVISIBLE
 
         binding.foodName.text = dataset[position].name
         binding.foodInfo.text = dataset[position].introduce
         binding.likeCount.text = dataset[position].like.toString()
         val imgRef = storageRef.child(dataset[position].imgUrl.toString())
 
+        Log.d("MoreRecipeImageSize", binding.imageView3.width.toString() + " " + binding.imageView3.height.toString())
+
         imgRef.downloadUrl.addOnSuccessListener {
+            binding.imageView3.visibility = View.VISIBLE
+
             if(!activity.isFinishing){
                 Glide.with(context)
                     .load(it)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(binding.imageView3)
             }
         }
 
         if (position <= dataset.size) {
-            val endPosition = if (position + 3 > dataset.size) {
+            val endPosition = if (position + 5 > dataset.size) {
                 dataset.size
             } else {
-                position + 3
+                position + 5
             }
             dataset.subList(position, endPosition ).map { it.imgUrl }.forEach {
                 preload(context, it.toString())
@@ -95,8 +100,6 @@ class MoreRecipeAdapter(private val binding : MainPageMoreRecipeRecyclerBinding)
         db.collection("Recipe").document(recipe.name)
             .update("searched",FieldValue.increment(1))
     }
-
-
 
     fun loadParentActivity( c : Context){
         context = c
