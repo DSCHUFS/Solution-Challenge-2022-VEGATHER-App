@@ -77,7 +77,7 @@ class CommunityDetailActivity : AppCompatActivity() {
         val havePhotoIndex = mutableListOf<Int?>()
         val uidForPhoto = mutableListOf<String?>()
         val timestampForPhoto = mutableListOf<String?>()
-        val orderAdapter = OrderRecyclerAdapter(orderList, havePhotoIndex, uidForPhoto, timestampForPhoto)
+        val orderAdapter = OrderRecyclerAdapter(orderList, havePhotoIndex, uidForPhoto, timestampForPhoto,this)
 
         //재료 리사이클러뷰 왼쪽
         val ingredientNameListForEven = mutableListOf<String?>()
@@ -228,6 +228,11 @@ class CommunityDetailActivity : AppCompatActivity() {
         binding.imageButtonDeletePost.setColorFilter(Color.WHITE)
     }// end of onCreate
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Glide.get(this).clearMemory()
+    }
+
     private fun setUiBarColor(){
         val customUiBar = UiBar(window)
         if( Build.VERSION.SDK_INT >= 30){
@@ -246,18 +251,20 @@ class CommunityDetailActivity : AppCompatActivity() {
             val storagePath = Firebase.storage.reference.child(mainPhotoPath)
             Log.d("detail_mainPhotoPath", mainPhotoPath)
 
-            Glide.with(this)
-                .load(R.drawable.loading_bigsize_dark)
-                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                .centerInside()
-                .into(binding.imageViewMain)
+            if( !this.isDestroyed ){
+                Glide.with(this)
+                    .load(R.drawable.loading_bigsize_dark)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .centerInside()
+                    .into(binding.imageViewMain)
 
-            storagePath.downloadUrl.addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Glide.with(this)
-                        .load(it.result)
-                        .centerCrop()
-                        .into(binding.imageViewMain)
+                storagePath.downloadUrl.addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Glide.with(this)
+                            .load(it.result)
+                            .centerCrop()
+                            .into(binding.imageViewMain)
+                    }
                 }
             }
         }
@@ -374,11 +381,12 @@ class CommunityDetailActivity : AppCompatActivity() {
 }
 
 class OrderRecyclerAdapter(private val orderList:MutableList<Any?>, private val havePhotoIndex:MutableList<Int?>
-, private val uid:MutableList<String?>, private val timestamp:MutableList<String?>) : RecyclerView.Adapter<OrderRecyclerAdapter.Holder>(){
+, private val uid:MutableList<String?>, private val timestamp:MutableList<String?>,val activity: AppCompatActivity) : RecyclerView.Adapter<OrderRecyclerAdapter.Holder>(){
+
     class Holder(val binding: CommunityOrderRecyclerBinding):RecyclerView.ViewHolder(binding.root){
 
         @RequiresApi(Build.VERSION_CODES.N)
-        fun set(order:Any?, position: Int, havePhotoIndex: MutableList<Int?>, uid:String?, timestamp: String?) {
+        fun set(order:Any?, position: Int, havePhotoIndex: MutableList<Int?>, uid:String?, timestamp: String?, activity: AppCompatActivity) {
             Log.d("i'm in holder.set", order.toString())
             val storageRef = Firebase.storage.reference
             with(binding){
@@ -393,14 +401,22 @@ class OrderRecyclerAdapter(private val orderList:MutableList<Any?>, private val 
                             Log.d("timestamp", timestamp!!)
                             val path = storageRef.child("$uid $timestamp $photoIndex")
                             Log.d("storage path in detail activity", "$uid $timestamp $photoIndex")
+                            imageViewOrder.clipToOutline = true
                             path.downloadUrl.addOnCompleteListener {
                                 if (it.isSuccessful){
-                                    Glide.with(this.imageViewOrder).load(it.result).into(imageViewOrder)
+
+                                    if( !activity.isDestroyed ){
+                                        Glide.with(this.imageViewOrder)
+                                            .load(it.result)
+                                            .override(600,600)
+                                            .fitCenter()
+                                            .into(imageViewOrder)
+                                    }
+
                                 }
                             }
                             imageViewOrder.visibility = View.VISIBLE
                             imageViewOrder.scaleType = ImageView.ScaleType.FIT_CENTER
-                            imageViewOrder.clipToOutline = true
                         }
                     }
                 }
@@ -420,7 +436,7 @@ class OrderRecyclerAdapter(private val orderList:MutableList<Any?>, private val 
         try{
             val order = orderList[position]
             Log.d("get order from orderList", order.toString())
-            holder.set(order, position, havePhotoIndex, uid[0], timestamp[0])
+            holder.set(order, position, havePhotoIndex, uid[0], timestamp[0], activity)
         }
         catch (e:Exception){
             e.printStackTrace()

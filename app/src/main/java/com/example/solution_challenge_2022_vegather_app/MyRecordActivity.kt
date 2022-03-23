@@ -3,6 +3,7 @@ package com.example.solution_challenge_2022_vegather_app
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.bumptech.glide.Glide
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityMyRecordBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -32,5 +33,10 @@ class MyRecordActivity : AppCompatActivity() {
         val tabList = listOf<String>("Basic","Community")
 
         TabLayoutMediator(binding.tabLayout2,binding.vp) { tab, position -> tab.text = tabList[position] }.attach()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Glide.get(this).clearMemory()
     }
 }

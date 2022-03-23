@@ -76,7 +76,7 @@ class MyPostRecordActivity : AppCompatActivity() {
                         }
                         recyclerAdapter.notifyDataSetChanged()
                     }
-                recyclerAdapter = communityRecyclerAdapter(likedPostList)
+                recyclerAdapter = communityRecyclerAdapter(likedPostList,this)
                 recyclerAdapter.notifyDataSetChanged()
                 binding.mypostRecycler.adapter = recyclerAdapter
                 binding.mypostRecycler.layoutManager = LinearLayoutManager(this)

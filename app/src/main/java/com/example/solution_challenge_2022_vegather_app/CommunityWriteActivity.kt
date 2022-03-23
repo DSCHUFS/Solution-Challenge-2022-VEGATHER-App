@@ -5,10 +5,12 @@ import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.PorterDuff
+import android.graphics.Matrix
 import android.icu.text.SimpleDateFormat
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -23,8 +25,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
-import androidx.core.view.marginLeft
 import androidx.gridlayout.widget.GridLayout
+import com.bumptech.glide.Glide
 import com.example.solution_challenge_2022_vegather_app.databinding.ActivityCommunityWriteBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
@@ -33,6 +35,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.io.ByteArrayOutputStream
 import java.lang.Thread.sleep
+import java.io.IOException
 
 
 class CommunityWriteActivity : PermissionActivity() {
@@ -355,17 +358,82 @@ class CommunityWriteActivity : PermissionActivity() {
 
     }
 
+    private fun rotateBitmap(bitmap: Bitmap, orientation: Int): Bitmap? {
+        val matrix = Matrix()
+        when (orientation) {
+            ExifInterface.ORIENTATION_NORMAL -> return bitmap
+            ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> matrix.setScale(-1F, 1F)
+            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.setRotate(180F)
+            ExifInterface.ORIENTATION_FLIP_VERTICAL -> {
+                matrix.setRotate(180F)
+                matrix.postScale(-1F, 1F)
+            }
+            ExifInterface.ORIENTATION_TRANSPOSE -> {
+                matrix.setRotate(90F)
+                matrix.postScale(-1F, 1F)
+            }
+            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.setRotate(90F)
+            ExifInterface.ORIENTATION_TRANSVERSE -> {
+                matrix.setRotate(-90F)
+                matrix.postScale(-1F, 1F)
+            }
+            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.setRotate(-90F)
+            else -> return bitmap
+        }
+        return try {
+            val bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+            bitmap.recycle()
+            bmRotated
+        } catch (e: OutOfMemoryError) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    private fun getRealPathFromURI(contentURI: Uri): String? {
+        val result: String?
+        val cursor: Cursor? = contentResolver.query(contentURI, null, null, null, null)
+        if (cursor == null) {
+            // Source is Dropbox or other similar local file path
+            result = contentURI.path
+        } else {
+            cursor.moveToFirst()
+            val idx: Int = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+            result = cursor.getString(idx)
+            cursor.close()
+        }
+        return result
+    }
+
     @SuppressLint("InflateParams")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == RESULT_OK){
             when(requestCode){
                 1 -> {
-                    var currentImageUri : Uri? = data?.data
+                    val currentImageUri : Uri? = data?.data
+                    val filepath = Uri.parse(currentImageUri?.let { getRealPathFromURI(it) })
+
+                    Log.d("사진 경로",currentImageUri.toString())
+
                     try{
                         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, currentImageUri)
 
-                        Log.d(TAG, intent.toString())
+                        var exif: ExifInterface? = null
+                        try {
+                            exif = filepath.path?.let { ExifInterface(it) }
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+
+                        val orientation: Int? = exif?.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                            ExifInterface.ORIENTATION_UNDEFINED)
+
+                        Log.d("사진 회전 유무",orientation.toString())
+
+                        val bmRotated = orientation?.let { rotateBitmap(bitmap, it) };
+
+                        Log.d(TAG, intent.toString() )
                         Log.d(TAG, data!!.toString())
 //                        val photoNumber = data!!.getIntExtra("num", -1)
 //                        Log.d(TAG, "getExtra : $photoNumber")
@@ -407,12 +475,12 @@ class CommunityWriteActivity : PermissionActivity() {
                         val photoNum = relativeLayout.findViewById<View>(R.id.photoNumber) as TextView
                         photoNum.text = photoNumForOrder.toString()
 
-                        photoList[photoNum.text.toString().toInt()-1] = bitmap
-
+                        photoList[photoNum.text.toString().toInt()-1] = bmRotated
                         val photo = relativeLayout.findViewById<View>(R.id.photo) as ImageView
-                        photo.setImageBitmap(bitmap)
+                        //                        photo.setImageBitmap(bmRotated)
                         photo.clipToOutline = true
                         photo.scaleType = ImageView.ScaleType.CENTER_CROP
+                        Glide.with(this).load(currentImageUri).into(photo)
 //                        photo.setColorFilter(Color.parseColor("#ffff0000"), PorterDuff.Mode.SRC_IN);
 //                        photo.scaleType = ImageView.ScaleType.FIT_XY
 
@@ -445,6 +513,11 @@ class CommunityWriteActivity : PermissionActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Glide.get(this).clearMemory()
+    }
+
     private fun uploadPhoto(photoList: MutableList<Bitmap?>, havePhotoList: MutableList<String>) {
         val storage = Firebase.storage
         val storageRef = storage.reference
@@ -472,7 +545,7 @@ class CommunityWriteActivity : PermissionActivity() {
                 havePhotoIndexList.removeAt(0)
                 val nameRef = storageRef.child(path)
                 val baos = ByteArrayOutputStream()
-                photo.compress(Bitmap.CompressFormat.JPEG, 25, baos)
+                photo.compress(Bitmap.CompressFormat.JPEG, 50, baos)
                 val data = baos.toByteArray()
 
                 var uploadTask = nameRef.putBytes(data)

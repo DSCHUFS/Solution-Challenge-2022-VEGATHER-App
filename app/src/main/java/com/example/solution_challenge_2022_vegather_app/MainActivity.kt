@@ -3,6 +3,7 @@ package com.example.solution_challenge_2022_vegather_app
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -31,11 +32,15 @@ class MainActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         storageRef = FirebaseStorage.getInstance().reference
+
+        if( !this.isDestroyed ){
             Glide.with(this)
                 .load(R.drawable.loading_bigsize)
                 .centerInside()
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .into(binding.imageView7)
+        }
+
         getRecipeDataFromFireBase()
 
         changeUiBarColor()
@@ -61,6 +66,11 @@ class MainActivity : AppCompatActivity() {
                 switchActivity(tab?.text.toString())
            }
        })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Glide.get(this).clearMemory()
     }
     
     private fun changeUiBarColor(){
@@ -111,12 +121,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun getImage( url : String ){
         val imgRef = storageRef.child(url)
+
+        Log.d("titleImageSize", binding.imageView7.width.toString() + " " + binding.imageView7.height )
+
         imgRef.downloadUrl.addOnSuccessListener {
-            Glide.with(this)
-                .load(it)
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(binding.imageView7)
+            if(!this.isDestroyed){
+                Glide.with(this)
+                    .load(it)
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(binding.imageView7)
+            }
         }
     }
 

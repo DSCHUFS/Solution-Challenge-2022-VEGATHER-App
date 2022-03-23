@@ -76,8 +76,11 @@ class RecipeMainActivity : AppCompatActivity() {
                 }
             }
 
-        getImageLoadingEffect()
-        getRecipeData()
+        if( !this.isDestroyed ){
+            getImageLoadingEffect()
+            getRecipeData()
+        }
+
         connectOrderAdapter()
         connectIngredientsAdapterWithOrientation("horizontal")
 
@@ -115,6 +118,11 @@ class RecipeMainActivity : AppCompatActivity() {
                 customUiBar.setStatusBarIconColor(isBlack = true)
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Glide.get(this).clearMemory()
     }
 
     private fun connectIngredientsAdapterWithOrientation(layout : String){

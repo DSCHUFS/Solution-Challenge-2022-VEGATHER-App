@@ -10,6 +10,7 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.solution_challenge_2022_vegather_app.databinding.FragmentSearchResultBinding
 import com.example.solution_challenge_2022_vegather_app.databinding.MainPageMoreRecipeRecyclerBinding
 
@@ -45,5 +46,10 @@ class SearchResultFragment : Fragment() {
             }
         }
         return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Glide.get(requireContext()).clearMemory()
     }
 }

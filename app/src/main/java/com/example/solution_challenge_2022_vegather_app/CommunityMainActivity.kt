@@ -76,7 +76,7 @@ class CommunityMainActivity : AppCompatActivity() {
             }
 
 
-        recyclerAdapter = communityRecyclerAdapter(postList)
+        recyclerAdapter = communityRecyclerAdapter(postList,this)
         recyclerAdapter.notifyDataSetChanged()
         binding.communityRecyclerView.adapter = recyclerAdapter
         binding.communityRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -98,24 +98,30 @@ class CommunityMainActivity : AppCompatActivity() {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Glide.get(this).clearMemory()
+    }
+
     private fun Long.toIntOrNull(): Int? {
         val i = this.toInt()
         return if (i.toLong() == this) i else null
     }
 }
 
-class communityRecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Adapter<communityRecyclerAdapter.Holder>() {
+class communityRecyclerAdapter(private val postData:MutableList<Post>, private val activity: AppCompatActivity) :RecyclerView.Adapter<communityRecyclerAdapter.Holder>() {
 
     class Holder(val binding:CommunityRecyclerBinding):RecyclerView.ViewHolder(binding.root){
 
         @RequiresApi(Build.VERSION_CODES.N)
-        fun set(post:Post) {
+        fun set(post:Post,activity: AppCompatActivity) {
             with(binding){
                 textView10.text = "${post.title}"
                 textView11.text = "${post.subtitle}"
                 textView12.text = "${post.timestamp.toString().substring(0, 10)}"
                 textView13.text = "${post.like}"
                 textView14.text = "${post.comment}"
+                imageViewMainPhoto.visibility = View.INVISIBLE
 
                 binding.imageViewMainPhoto.clipToOutline = true
                 //레시피 마지막에 넣은 사진을 메인 사진으로 한다
@@ -125,15 +131,17 @@ class communityRecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Ada
                     val storagePath = Firebase.storage.reference.child(mainPhotoPath)
                     storagePath.downloadUrl.addOnCompleteListener{
                         if (it.isSuccessful){
+                            binding.imageViewMainPhoto.visibility = View.VISIBLE
 
-                            Glide.with(this.imageViewMainPhoto).load(it.result)
-                                .into(binding.imageViewMainPhoto)
+                            if(!activity.isDestroyed){
+                                Glide.with(this.imageViewMainPhoto)
+                                    .load(it.result)
+                                    .override(150,150)
+                                    .into(binding.imageViewMainPhoto)
+                            }
+
                         }
-                        binding.imageViewMainPhoto.visibility = View.VISIBLE
                     }
-                }
-                else{
-                    binding.imageViewMainPhoto.visibility = View.INVISIBLE
                 }
             }
         }
@@ -149,7 +157,7 @@ class communityRecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Ada
     override fun onBindViewHolder(holder: Holder, position: Int) {
 
         val post = postData[position]
-        holder.set(post)
+        holder.set(post,activity)
 
 //        val lastPhoto = post.havePhoto.lastIndexOf("true")
 //        if(lastPhoto > 0){
@@ -167,16 +175,16 @@ class communityRecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Ada
 //            holder.binding.imageViewMainPhoto.visibility = View.INVISIBLE
 //        }
 //
-//        if (position <= postData.size) {
-//            val endPosition = if (position + 6 > postData.size) {
-//                postData.size
-//            } else {
-//                position + 6
-//            }
-//            postData.subList(position, endPosition ).map { "${it.uid!!.chunked(10)[0]} ${it.timestamp} $lastPhoto"}.forEach {
-//                preload()
-//            }
-//        }
+        if (position <= postData.size && !activity.isDestroyed ) {
+            val endPosition = if (position + 6 > postData.size) {
+                postData.size
+            } else {
+                position + 6
+            }
+            postData.subList(position, endPosition ).map { it.uid!!.chunked(10)[0] }.forEach {
+                preload(activity,it)
+            }
+        }
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, CommunityDetailActivity::class.java)
@@ -191,6 +199,12 @@ class communityRecyclerAdapter(val postData:MutableList<Post>) :RecyclerView.Ada
 
     override fun getItemCount(): Int {
         return postData.size
+    }
+
+    private fun preload(context: Context, url : String) {
+        Glide.with(context).load(url)
+            .placeholder(null)
+            .preload(150, 150)
     }
 }
 
