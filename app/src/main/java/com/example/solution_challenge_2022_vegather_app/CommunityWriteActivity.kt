@@ -32,6 +32,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.io.ByteArrayOutputStream
+import java.lang.Thread.sleep
 
 
 class CommunityWriteActivity : PermissionActivity() {
@@ -173,6 +174,7 @@ class CommunityWriteActivity : PermissionActivity() {
                 MyApplication.prefs.setPrefs("Posting", "Done")
                 MyApplication.prefs.setIntPrefs("postingNum", MyApplication.prefs.getIntPrefs("postingNum", 0)+1)
                 val intent = Intent(this, CommunityMainActivity::class.java)
+                sleep(2000)
                 startActivity(intent)
                 finish()
             }
@@ -470,7 +472,7 @@ class CommunityWriteActivity : PermissionActivity() {
                 havePhotoIndexList.removeAt(0)
                 val nameRef = storageRef.child(path)
                 val baos = ByteArrayOutputStream()
-                photo.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                photo.compress(Bitmap.CompressFormat.JPEG, 25, baos)
                 val data = baos.toByteArray()
 
                 var uploadTask = nameRef.putBytes(data)
@@ -483,9 +485,7 @@ class CommunityWriteActivity : PermissionActivity() {
                 }
                 path = chunkedUid!![0]+" "+formattedDate
             }
-
         }
-
     }
 
     //재료 제거를 누르면 실행되는 함수
