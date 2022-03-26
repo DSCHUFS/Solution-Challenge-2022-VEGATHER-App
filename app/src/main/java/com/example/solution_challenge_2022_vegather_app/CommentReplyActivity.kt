@@ -39,6 +39,8 @@ class CommentReplyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        setNavIconColor(isBlack = true)
+
         getData()
         getReplyComments()
 
@@ -157,7 +159,6 @@ class CommentReplyActivity : AppCompatActivity() {
 
     private fun setNavIconColor(isBlack : Boolean) {
         val customUiBar = UiBar(window)
-        customUiBar.setNaviBarIconColor(isBlack)
         customUiBar.setStatusBarIconColor(isBlack)
     }
 
