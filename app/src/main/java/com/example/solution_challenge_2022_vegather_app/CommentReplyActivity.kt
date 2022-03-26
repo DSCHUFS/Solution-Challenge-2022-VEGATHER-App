@@ -72,10 +72,6 @@ class CommentReplyActivity : AppCompatActivity() {
             val convertedData = it.toObject(UserForm::class.java)
             userName = convertedData?.NickName.toString()
         }
-
-        binding.name.text = commentInfo.nickname
-        binding.userText.text = commentInfo.text
-        binding.time.text = commentInfo.timestamp?.slice(0..10)
     }
 
     private fun getReplyComments(){
