@@ -49,7 +49,9 @@
                 android:id="@+id/foodName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:hint="@string/textLoading"
+                android:maxLines="1"
                 android:textColorHint="@color/sub_text_gray"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -57,7 +59,7 @@
             <TextView
                 android:id="@+id/foodInfo"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
                 android:ellipsize="end"
@@ -73,7 +75,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_weight="0"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 

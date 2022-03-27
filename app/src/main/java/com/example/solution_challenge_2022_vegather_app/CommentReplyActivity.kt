@@ -39,6 +39,8 @@ class CommentReplyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        setNavIconColor(isBlack = true)
+
         getData()
         getReplyComments()
 
@@ -72,10 +74,6 @@ class CommentReplyActivity : AppCompatActivity() {
             val convertedData = it.toObject(UserForm::class.java)
             userName = convertedData?.NickName.toString()
         }
-
-        binding.name.text = commentInfo.nickname
-        binding.userText.text = commentInfo.text
-        binding.time.text = commentInfo.timestamp?.slice(0..10)
     }
 
     private fun getReplyComments(){
@@ -161,7 +159,6 @@ class CommentReplyActivity : AppCompatActivity() {
 
     private fun setNavIconColor(isBlack : Boolean) {
         val customUiBar = UiBar(window)
-        customUiBar.setNaviBarIconColor(isBlack)
         customUiBar.setStatusBarIconColor(isBlack)
     }
 

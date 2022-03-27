@@ -12,6 +12,7 @@ class IngredientAdapter(private val binding : IngredientRecyclerBinding) :
             RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val dataset = ArrayList<String>()
+    private val isSelected = HashMap<String,Boolean>()
 
     inner class IngredientViewHolder(val binding : IngredientRecyclerBinding) :
         RecyclerView.ViewHolder(binding.root){
@@ -22,14 +23,24 @@ class IngredientAdapter(private val binding : IngredientRecyclerBinding) :
                 IngredientRecyclerBinding.inflate(LayoutInflater.from(parent.context),parent,false))
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        Log.d("Check",dataset[position] + isSelected[dataset[position]] )
         val binding = (holder as IngredientAdapter.IngredientViewHolder).binding
         binding.radioButton.text = dataset[position]
+        binding.radioButton.isChecked = isSelected[dataset[position]] != false
+
         binding.radioButton.setOnCheckedChangeListener { buttonView, isChecked ->
+            Log.d("Check",isChecked.toString())
             when(isChecked){
-                true -> buttonView.setTextColor(Color.parseColor("#81E768"))
-                false -> buttonView.setTextColor(Color.parseColor("#BCBCBC"))
+                true -> {
+                    buttonView.setTextColor(Color.parseColor("#81E768"))
+                }
+                false -> {
+                    buttonView.setTextColor(Color.parseColor("#BCBCBC"))
+                }
             }
+            isSelected[buttonView.text.toString()] = isChecked
         }
+
     }
 
     override fun getItemCount(): Int {
@@ -37,8 +48,9 @@ class IngredientAdapter(private val binding : IngredientRecyclerBinding) :
     }
 
     fun setData(data : RecipeInformation){
-        for (text in data.ingredient)
+        for (text in data.ingredient){
             dataset.add(text)
+            isSelected[text] = false
+        }
     }
-
 }
