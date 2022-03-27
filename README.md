@@ -5,7 +5,10 @@ Google Developer Student Clubs 2022 Solution Challenge - Team East River's Andro
 ![Firebase](https://img.shields.io/badge/with-Firebase-yellow?logo=Firebase)
 
 
-<img src="" width="90%">
+<img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/splash.png?raw=true" width="20%">
+<img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/main.png?raw=true" width="20%">
+<img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/commain.png?raw=true" width="20%">
+<img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/mypage1.png?raw=true" width="20%">
 
 
 > Vegather is an app service that provides vegan recipes. \
@@ -42,4 +45,17 @@ Vegather is made on Android using Kotlin, and is a serverless app service based 
 
 
 ## ScreenShot
-
+<img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/splash.png?raw=true" width="20%">
+<img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/login.png?raw=true" width="20%">
+<img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/join.png?raw=true" width="20%">
+<img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/main.png?raw=true" width="20%">
+<img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/morerecipe.png?raw=true" width="20%">
+<img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/maindetail1.png?raw=true" width="20%">
+<img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/maindetail2.png?raw=true" width="20%">
+<img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/comment.png?raw=true" width="20%">
+<img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/commain.png?raw=true" width="20%">
+<img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/comdetail1.png?raw=true" width="20%">
+<img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/comdetail2.png?raw=true" width="20%">
+<img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/comwrite.png?raw=true" width="20%">
+<img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/mypage1.png?raw=true" width="20%">
+<img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/mypage2.png?raw=true" width="20%">
