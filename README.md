@@ -17,7 +17,7 @@ Google Developer Student Clubs 2022 Solution Challenge - Team East River's Andro
 
 APK : [Download](https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/raw/master/app/release/app-release.apk)
 
-Demo video : https://youtu.be/L1LftkhAhr0
+Demo video : https://youtu.be/axpewuOmPnk
 
 
 
