@@ -8,7 +8,7 @@ Google Developer Student Clubs 2022 Solution Challenge - Team East River's Andro
 <img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/splash.png?raw=true" width="20%"><img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/main.png?raw=true" width="20%"><img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/commain.png?raw=true" width="20%"><img src="https://github.com/DSCHUFS/Solution-Challenge-2022-VEGATHER-App/blob/master/app/src/main/res/screenshots/mypage1.png?raw=true" width="20%">
 
 
-> Vegather is an app service that provides vegan recipes. \
+> VEGATHER is an app service that provides vegan recipes. \
 > This is a project started to inform and spread vegetarianism to a wider public.
 
 
@@ -22,7 +22,9 @@ Demo video : https://youtu.be/L1LftkhAhr0
 
 
 ## About the Project
-Vegather is made on Android using Kotlin, and is a serverless app service based on Firebase. Through Vegather, not only people who used to be vegetarians, but also people who have never been vegetarians can enjoy vegetarian food easily and simply.
+**VEGATHER** is a combination of *‘vegan’* and *‘gather’*, and it has the meaning of gathering vegans.  VEGATHER isn’t just an informational app to get vegetarian recipes, it’s a community of vegans.
+
+VEGATHER is made on Android using Kotlin, and is a serverless app service based on Firebase. Through VEGATHER, not only people who used to be vegetarians, but also people who have never been vegetarians can enjoy vegetarian food easily and simply.
 
 
 
